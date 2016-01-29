@@ -34,12 +34,12 @@ class Y2YWSM_Admin{
         if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
             add_action( 'woocommerce_shipping_init', array($this,'init_shipping') );
             add_filter( 'woocommerce_shipping_methods', array($this, 'add_shipping_method') );
-            add_action( 'woocommerce_orddd_status_processing', array($this, 'confirm_delivery'));
+            add_action( 'woocommerce_order_status_processing', array($this, 'confirm_delivery'));
             add_action( 'woocommerce_after_shipping_rate', array($this, 'after_shipping_rate'));
-            add_action( 'woocommerce_checkout_update_orddd_review', array($this, 'update_orddd_review'));
+            add_action( 'woocommerce_checkout_update_order_review', array($this, 'update_order_review'));
             
             //Position the calendar
-            add_action( 'woocommerce_before_orddd_notes', array( &$this, 'my_custom_checkout_field' ) );
+            add_action( 'woocommerce_before_order_notes', array( &$this, 'my_custom_checkout_field' ) );
         }
         
     }
@@ -125,7 +125,7 @@ class Y2YWSM_Admin{
                     }
                  })';
         if ( get_option( 'orddd_lite_delivery_date_field_note' ) != '' ) {
-            echo 'jQuery("#e_deliverydate").parent().append("<br><small style=font-size:10px;>' . addslashes( __( get_option( 'orddd_lite_delivery_date_field_note' ), 'orddd-delivery-date' ) ) . '</small>" );';
+            echo 'jQuery("#e_deliverydate").parent().append("<br><small style=font-size:10px;>' . addslashes( __( get_option( 'orddd_lite_delivery_date_field_note' ), 'order-delivery-date' ) ) . '</small>" );';
         }
         echo '} );
         </script>';
@@ -214,14 +214,14 @@ class Y2YWSM_Admin{
         print( '<input type="hidden" name="orddd_lite_number_of_months" id="orddd_lite_number_of_months" value="' . get_option( 'orddd_lite_number_of_months' ) . '">' );
 
         $lockout_days_str = '';
-        if ( get_option( 'orddd_lite_lockout_date_after_orddds' ) > 0 ) {
+        if ( get_option( 'orddd_lite_lockout_date_after_orders' ) > 0 ) {
             $lockout_days_arr = array();
             $lockout_days = get_option( 'orddd_lite_lockout_days' );
             if ( $lockout_days != '' && $lockout_days != '{}' && $lockout_days != '[]' ) {
                 $lockout_days_arr = json_decode( get_option( 'orddd_lite_lockout_days' ) );
             }
             foreach ( $lockout_days_arr as $k => $v ) {
-                if ( $v->o >= get_option( 'orddd_lite_lockout_date_after_orddds' ) ) {
+                if ( $v->o >= get_option( 'orddd_lite_lockout_date_after_orders' ) ) {
                     $lockout_days_str .= '"' . $v->d . '",';
                 }
             }
@@ -248,9 +248,9 @@ class Y2YWSM_Admin{
         //se este method é o da you2you, cria as caixas de texto para guardar a data de entrega
     }
     
-    public function update_orddd_review($form_data){
-        //O utilizador confirmou a compra por isso é preciso ver se o shipping method é o da you2you
-        //e se for fazer request à api da y2y para inserir delivery "provisoria"
+    public function update_order_review($form_data){
+        //O utilizador confirmou a compra por isso Ã© preciso ver se o shipping method Ã© o da you2you
+        //e se for fazer request Ã  api da y2y para inserir delivery "provisoria"
     }
 }
 new Y2ywsm_Admin;
@@ -282,3 +282,12 @@ function y2y_woocommerce_cart_shipping_method_full_label( $label, $method ) {
 }
 
 add_filter( 'woocommerce_cart_shipping_method_full_label', 'y2y_woocommerce_cart_shipping_method_full_label', 10, 2 );
+
+
+
+add_action( 'woocommerce_order_details_after_order_table', 'y2y_custom_field_display_cust_order_meta', 10, 1 );
+
+function y2y_custom_field_display_cust_order_meta($order){
+    echo '<p><strong>'.__('Pickup Location').':</strong> ' . get_post_meta( $order->id, 'Pickup Location', true ). '</p>';
+    echo '<p><strong>'.__('Pickup Date').':</strong> ' . get_post_meta( $order->id, 'Pickup Date', true ). '</p>';
+}
