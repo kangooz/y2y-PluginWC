@@ -150,7 +150,7 @@ class Y2YWSM_Admin{
             'custom_attributes' => array( 'style'=>'display: none !important;' ) 
         ),
         $checkout->get_value( 'h_deliverydate_y2y' ) );
-        
+
         woocommerce_form_field( 'hours_deliverydate', array(
             'type' => 'text',
             'placeholder' => 'hours',
@@ -159,6 +159,7 @@ class Y2YWSM_Admin{
                 ),
         ),
         $checkout->get_value( 'hours_deliverydate' ) );
+        
         woocommerce_form_field( 'minutes_deliverydate', array(
             'type' => 'text',
             'placeholder' => 'minutes',
@@ -249,8 +250,8 @@ class Y2YWSM_Admin{
     }
     
     public function update_order_review($form_data){
-        //O utilizador confirmou a compra por isso Ã© preciso ver se o shipping method Ã© o da you2you
-        //e se for fazer request Ã  api da y2y para inserir delivery "provisoria"
+        //O utilizador confirmou a compra por isso é preciso ver se o shipping method é o da you2you
+        //e se for fazer request à api da y2y para inserir delivery "provisoria"
     }
 }
 new Y2ywsm_Admin;
@@ -282,7 +283,6 @@ function y2y_woocommerce_cart_shipping_method_full_label( $label, $method ) {
 }
 
 add_filter( 'woocommerce_cart_shipping_method_full_label', 'y2y_woocommerce_cart_shipping_method_full_label', 10, 2 );
-
 
 
 add_action( 'woocommerce_order_details_after_order_table', 'y2y_custom_field_display_cust_order_meta', 10, 1 );
