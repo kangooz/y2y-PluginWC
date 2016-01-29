@@ -34,30 +34,30 @@ class Y2YWSM_Admin{
         if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
             add_action( 'woocommerce_shipping_init', array($this,'init_shipping') );
             add_filter( 'woocommerce_shipping_methods', array($this, 'add_shipping_method') );
-            add_action( 'woocommerce_order_status_processing', array($this, 'confirm_delivery'));
+            add_action( 'woocommerce_orddd_status_processing', array($this, 'confirm_delivery'));
             add_action( 'woocommerce_after_shipping_rate', array($this, 'after_shipping_rate'));
-            add_action( 'woocommerce_checkout_update_order_review', array($this, 'update_order_review'));
+            add_action( 'woocommerce_checkout_update_orddd_review', array($this, 'update_orddd_review'));
             
             //Position the calendar
-            add_action( 'woocommerce_before_order_notes', array( &$this, 'my_custom_checkout_field' ) );
+            add_action( 'woocommerce_before_orddd_notes', array( &$this, 'my_custom_checkout_field' ) );
         }
         
     }
     
     
     function my_custom_checkout_field( $checkout ) {
-        global $order_lite_weekdays;
+        global $orddd_lite_weekdays;
 
         wp_enqueue_script( 'jquery' );
         wp_deregister_script( 'jqueryui');
         wp_enqueue_script( 'jquery-ui-datepicker' );
 
-        $calendar_theme = get_option( 'order_lite_calendar_theme' );
+        $calendar_theme = get_option( 'orddd_lite_calendar_theme' );
         if ( $calendar_theme == '' ) {
             $calendar_theme = 'base';
         }
         wp_dequeue_style( 'jquery-ui' );
-        wp_enqueue_style( 'jquery-ui-order', "//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/$calendar_theme/jquery-ui.css" , '', '', false );
+        wp_enqueue_style( 'jquery-ui-orddd', "//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/$calendar_theme/jquery-ui.css" , '', '', false );
         wp_enqueue_style( 'datepicker', plugins_url('/assets/css/datepicker.css', __FILE__) , '', '', false);
 
         wp_enqueue_script(
@@ -71,14 +71,14 @@ class Y2YWSM_Admin{
         if ( isset( $_GET[ 'lang' ] ) && $_GET[ 'lang' ] != '' && $_GET[ 'lang' ] != null ) {
             $language_selected = $_GET['lang'];
         } else {
-            $language_selected = get_option( 'order_lite_language_selected' );
+            $language_selected = get_option( 'orddd_lite_language_selected' );
             if ( defined( 'ICL_LANGUAGE_CODE' ) ) {
                 if( constant( 'ICL_LANGUAGE_CODE' ) != '' ) {
                     $wpml_current_language = constant( 'ICL_LANGUAGE_CODE' );
                     if ( !empty( $wpml_current_language ) ) {
                         $language_selected = $wpml_current_language;
                     } else {
-                        $language_selected = get_option( 'order_lite_language_selected' );
+                        $language_selected = get_option( 'orddd_lite_language_selected' );
                     }
                 }
             }
@@ -92,15 +92,15 @@ class Y2YWSM_Admin{
             '',
             false );
         $first_day_of_week = '1';
-        if( get_option( 'order_lite_start_of_week' ) != '' ) {
-            $first_day_of_week = get_option( 'order_lite_start_of_week' );
+        if( get_option( 'orddd_lite_start_of_week' ) != '' ) {
+            $first_day_of_week = get_option( 'orddd_lite_start_of_week' );
         }
 
         echo '<script language="javascript">
             jQuery( document ).ready( function(){
                 jQuery( "#e_deliverydate" ).attr( "readonly", true );
                 var formats = ["MM d, yy","MM d, yy"];
-                jQuery("#e_deliverydate").val("").datepicker({dateFormat: "' . get_option( 'order_lite_delivery_date_format' ) . '", firstDay: parseInt( ' . $first_day_of_week . ' ), minDate:1, beforeShow: avd, beforeShowDay: chd,
+                jQuery("#e_deliverydate").val("").datepicker({dateFormat: "' . get_option( 'orddd_lite_delivery_date_format' ) . '", firstDay: parseInt( ' . $first_day_of_week . ' ), minDate:1, beforeShow: avd, beforeShowDay: chd,
                     onClose:function( dateStr, inst ) {
                         if ( dateStr != "" ) {
                             var monthValue = inst.selectedMonth+1;
@@ -113,7 +113,7 @@ class Y2YWSM_Admin{
                 });
             jQuery( "#e_deliverydate_y2y" ).attr( "readonly", true );
                 var formats = ["MM d, yy","MM d, yy"];
-                jQuery("#e_deliverydate_y2y").val("").datepicker({dateFormat: "' . get_option( 'order_lite_delivery_date_format' ) . '", firstDay: parseInt( ' . $first_day_of_week . ' ), minDate:1, beforeShow: avd, beforeShowDay: chd,
+                jQuery("#e_deliverydate_y2y").val("").datepicker({dateFormat: "' . get_option( 'orddd_lite_delivery_date_format' ) . '", firstDay: parseInt( ' . $first_day_of_week . ' ), minDate:1, beforeShow: avd, beforeShowDay: chd,
                     onClose:function( dateStr, inst ) {
                         if ( dateStr != "" ) {
                             var monthValue = inst.selectedMonth+1;
@@ -124,13 +124,13 @@ class Y2YWSM_Admin{
                         }
                     }
                  })';
-        if ( get_option( 'order_lite_delivery_date_field_note' ) != '' ) {
-            echo 'jQuery("#e_deliverydate").parent().append("<br><small style=font-size:10px;>' . addslashes( __( get_option( 'order_lite_delivery_date_field_note' ), 'order-delivery-date' ) ) . '</small>" );';
+        if ( get_option( 'orddd_lite_delivery_date_field_note' ) != '' ) {
+            echo 'jQuery("#e_deliverydate").parent().append("<br><small style=font-size:10px;>' . addslashes( __( get_option( 'orddd_lite_delivery_date_field_note' ), 'orddd-delivery-date' ) ) . '</small>" );';
         }
         echo '} );
         </script>';
 
-        if ( get_option( 'order_lite_date_field_mandatory' ) == 'checked' ) {
+        if ( get_option( 'orddd_lite_date_field_mandatory' ) == 'checked' ) {
             $validate_wpefield = true;
         } else {
             $validate_wpefield = '';
@@ -153,16 +153,15 @@ class Y2YWSM_Admin{
         
         woocommerce_form_field( 'hours_deliverydate', array(
             'type' => 'text',
-            'placeholder' => '',
+            'placeholder' => 'hours',
             'custom_attributes' => array(
                                     'style'=>"width:4em"
                 ),
         ),
         $checkout->get_value( 'hours_deliverydate' ) );
-        
         woocommerce_form_field( 'minutes_deliverydate', array(
             'type' => 'text',
-            'placeholder' => '',
+            'placeholder' => 'minutes',
             'custom_attributes' => array(
                                     'style'=>"width:4em"
                 ),
@@ -179,24 +178,24 @@ class Y2YWSM_Admin{
         ),
         $checkout->get_value( 'h_deliverydate' ) );
 
-        $alldays_order_lite = array();
-//        foreach ( $order_lite_weekdays as $n => $day_name ) {
-//            $alldays_order_lite[ $n ] = get_option( $n );
+        $alldays_orddd_lite = array();
+//        foreach ( $orddd_lite_weekdays as $n => $day_name ) {
+//            $alldays_orddd_lite[ $n ] = get_option( $n );
 //        }
-        $alldayskeys_order_lite = array_keys( $alldays_order_lite );
+        $alldayskeys_orddd_lite = array_keys( $alldays_orddd_lite );
         $checked = "No";
-        foreach( $alldayskeys_order_lite as $key ) {
-            if( $alldays_order_lite[ $key ] == 'checked' ) {
+        foreach( $alldayskeys_orddd_lite as $key ) {
+            if( $alldays_orddd_lite[ $key ] == 'checked' ) {
                $checked = "Yes";
             }
         }
 
         if( $checked == 'Yes' ) {
-            foreach( $alldayskeys_order_lite as $key ) {
-                print( '<input type="hidden" id="' . $key . '" value="' . $alldays_order_lite[ $key ] . '">' );
+            foreach( $alldayskeys_orddd_lite as $key ) {
+                print( '<input type="hidden" id="' . $key . '" value="' . $alldays_orddd_lite[ $key ] . '">' );
             }
         } else if( $checked == 'No') {
-            foreach( $alldayskeys_order_lite as $key )  {
+            foreach( $alldayskeys_orddd_lite as $key )  {
                 print( '<input type="hidden" id="' . $key . '" value="checked">' );
             }
         }
@@ -204,31 +203,31 @@ class Y2YWSM_Admin{
         $min_date = '';
         $current_time = current_time( 'timestamp' );
 
-        $delivery_time_seconds = get_option( 'order_lite_minimumOrderDays' ) *60 *60;
+        $delivery_time_seconds = get_option( 'orddd_lite_minimumOrderDays' ) *60 *60;
         $cut_off_timestamp = $current_time + $delivery_time_seconds;
         $cut_off_date = date( "d-m-Y", $cut_off_timestamp );
         $min_date = date( "j-n-Y", strtotime( $cut_off_date ) );
 
-        print( '<input type="hidden" name="order_lite_minimumOrderDays" id="order_lite_minimumOrderDays" value="' . $min_date . '">' );
-        print( '<input type="hidden" name="order_lite_number_of_dates" id="order_lite_number_of_dates" value="' . get_option( 'order_lite_number_of_dates' ) . '">' );
-        print( '<input type="hidden" name="order_lite_date_field_mandatory" id="order_lite_date_field_mandatory" value="' . get_option( 'order_lite_date_field_mandatory' ) . '">' );
-        print( '<input type="hidden" name="order_lite_number_of_months" id="order_lite_number_of_months" value="' . get_option( 'order_lite_number_of_months' ) . '">' );
+        print( '<input type="hidden" name="orddd_lite_minimumOrderDays" id="orddd_lite_minimumOrderDays" value="' . $min_date . '">' );
+        print( '<input type="hidden" name="orddd_lite_number_of_dates" id="orddd_lite_number_of_dates" value="' . get_option( 'orddd_lite_number_of_dates' ) . '">' );
+        print( '<input type="hidden" name="orddd_lite_date_field_mandatory" id="orddd_lite_date_field_mandatory" value="' . get_option( 'orddd_lite_date_field_mandatory' ) . '">' );
+        print( '<input type="hidden" name="orddd_lite_number_of_months" id="orddd_lite_number_of_months" value="' . get_option( 'orddd_lite_number_of_months' ) . '">' );
 
         $lockout_days_str = '';
-        if ( get_option( 'order_lite_lockout_date_after_orders' ) > 0 ) {
+        if ( get_option( 'orddd_lite_lockout_date_after_orddds' ) > 0 ) {
             $lockout_days_arr = array();
-            $lockout_days = get_option( 'order_lite_lockout_days' );
+            $lockout_days = get_option( 'orddd_lite_lockout_days' );
             if ( $lockout_days != '' && $lockout_days != '{}' && $lockout_days != '[]' ) {
-                $lockout_days_arr = json_decode( get_option( 'order_lite_lockout_days' ) );
+                $lockout_days_arr = json_decode( get_option( 'orddd_lite_lockout_days' ) );
             }
             foreach ( $lockout_days_arr as $k => $v ) {
-                if ( $v->o >= get_option( 'order_lite_lockout_date_after_orders' ) ) {
+                if ( $v->o >= get_option( 'orddd_lite_lockout_date_after_orddds' ) ) {
                     $lockout_days_str .= '"' . $v->d . '",';
                 }
             }
             $lockout_days_str = substr( $lockout_days_str, 0, strlen( $lockout_days_str ) -1 );
         }
-        print( '<input type="hidden" name="order_lite_lockout_days" id="order_lite_lockout_days" value=\'' . $lockout_days_str . '\'>' );
+        print( '<input type="hidden" name="orddd_lite_lockout_days" id="orddd_lite_lockout_days" value=\'' . $lockout_days_str . '\'>' );
     }
     
     
@@ -249,7 +248,7 @@ class Y2YWSM_Admin{
         //se este method é o da you2you, cria as caixas de texto para guardar a data de entrega
     }
     
-    public function update_order_review($form_data){
+    public function update_orddd_review($form_data){
         //O utilizador confirmou a compra por isso é preciso ver se o shipping method é o da you2you
         //e se for fazer request à api da y2y para inserir delivery "provisoria"
     }
