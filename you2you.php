@@ -48,6 +48,7 @@ class Y2YWSM_Admin{
             //add_action( 'woocommerce_before_order_notes', array( $this, 'add_shipping_date' ) );
             
             add_action( 'wp_enqueue_scripts', array($this, 'enqueue_all_scripts') );
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_all_scripts'));
         }
         
     }
@@ -83,7 +84,7 @@ class Y2YWSM_Admin{
     
     public function enqueue_all_scripts(){
         
-        
+        wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
         
         
     }
