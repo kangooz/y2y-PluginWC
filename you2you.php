@@ -50,6 +50,7 @@ class Y2YWSM_Admin{
             //add_action( 'woocommerce_before_order_notes', array( $this, 'add_shipping_date' ) );
             
             add_action( 'wp_enqueue_scripts', array($this, 'enqueue_all_scripts') );
+            add_action('admin_enqueue_scripts', array($this, 'enqueue_all_scripts'));
         }
         
     }
@@ -88,6 +89,8 @@ class Y2YWSM_Admin{
         //wp_enqueue_script( 'datetimepicker-js', '/wp-content/DateTimePicker/src/i18n/DateTimePicker-i18n-fr.js', '', '4.4.1', false );
         wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
         wp_enqueue_script( 'main-scripts', Y2YWSM_PLUGIN_URL . '/assets/js/scripts.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
+        
+        wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
         
     }
 }
