@@ -139,6 +139,9 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
         }
 
         public function admin_options() {
+            $api = new Y2YWSM_API('key','secret');
+            
+            var_dump($api->get('users/1'));
             $days = array(
                 0 => __("Sunday", "y2ywsm"),
                 1 => __("Monday", "y2ywsm"),
