@@ -36,8 +36,8 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             $this->timeout = $this->get_option('timeout');
 
             for($i = 0; $i < 7; $i++){
-                $this->{opening_hours_beggining_h_.$i} = $this->get_option('openning_hours_beginning_h_'.$i);
-                $this->{opening_hours_beggining_m_.$i} = $this->get_option('openning_hours_beginning_m_'.$i);
+                $this->{openning_hours_beginning_h_.$i} = $this->get_option('openning_hours_beginning_h_'.$i);
+                $this->{openning_hours_beginning_m_.$i} = $this->get_option('openning_hours_beginning_m_'.$i);
                 
                 $this->{openning_hours_endding_h_.$i} = $this->get_option('openning_hours_endding_h_'.$i);
                 $this->{openning_hours_endding_m_.$i} = $this->get_option('openning_hours_endding_m_'.$i);
@@ -212,9 +212,9 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                                 <?php echo $days[$i] ?>
                             </td>
                             <td>
-                                <input type="text" id="woocommerce_You2You_openning_hours_beginning_h_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_beginning_h_<?php echo $i; ?>" value="<?php echo $this->{openning_hours_beginning_h . $i} ?>" size="2">h<input type="text" id="woocommerce_You2You_openning_hours_beginning_m_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_beginning_m_<?php echo $i; ?>" value="<?php echo $this->{woocommerce_You2You_openning_hours_beginning_m_ . $i}; ?>" size="2">m
+                                <input type="text" id="woocommerce_You2You_openning_hours_beginning_h_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_beginning_h_<?php echo $i; ?>" value="<?php echo $this->{openning_hours_beginning_h_ . $i} ?>" size="2">h<input type="text" id="woocommerce_You2You_openning_hours_beginning_m_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_beginning_m_<?php echo $i; ?>" value="<?php echo $this->{woocommerce_You2You_openning_hours_beginning_m_ . $i}; ?>" size="2">m
                                 until
-                                <input type="text" id="woocommerce_You2You_openning_hours_endding_h_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_endding_h_<?php echo $i; ?>" value="<?php echo $this->{openning_hours_endding_h . $i} ?>" size="2">h<input type="text" id="woocommerce_You2You_openning_hours_endding_m_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_endding_m_<?php echo $i; ?>"  value="<?php echo $this->{openning_hours_endding_m_ . $i} ?>" size="2">m
+                                <input type="text" id="woocommerce_You2You_openning_hours_endding_h_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_endding_h_<?php echo $i; ?>" value="<?php echo $this->{openning_hours_endding_h_ . $i} ?>" size="2">h<input type="text" id="woocommerce_You2You_openning_hours_endding_m_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_endding_m_<?php echo $i; ?>"  value="<?php echo $this->{openning_hours_endding_m_ . $i} ?>" size="2">m
                             </td>
                             <td>
                                 <input type="text" id="woocommerce_You2You_lunch_time_beginning_h_<?php echo $i; ?>" name="woocommerce_You2You_lunch_time_beginning_h_<?php echo $i; ?>" value="<?php echo $this->{lunch_time_beginning_h_ . $i} ?>" size="2">h <input type="text" id="woocommerce_You2You_lunch_time_beginning_m_<?php echo $i; ?>" name="woocommerce_You2You_lunch_time_beginning_m_<?php echo $i; ?>"  value="<?php echo $this->{lunch_time_beginning_m_ . $i} ?>" size="2">m

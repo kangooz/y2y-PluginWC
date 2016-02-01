@@ -34,6 +34,8 @@ if(!defined('Y2YWSM_ID')){
     define('Y2YWSM_ID', 'You2You');
 }
 
+
+
 class Y2YWSM_Admin{
 
     public function __construct() {
@@ -78,13 +80,14 @@ class Y2YWSM_Admin{
     
     public function update_order_review($form_data){
         //O utilizador confirmou a compra por isso é preciso ver se o shipping method é o da you2you
-        //e se for fazer request à api da y2y para inserir delivery "provisoria"
+        //e se for fazer request à api da   para inserir delivery "provisoria"
     }
     
     public function enqueue_all_scripts(){
-        
-        
-        
+        wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, false );
+        //wp_enqueue_script( 'datetimepicker-js', '/wp-content/DateTimePicker/src/i18n/DateTimePicker-i18n-fr.js', '', '4.4.1', false );
+        wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
+        wp_enqueue_script( 'main-scripts', Y2YWSM_PLUGIN_URL . '/assets/js/scripts.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
         
     }
 }
