@@ -172,9 +172,6 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                                 <?php echo $days[$i] ?>
                             </td>
                             <td>
-                                <input type="text" id="woocommerce_You2You_openning_hours_beginning_h_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_beginning_h_<?php echo $i; ?>" value="<?php echo $this->{openning_hours_beginning_h_ . $i} ?>" size="2">h<input type="text" id="woocommerce_You2You_openning_hours_beginning_m_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_beginning_m_<?php echo $i; ?>" value="<?php echo $this->{woocommerce_You2You_openning_hours_beginning_m_ . $i}; ?>" size="2">m
-                                until
-                                <input type="text" id="woocommerce_You2You_openning_hours_endding_h_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_endding_h_<?php echo $i; ?>" value="<?php echo $this->{openning_hours_endding_h_ . $i} ?>" size="2">h<input type="text" id="woocommerce_You2You_openning_hours_endding_m_<?php echo $i; ?>" name="woocommerce_You2You_openning_hours_endding_m_<?php echo $i; ?>"  value="<?php echo $this->{openning_hours_endding_m_ . $i} ?>" size="2">m
                                 <?php echo $this->generate_custom_input($this->extra_field_names[0], $i); ?>h
                                 <?php echo $this->generate_custom_input($this->extra_field_names[1], $i); ?>m
                                 until
