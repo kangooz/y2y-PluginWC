@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: You2you_plugin
+ * Plugin Name: You2You WooCommerce Shipping Method
  * Plugin URI: http://partner-it-group.com
- * Description: An e-commerce toolkit that helps you sell anything. Beautifully.
+ * Description: 
  * Version: 1.0.0
  * Author: Partner-IT-Group
  * Author URI: http://partner-it-group.com
@@ -37,10 +37,30 @@ if(!defined('Y2YWSM_ID')){
 require_once(Y2YWSM_PLUGIN_DIR.'/Y2YWSM_API.php');
 
 
-class Y2YWSM_Admin{
+/* Runs when plugin is activated */
+register_activation_hook(__FILE__, 'y2ywsm_install'); 
+function y2ywsm_install(){
+    global $wpdb;
+    
+    $wpdb->query("CREATE TABLE IF NOT EXISTS `{$wpdb->prefix}y2y_deliveries`("
+            . "`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+            . "`wc_order_id` INT NOT NULL,"
+            . "`status` INT,"
+            . "`delivery_date` DATETIME"
+        . ")");
+}
 
+class Y2YWSM_CORE{
+
+    private $api_key = '';
+    private $api_secret = '';
+    
+    private $api;
+    
     public function __construct() {
         if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+            add_action('woocommerce_init', array($this, 'load_options'));
+            
             add_action( 'woocommerce_shipping_init', array($this,'init_shipping') );
             add_filter( 'woocommerce_shipping_methods', array($this, 'add_shipping_method') );
             //add_action( 'woocommerce_order_status_processing', array($this, 'confirm_delivery'));
@@ -56,8 +76,14 @@ class Y2YWSM_Admin{
             add_filter( 'woocommerce_cart_shipping_method_full_label', array($this,'add_image_to_available_methods'), 10, 2 );
             add_action( 'woocommerce_order_details_after_order_table', array($this,'display_custom_fields'), 10, 1 );
             
-            /** Process the order and comunicate with the you2you api */
+            //Add delivery date to checkout fields
+            add_filter('woocommerce_checkout_fields', array($this, 'add_delivery_date_to_checkout_fields'));
+            //Validate the delivery before saving
             add_action( 'woocommerce_after_checkout_validation', array($this, 'validate_you2you_fields_before_checkout'));
+            //Add delivery to database
+            add_action( 'woocommerce_checkout_order_processed', array($this, 'insert_delivery_in_db'));
+            //Add delivery to the you2you using the you2you api
+            add_action('woocommerce_order_status_processing', array($this, 'add_delivery_to_y2y'));
         }
         
     }
@@ -72,6 +98,15 @@ class Y2YWSM_Admin{
         
     }
     
+    public function load_options(){
+        $options = get_option('woocommerce_'.Y2YWSM_ID.'_settings');
+        
+        $this->api_secret = $options['api_secret'];
+        $this->api_key = $options['api_key'];
+        
+        $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
+        
+    }
     
     public function init_shipping(){
         require_once (Y2YWSM_PLUGIN_DIR . '/Y2YWSM_Shipping_Method.php');
@@ -82,12 +117,76 @@ class Y2YWSM_Admin{
 	return $methods;
     }
     
+    public function add_delivery_date_to_checkout_fields($fields){
+        $fields['billing']['delivery_date'] = array(
+            'type' => 'text',
+            'required' => false,
+            'label' => __("Delivery date", 'y2ywsm')
+        );
+        
+        return $fields;
+    }
+    
     public function validate_you2you_fields_before_checkout($data){
         if(in_array(Y2YWSM_ID, $data['shipping_method'])){
-            wc_add_notice( "sim", 'error' );
-        }else{
-            wc_add_notice( "nao", 'error' );
+            $delivery_date = $data['delivery_date'];
+            if(empty($delivery_date)){
+                wc_add_notice( __('We need to know the date for the delivery', 'y2ywsm'), 'error' );
+                return;
+            }
+            
+            $delivery_date = date('Y-m-d H:i:s', strtotime($delivery_date));
+            $today = date('Y-m-d H:i:s');
+
+            if($today > $delivery_date){
+                wc_add_notice( __('The delivery date should be after today\'s date', 'y2ywsm'), 'error' );
+                return;
+            }
         }
+        
+    }
+    
+    public function insert_delivery_in_db($order_id, $data){
+        global $wpdb;
+        $wpdb->insert($wpdb->prefix.'y2y_deliveries',
+                array(
+                    'wc_order_id' => $order_id,
+                    'delivery_date' => date('Y-m-d H:i:s', strtotime($data['delivery_date'])),
+                     'status' => 1
+                    )
+            );
+        wc_add_notice(__("Your delivery will be posted to you2you after the payment is made", 'y2ywsm'), 'notice');
+    }
+    
+    public function add_delivery_to_y2y($order_id){
+        global $wpdb;
+        $db_row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}y2y_deliveries WHERE wc_order_id = {$order_id} AND status = 1");
+        if(db_row === null){
+            return;
+        }
+        
+        $order = wc_get_order($order_id);
+        
+        $this->api->post('deliveries', array(
+            'street' => $order->shipping_address_1,
+            'city' => $order->shipping_city,
+            'country' => $order->shipping_country,
+            'postalcode' => $order->shipping_postcode,
+            'information' => $order->shipping_address_2,
+            'company' => $order->shipping_company,
+            'firstname' => $order->shipping_first_name,
+            'lastname' => $order->shipping_last_name,
+            'shipstart' => $db_row->delivery_date,
+            'shipend' => date('Y-m-d H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
+            'compensation' => 8,
+            
+            
+        ));
+        $wpdb->update(
+                $wpdb->prefix.'y2y_deliveries',
+                array( 'status' => 2),
+                array( 'wc_order_id' => $order_id)
+            );
         
     }
     
@@ -133,4 +232,4 @@ class Y2YWSM_Admin{
         echo '<p><strong>'.__('Pickup Date').':</strong> ' . get_post_meta( $order->id, 'Pickup Date', true ). '</p>';
     }
 }
-new Y2ywsm_Admin;
+new Y2YWSM_CORE;
