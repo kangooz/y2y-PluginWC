@@ -95,9 +95,10 @@ class Y2YWSM_Admin{
         wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, false );
         //wp_enqueue_script( 'datetimepicker-js', '/wp-content/DateTimePicker/src/i18n/DateTimePicker-i18n-fr.js', '', '4.4.1', false );
         wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
-        wp_enqueue_script( 'main-scripts', Y2YWSM_PLUGIN_URL . '/assets/js/scripts.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
-        
+        wp_enqueue_script( 'main-scripts', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
         wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
+        //wp_enqueue_script( 'anytime.5.1.2-js',  Y2YWSM_PLUGIN_URL . '/assets/js/anytime.5.1.2.js', array('jquery'), Y2YWSM_VERSION, true );
+        //wp_enqueue_style('anytime.5.1.2-css', Y2YWSM_PLUGIN_URL . '/assets/css/anytime.5.1.2.css', '', Y2YWSM_VERSION, 'all');
         
     }
     

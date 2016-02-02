@@ -15,7 +15,8 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             'lunch_time_beginning_h',
             'lunch_time_beginning_m',
             'lunch_time_endding_h',
-            'lunch_time_endding_m'
+            'lunch_time_endding_m',
+            'day_off',
         );
         
         /**
@@ -78,6 +79,16 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 
                 $this->{lunch_time_beginning_h_.$i} = $this->get_option('lunch_time_beginning_h_'.$i);
                 $this->{lunch_time_beginning_m_.$i} = $this->get_option('lunch_time_beginning_m_'.$i);
+                
+                $this->{lunch_time_endding_h_.$i} = $this->get_option('lunch_time_endding_h_'.$i);
+                $this->{lunch_time_endding_m_.$i} = $this->get_option('lunch_time_endding_m_'.$i);
+                
+                $this->{day_off_.$i} = $this->get_option('day_off_'.$i);
+                
+                $this->{openning_hours_beginning_.$i} = $this->get_option('openning_hours_beginning_'.$i);
+                $this->{openning_hours_endding_.$i} = $this->get_option('openning_hours_endding_'.$i);
+                $this->{lunch_time_beginning_.$i} = $this->get_option('lunch_time_beginning_'.$i);
+                $this->{lunch_time_endding_.$i} = $this->get_option('lunch_time_endding_'.$i);
                 
                 foreach($this->extra_field_names as $field){
                     
@@ -164,6 +175,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                         <td></td>
                         <td style="text-align: center"><?php echo __("Openning Hours", "y2ywsm"); ?></td>
                         <td style="text-align: center"><?php echo __("Lunch Time", "y2ywsm"); ?></td>
+                        <td style="text-align: center"><?php echo __("Day Off", "y2ywsm"); ?></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -177,16 +189,19 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                             <td>
                                 <?php echo $this->generate_custom_input($this->extra_field_names[0], $i); ?>h
                                 <?php echo $this->generate_custom_input($this->extra_field_names[1], $i); ?>m
-                                until
+                                until<br>
                                 <?php echo $this->generate_custom_input($this->extra_field_names[2], $i); ?>h
                                 <?php echo $this->generate_custom_input($this->extra_field_names[3], $i); ?>m
                             </td>
                             <td>
                                 <?php echo $this->generate_custom_input($this->extra_field_names[4], $i); ?>h
                                 <?php echo $this->generate_custom_input($this->extra_field_names[5], $i); ?>m
-                                until
+                                until<br>
                                 <?php echo $this->generate_custom_input($this->extra_field_names[6], $i); ?>h
                                 <?php echo $this->generate_custom_input($this->extra_field_names[7], $i); ?>m
+                            </td>
+                            <td>
+                                <?php echo $this->generate_custom_input($this->extra_field_names[8], $i); ?>
                             </td>
                         </tr>
                         <?php
@@ -200,6 +215,14 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
         public function generate_custom_input($name, $index){
             $input_name = esc_attr("woocommerce_".$this->id.'_'.$name.'['.$index.']');
             
+            if($name =='day_off')
+            {
+                $checked = ($this->{$name}[$index]=='on') ? 'checked="checked"' : '';
+                return '<input type="checkbox" '
+                    . 'id="'.$input_name.'" '
+                    . 'name="'.$input_name.'" '
+                    . $checked.'">';
+            }
             return '<input type="number" '
                     . 'id="'.$input_name.'" '
                     . 'name="'.$input_name.'" '
@@ -208,6 +231,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     . 'max="24"'
                     . 'class="y2ywsm-input-number">';
         }
+        
     }
 
 }
