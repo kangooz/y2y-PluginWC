@@ -15,7 +15,8 @@
         $( ".dtBox" ).DateTimePicker();
         $("#dtBox").DateTimePicker({
             dateFormat: 'dd/mm/yy',
-            minDate: 0
+            minDate: 0,
+            language: 'fr'
         });
         //$( "#delivery_date" ).DateTimePicker();
         

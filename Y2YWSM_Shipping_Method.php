@@ -144,7 +144,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
         public function calculate_shipping($package) {
             $rate = array(
                 'id' => $this->id,
-                'label' => $this->title,
+                'label' => 'You2You',//$this->title,
                 'cost' => '8',
             );
 
@@ -183,13 +183,13 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
 
         public function admin_options() {
             $days = array(
-                0 => __("Sunday", "y2ywsm"),
-                1 => __("Monday", "y2ywsm"),
-                2 => __("Tuesday", "y2ywsm"),
-                3 => __("Wednesday", "y2ywsm"),
-                4 => __("Thursday", "y2ywsm"),
-                5 => __("Friday", "y2ywsm"),
-                6 => __("Saturday", "y2ywsm"),
+                1 => __("Lundi", "y2ywsm"),
+                2 => __("Mardi", "y2ywsm"),
+                3 => __("Mercredi", "y2ywsm"),
+                4 => __("Jeudi", "y2ywsm"),
+                5 => __("Vendredi", "y2ywsm"),
+                6 => __("Samedi", "y2ywsm"),
+                0 => __("Dimanche", "y2ywsm"),
             );
             ?>
             <h2><?php echo $this->title; ?></h2>

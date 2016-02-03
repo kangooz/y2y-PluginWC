@@ -119,7 +119,7 @@ class Y2YWSM_CORE{
         $fields['billing']['delivery_date'] = array(
             'type' => 'text',
             'required' => false,
-            'label' => __("Delivery date", 'y2ywsm')
+            'label' => __("<br><strong>You2you, livraison collaborative</strong><br>Choisis ta date de livraison", 'y2ywsm')
         );
         
         return $fields;
