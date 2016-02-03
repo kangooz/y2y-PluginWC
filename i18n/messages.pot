@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# You2You <support@you2you.fr>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: y2ywsm 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-03 18:09+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Y2YWSM_Shipping_Method.php:26
+msgid "You2You shipping method"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:27
+msgid "Description of your shipping method"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:102
+msgid "You2You"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:117
+msgid "Enable/Disable"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:119
+msgid "Enable this shipping method"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:122
+msgid "API Key"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:126
+msgid "API Secret"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:130
+msgid "Time Out"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:132
+msgid "Time in hours that you need to prepare a delivery"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:139
+msgid "Monday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:140
+msgid "Tuesday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:141
+msgid "Wednesday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:142
+msgid "Thursday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:143
+msgid "Friday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:144
+msgid "Saturday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:145
+msgid "Sunday"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:159
+msgid "Openning Hours"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:160
+msgid "Lunch Time"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:161
+msgid "Day Off"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:174 Y2YWSM_Shipping_Method.php:180
+msgid "until"
+msgstr ""
+
+#: Y2YWSM_Shipping_Method.php:234
+#, php-format
+msgid "The %s is disabled because the key and secret are not valid"
+msgstr ""
+
+#: you2you.php:112
+msgid "German"
+msgstr ""
+
+#: you2you.php:113
+msgid "English"
+msgstr ""
+
+#: you2you.php:114
+msgid "Spanish"
+msgstr ""
+
+#: you2you.php:115
+msgid "French"
+msgstr ""
+
+#: you2you.php:116
+msgid "Japanese"
+msgstr ""
+
+#: you2you.php:117
+msgid "Dutch"
+msgstr ""
+
+#: you2you.php:118
+msgid "Romanian"
+msgstr ""
+
+#: you2you.php:119
+msgid "Russian"
+msgstr ""
+
+#: you2you.php:120
+msgid "Ukrainian"
+msgstr ""
+
+#: you2you.php:121
+msgid "Chinese (T)"
+msgstr ""
+
+#: you2you.php:122
+msgid "Chinese (S)"
+msgstr ""
+
+#: you2you.php:142
+msgid "You2you, collaborative delivery"
+msgstr ""
+
+#: you2you.php:143
+msgid "Choose your delivery date"
+msgstr ""
+
+#: you2you.php:153
+msgid "We need to know the date for the delivery"
+msgstr ""
+
+#: you2you.php:161
+msgid "The delivery date should be after today's date"
+msgstr ""
+
+#: you2you.php:177
+msgid "Your delivery will be posted to you2you after the payment is made"
+msgstr ""

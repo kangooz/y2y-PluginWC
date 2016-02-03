@@ -1,21 +1,19 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 (function($) {
     $(document).ready(function(){
-       $("#delivery_date").parent().append('<div style="display:none;" id="dtBox"></div>');
+       $("#delivery_date").parent().append('<div style="display:none;" class="y2ywsm-datepicker-holder"></div>');
         
         
         $('#delivery_date').attr('data-field', 'datetime');
-        $( ".dtBox" ).DateTimePicker();
-        $("#dtBox").DateTimePicker({
+        $( ".y2ywsm-timepicker-holder" ).DateTimePicker({
+            mode: "time",
+            language: options.lang,
+            timeFormat: 'HH:mm',
+        });
+        $(".y2ywsm-datepicker-holder").DateTimePicker({
+            mode: "date",
             dateFormat: 'dd/mm/yy',
             minDate: 0,
-            language: "fr",
+            language: options.lang,
         });
         
         if($('#shipping_method_0_you2you').is(':checked')){

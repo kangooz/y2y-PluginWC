@@ -1,3 +1,27 @@
-.y2ywsm-input-number{
+.y2ywsm-timepicker{
     width: 65px;
+    background-color: #fff !important;
+}
+
+.y2ywsm-table {
+    border: 1px solid black;
+    width: 70%;
+}
+
+.y2ywsm-table td{
+    border: 1px solid #ccc;
+    text-align: center
+}
+
+.y2ywsm-datepicker-holder a{
+    border: 0px;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    
+}
+
+.y2ywsm-datepicker-holder .dtpicker-components *{
+    margin: 0 !important;
+    padding: 0 !important;
 }

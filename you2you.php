@@ -8,7 +8,6 @@
  * Author URI: http://www.you2you.fr
  *
  * Text Domain: y2ywsm
- * Domain Path: /i18n/languages/
  *
  * @author You2you
  */
@@ -57,42 +56,43 @@ class Y2YWSM_CORE{
     
     private $api;
     
+    public $available_languages = array();
     public function __construct() {
+        
         if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+            //Load the options
             add_action('woocommerce_init', array($this, 'load_options'));
             
+            //Register the method in woocommerce
             add_action( 'woocommerce_shipping_init', array($this,'init_shipping') );
             add_filter( 'woocommerce_shipping_methods', array($this, 'add_shipping_method') );
-            //add_action( 'woocommerce_order_status_processing', array($this, 'confirm_delivery'));
-            //add_action( 'woocommerce_checkout', array($this, 'checkout'));
             
-            //Position the calendar
-            add_action( 'woocommerce_after_shipping_rate', array($this, 'add_shipping_date'));
-            //add_action( 'woocommerce_before_order_notes', array( $this, 'add_shipping_date' ) );
-            
+            //Register all scripts
             add_action( 'wp_enqueue_scripts', array($this, 'enqueue_all_scripts') );
             add_action( 'admin_enqueue_scripts', array($this, 'enqueue_all_scripts'));
             
+            //Register the translation
+            add_action('plugins_loaded', array($this,'load_text_domain'));
+            
+            //Change the appearance of method in the method's list
             add_filter( 'woocommerce_cart_shipping_method_full_label', array($this,'add_image_to_available_methods'), 10, 2 );
-            add_action( 'woocommerce_order_details_after_order_table', array($this,'display_custom_fields'), 10, 1 );
             
             //Add delivery date to checkout fields
             add_filter('woocommerce_checkout_fields', array($this, 'add_delivery_date_to_checkout_fields'));
+            
             //Validate the delivery before saving
             add_action( 'woocommerce_after_checkout_validation', array($this, 'validate_you2you_fields_before_checkout'));
+            
             //Add delivery to database
             add_action( 'woocommerce_checkout_order_processed', array($this, 'insert_delivery_in_db'));
+            
             //Add delivery to the you2you using the you2you api
             add_action('woocommerce_order_status_processing', array($this, 'add_delivery_to_y2y'));
+            
+            //Customize appearence of the delivery_date in the checkout form
+            add_filter('woocommerce_form_field_text', array($this, 'customize_delivery_date_field'), 10, 4);
         }
         
-    }
-    
-    
-    public function add_shipping_date( $method ) {
-        if(!$method->id === Y2YWSM_ID){
-            return;
-        }
     }
     
     public function load_options(){
@@ -102,6 +102,21 @@ class Y2YWSM_CORE{
         $this->api_key = $options['api_key'];
         
         $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
+        
+        $this->available_languages = array(
+            'de' => __('German', 'y2ywsm'),
+            'en' => __('English', 'y2ywsm'),
+            'es' => __('Spanish', 'y2ywsm'),
+            'fr' => __('French', 'y2ywsm'),
+            'ja' => __('Japanese', 'y2ywsm'),
+            'nl' => __('Dutch', 'y2ywsm'),
+            'ro' => __('Romanian', 'y2ywsm'),
+            'ru' => __('Russian', 'y2ywsm'),
+            'uk' => __('Ukrainian', 'y2ywsm'),
+            'zh-TW' => __('Chinese (T)', 'y2ywsm'),
+            'zh-CN' => __('Chinese (S)', 'y2ywsm')
+            
+        );
         
     }
     
@@ -115,11 +130,59 @@ class Y2YWSM_CORE{
         
     }
     
+    public function enqueue_all_scripts(){
+        $lang_code = $this->get_language_code();
+        /** Scripts **/
+        wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
+        wp_enqueue_script( 'datetimepicker-i18n',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker/i18n/DateTimePicker-i18n-'.$lang_code.'.js', array('datetimepicker-js'), Y2YWSM_VERSION, true );
+        
+        wp_enqueue_script( 'y2ywsm-js', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
+        wp_localize_script('y2ywsm-js', 'options', array('lang' => $lang_code));
+        
+        
+        /** Styles **/
+        wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, 'all' );
+        wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
+    }
+    
+    public function load_text_domain(){
+        
+        load_plugin_textdomain( 'y2ywsm', false, dirname( plugin_basename(__FILE__) ) . '/i18n/' );
+        
+    }
+    
+    public function add_image_to_available_methods( $label, $method ) {
+        $label = $method->label;
+
+        if ( $method->cost > 0 ) {
+            if ( WC()->cart->tax_display_cart == 'excl' ) {
+                $label .= ': ' . wc_price( $method->cost );
+                if ( $method->get_shipping_tax() > 0 && WC()->cart->prices_include_tax ) {
+                    $label .= ' <small class="tax_label">' . WC()->countries->ex_tax_or_vat() . '</small>';
+                }
+            } else {
+                $label .= ': ' . wc_price( $method->cost + $method->get_shipping_tax() );
+                if ( $method->get_shipping_tax() > 0 && ! WC()->cart->prices_include_tax ) {
+                    $label .= ' <small class="tax_label">' . WC()->countries->inc_tax_or_vat() . '</small>';
+                }
+            }
+        }
+
+        if ( $method->id == Y2YWSM_ID ) {
+            $label = '<img src="' . Y2YWSM_PLUGIN_URL.'/assets/img/logo.png' . '" width="30px">&nbsp;&nbsp;'.$label.'<br>'
+                . 'Livraison collaborative.';
+
+        } 
+
+        return $label;
+    }
+    
     public function add_delivery_date_to_checkout_fields($fields){
         $fields['billing']['delivery_date'] = array(
             'type' => 'text',
             'required' => false,
-            'label' => __("<br><strong>You2you, livraison collaborative</strong><br>Choisis ta date de livraison", 'y2ywsm')
+            'label' => '<br><strong>'.__('You2you, collaborative delivery','y2ywsm').'</strong>'
+                . '<br>'.__('Choose your delivery date','y2ywsm')
         );
         
         return $fields;
@@ -188,45 +251,36 @@ class Y2YWSM_CORE{
         
     }
     
-    public function enqueue_all_scripts(){
-        wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, false );
-        //wp_enqueue_script( 'datetimepicker-js', '/wp-content/DateTimePicker/src/i18n/DateTimePicker-i18n-fr.js', '', '4.4.1', false );
-        wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
-        wp_enqueue_script( 'main-scripts', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
-        wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
-        //wp_enqueue_script( 'anytime.5.1.2-js',  Y2YWSM_PLUGIN_URL . '/assets/js/anytime.5.1.2.js', array('jquery'), Y2YWSM_VERSION, true );
-        //wp_enqueue_style('anytime.5.1.2-css', Y2YWSM_PLUGIN_URL . '/assets/css/anytime.5.1.2.css', '', Y2YWSM_VERSION, 'all');
-    }
-    
-    public function add_image_to_available_methods( $label, $method ) {
-        $label = $method->label;
-
-        if ( $method->cost > 0 ) {
-            if ( WC()->cart->tax_display_cart == 'excl' ) {
-                $label .= ': ' . wc_price( $method->cost );
-                if ( $method->get_shipping_tax() > 0 && WC()->cart->prices_include_tax ) {
-                    $label .= ' <small class="tax_label">' . WC()->countries->ex_tax_or_vat() . '</small>';
-                }
-            } else {
-                $label .= ': ' . wc_price( $method->cost + $method->get_shipping_tax() );
-                if ( $method->get_shipping_tax() > 0 && ! WC()->cart->prices_include_tax ) {
-                    $label .= ' <small class="tax_label">' . WC()->countries->inc_tax_or_vat() . '</small>';
-                }
-            }
+    public function customize_delivery_date_field($field, $key = '', $args = '', $value = ''){
+        if($key == 'delivery_date'){
+            //do something
         }
+        return $field;
+    }
 
-        if ( $method->id == "You2You" ) {
-            $label = '<img src="' . plugins_url( '/assets/img/logo.png', __FILE__ ) . '" width="30px">&nbsp;&nbsp;'.$label.'<br>'
-                . 'Livraison collaborative.';
-
-        } 
-
-        return $label;
+    
+    public function get_language_code(){
+        $lang = $this->get_wp_language_code();
+        switch($lang){
+            case 'fr-FR':
+                $lang = 'fr';
+                break;
+        }
+        
+        if(!in_array($lang, array_keys($this->available_languages))){
+            $lang = 'es';
+        }
+        
+        return $lang;
     }
     
-    public function display_custom_fields($order){
-        echo '<p><strong>'.__('Pickup Location').':</strong> ' . get_post_meta( $order->id, 'Pickup Location', true ). '</p>';
-        echo '<p><strong>'.__('Pickup Date').':</strong> ' . get_post_meta( $order->id, 'Pickup Date', true ). '</p>';
+    public function get_wp_language_code(){
+        return 'fr-FR';
+        /*if(defined(ICL_LANGUAGE_CODE)){
+            return ICL_LANGUAGE_CODE;
+        }
+        
+        return get_locale();*/
     }
 }
 new Y2YWSM_CORE;
