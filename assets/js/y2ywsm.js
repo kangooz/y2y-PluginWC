@@ -7,15 +7,13 @@
 
 (function($) {
     $(document).ready(function(){
-        $("#order_comments_field").parent().append(
-                        '<input type="text" style="display:none;" name="calendar_y2y" id="calendar_y2y" data-field="datetime" readonly placeholder="Choose date and time">\n\
-                         <div style="display:none;" id="dtBox"></div>' );
+        $( ".dtBox" ).DateTimePicker();
         $("#dtBox").DateTimePicker({
-            dateFormat: 'dd/mm/yy'
+            dateFormat: 'dd/mm/yy',
+            minDate: 0
         });
         
         if($('#shipping_method_0_you2you').is(':checked')){
-            console.log("ola");
             $("#calendar_y2y").css("display","block");
         };
         

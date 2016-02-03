@@ -8,15 +8,19 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @var array The fields we use to store the opening and closing hours 
          */
         public $extra_field_names = array(
-            'openning_hours_beginning_h',
+            /*'openning_hours_beginning_h',
             'openning_hours_beginning_m',
             'openning_hours_endding_h',
             'openning_hours_endding_m',
             'lunch_time_beginning_h',
             'lunch_time_beginning_m',
             'lunch_time_endding_h',
-            'lunch_time_endding_m',
-            'day_off',
+            'lunch_time_endding_m',*/
+            'openning_hours_beginning',
+            'openning_hours_endding',
+            'lunch_time_beginning',
+            'lunch_time_endding',
+            'closed_day',
         );
         
         /**
@@ -55,12 +59,17 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             foreach($this->extra_field_names as $field_name){
                 $this->{$field_name} = $this->get_option($field_name, array());
             }
-
+            
+            wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, false );
+            wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
+            
             //Add hook to save the options
             add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
             
             //Filter for the custom fields
             add_filter('woocommerce_settings_api_sanitized_fields_'.$this->id, array($this, 'filter_update_fields'));
+            
+            
         }
         
         /**
@@ -70,7 +79,9 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @return array The fields to save in the database
          */
         public function filter_update_fields($fields){
-            for($i = 0; $i < 7; $i++){
+            //for($i = 0; $i < 7; $i++){
+            for($i = 0; $i < 5; $i++){
+                /*
                 $this->{openning_hours_beginning_h_.$i} = $this->get_option('openning_hours_beginning_h_'.$i);
                 $this->{openning_hours_beginning_m_.$i} = $this->get_option('openning_hours_beginning_m_'.$i);
                 
@@ -82,8 +93,8 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 
                 $this->{lunch_time_endding_h_.$i} = $this->get_option('lunch_time_endding_h_'.$i);
                 $this->{lunch_time_endding_m_.$i} = $this->get_option('lunch_time_endding_m_'.$i);
-                
-                $this->{day_off_.$i} = $this->get_option('day_off_'.$i);
+                */
+                $this->{closed_day_.$i} = $this->get_option('closed_day_'.$i);
                 
                 $this->{openning_hours_beginning_.$i} = $this->get_option('openning_hours_beginning_'.$i);
                 $this->{openning_hours_endding_.$i} = $this->get_option('openning_hours_endding_'.$i);
@@ -97,6 +108,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                         $fields[$field] =  $_POST[$input_name];
                     }
                 }
+                
                 
             }
             return $fields;
@@ -169,7 +181,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             </table>
 
             
-            <table class="form-table" border="1" style="width:70%;">
+            <table class="form-table" id="days_table" name="days_table" border="1" style="width:70%;">
                 <thead>
                     <tr>
                         <td></td>
@@ -187,21 +199,25 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                                 <?php echo $days[$i] ?>
                             </td>
                             <td>
-                                <?php echo $this->generate_custom_input($this->extra_field_names[0], $i); ?>h
-                                <?php echo $this->generate_custom_input($this->extra_field_names[1], $i); ?>m
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[0], $i); ?>
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[1], $i); ?>
+                                <?php echo $this->generate_custom_input($this->extra_field_names[0], $i); ?>
                                 until<br>
-                                <?php echo $this->generate_custom_input($this->extra_field_names[2], $i); ?>h
-                                <?php echo $this->generate_custom_input($this->extra_field_names[3], $i); ?>m
+                                <?php echo $this->generate_custom_input($this->extra_field_names[1], $i); ?>
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[2], $i); ?>
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[3], $i); ?>
                             </td>
                             <td>
-                                <?php echo $this->generate_custom_input($this->extra_field_names[4], $i); ?>h
-                                <?php echo $this->generate_custom_input($this->extra_field_names[5], $i); ?>m
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[4], $i); ?>
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[5], $i); ?>
+                                <?php echo $this->generate_custom_input($this->extra_field_names[2], $i); ?>
                                 until<br>
-                                <?php echo $this->generate_custom_input($this->extra_field_names[6], $i); ?>h
-                                <?php echo $this->generate_custom_input($this->extra_field_names[7], $i); ?>m
+                                <?php echo $this->generate_custom_input($this->extra_field_names[3], $i); ?>
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[6], $i); ?>
+                                <?php //echo $this->generate_custom_input($this->extra_field_names[7], $i); ?>
                             </td>
                             <td>
-                                <?php echo $this->generate_custom_input($this->extra_field_names[8], $i); ?>
+                                <?php echo $this->generate_custom_input($this->extra_field_names[4], $i); ?>
                             </td>
                         </tr>
                         <?php
@@ -214,8 +230,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
         
         public function generate_custom_input($name, $index){
             $input_name = esc_attr("woocommerce_".$this->id.'_'.$name.'['.$index.']');
-            
-            if($name =='day_off')
+            if($name == 'closed_day')
             {
                 $checked = ($this->{$name}[$index]=='on') ? 'checked="checked"' : '';
                 return '<input type="checkbox" '
@@ -223,13 +238,20 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     . 'name="'.$input_name.'" '
                     . $checked.'">';
             }
+            return '<input type="text" '
+                    . 'id="'.$input_name.'" '
+                    . 'name="'.$input_name.'" '
+                    . 'value="'.$this->{$name}[$index].'" '
+                    . 'class="y2ywsm-timepicker" data-field="time" readonly>'
+                    . '<div id="calendar" class="dtBox"></div>';
+                    /*
             return '<input type="number" '
                     . 'id="'.$input_name.'" '
                     . 'name="'.$input_name.'" '
                     . 'value="'.$this->{$name}[$index].'" '
                     . 'min="0"'
                     . 'max="24"'
-                    . 'class="y2ywsm-input-number">';
+                    . 'class="y2ywsm-input-number">';*/
         }
         
     }

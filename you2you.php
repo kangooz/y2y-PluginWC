@@ -67,9 +67,6 @@ class Y2YWSM_Admin{
         if(!$method->id === Y2YWSM_ID){
             return;
         }
-        
-        
-        
     }
     
     
@@ -80,6 +77,7 @@ class Y2YWSM_Admin{
     public function add_shipping_method( $methods ) {
 	$methods[] = 'Y2YWSM_Shipping_Method';
 	return $methods;
+        
     }
     
     public function validate_you2you_fields_before_checkout($data){
@@ -99,7 +97,6 @@ class Y2YWSM_Admin{
         wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
         //wp_enqueue_script( 'anytime.5.1.2-js',  Y2YWSM_PLUGIN_URL . '/assets/js/anytime.5.1.2.js', array('jquery'), Y2YWSM_VERSION, true );
         //wp_enqueue_style('anytime.5.1.2-css', Y2YWSM_PLUGIN_URL . '/assets/css/anytime.5.1.2.css', '', Y2YWSM_VERSION, 'all');
-        
     }
     
     public function add_image_to_available_methods( $label, $method ) {
