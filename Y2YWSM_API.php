@@ -188,9 +188,28 @@ if (!class_exists('Y2YWSM_API')) {
         }
 
         private function buildUrl() {
-            //$url = $this->protocol . '://' . $this->host . '/' . $this->url . '?api_secret=' . $this->api_secret . '&api_key=' . $this->api_key;
-            $url = $this->protocol . '://' . $this->host . '/' . $this->url . '?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6Ikluc2NyaXQiLCJpYXQiOjE0NTQzNDA1NjksImV4cCI6MTQ1NDM0NDE2OX0.Vm-10BkvyfFau0joBvV8gutVuQj4ub45-WHxtC2uTJc';
+            $url = $this->protocol . '://' . $this->host . '/' . $this->url . '?api_secret=' . $this->api_secret . '&api_key=' . $this->api_key;
+            //$url = $this->protocol . '://' . $this->host . '/' . $this->url . '?access_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwicm9sZSI6Ikluc2NyaXQiLCJpYXQiOjE0NTQ0MzIxNTAsImV4cCI6MTQ1NDQzNTc1MH0.fBGNYzaNzqsd_e78DcXDHnzT8FFIFLFrMm6ATVl_eKI';
             return $url;
+        }
+        
+        public function test_connection(){
+            if(empty($this->api_secret) || empty($this->api_key)){
+                return false;
+            }
+            
+            $result = $this->get('/deliveries');
+            
+            if(in_array($result['response_code'], array(401, 403))){
+                return false;
+            }
+            
+            if($result['errno'] != 0){
+                return false;
+            }
+            
+            return true;
+            
         }
 
     }

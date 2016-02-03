@@ -31,7 +31,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          */
         public function __construct() {
             $this->id = Y2YWSM_ID;
-            $this->title = __('You2You', "y2ywsm");
+            $this->title = __('You2You shipping method', "y2ywsm");
             $this->method_description = __('Description of your shipping method', "y2ywsm"); // 
             $this->enabled = isset($this->settings['enabled']) ? $this->settings['enabled'] : $this->enabled;
             $this->init();
@@ -63,6 +63,14 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, false );
             wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
             
+            //Test connection
+            $api = new Y2YWSM_API($this->api_key, $this->api_secret);
+            if(!$api->test_connection()){
+                add_action('admin_notices', function(){
+                    echo '<div class="update-nag"><p>'.__("The ".$this->title." is disabled because the key and secret are wrong", "y2ywsm").'</p></div>';
+                });
+            }
+
             //Add hook to save the options
             add_action('woocommerce_update_options_shipping_' . $this->id, array($this, 'process_admin_options'));
             
@@ -73,15 +81,20 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
         }
         
         /**
-         * Add the extra fields to save in the database
+         * Add the extra fields to save in the database and test if the connection with api is working
          * 
          * @param type $fields The default fields
          * @return array The fields to save in the database
          */
         public function filter_update_fields($fields){
+
             //for($i = 0; $i < 7; $i++){
             for($i = 0; $i < 5; $i++){
                 /*
+
+            //Add the extra fields
+            for($i = 0; $i < 7; $i++){
+
                 $this->{openning_hours_beginning_h_.$i} = $this->get_option('openning_hours_beginning_h_'.$i);
                 $this->{openning_hours_beginning_m_.$i} = $this->get_option('openning_hours_beginning_m_'.$i);
                 
@@ -111,6 +124,13 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 
                 
             }
+            
+            //Check the api
+            $api = new Y2YWSM_API($fields['api_key'], $fields['api_secret']);
+            if($api->test_connection() === false){
+                $fields['enabled'] = 'no';
+            }
+            
             return $fields;
         }
 
@@ -162,9 +182,6 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
         }
 
         public function admin_options() {
-            $api = new Y2YWSM_API('key','secret');
-            
-            var_dump($api->get('users/1'));
             $days = array(
                 0 => __("Sunday", "y2ywsm"),
                 1 => __("Monday", "y2ywsm"),
@@ -175,7 +192,8 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 6 => __("Saturday", "y2ywsm"),
             );
             ?>
-            <h2><?php _e('You2You shipping method', 'y2ywsm'); ?></h2>
+            <h2><?php echo $this->title; ?></h2>
+            <p><?php echo $this->method_description; ?></p>
             <table class="form-table">
                 <?php $this->generate_settings_html(); ?>
             </table>
