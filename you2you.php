@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name: You2You WooCommerce Shipping Method
- * Plugin URI: http://partner-it-group.com
+ * Plugin URI: http://www.you2you.fr
  * Description: 
  * Version: 1.0.0
- * Author: Partner-IT-Group
- * Author URI: http://partner-it-group.com
+ * Author: You2You
+ * Author URI: http://www.you2you.fr
  *
  * Text Domain: y2ywsm
  * Domain Path: /i18n/languages/
  *
- * @author Partner IT Group
+ * @author You2you
  */
 
 if( !defined('Y2YWSM_PLUGIN_DIR') )
