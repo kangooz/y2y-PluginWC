@@ -3,7 +3,7 @@
  * Plugin Name: You2You WooCommerce Shipping Method
  * Plugin URI: http://www.you2you.fr
  * Description: 
- * Version: 1.0.0
+ * Version: 0.0.1
  * Author: You2You
  * Author URI: http://www.you2you.fr
  *
