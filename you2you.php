@@ -217,9 +217,10 @@ class Y2YWSM_CORE{
             $minute = date('i', $timestamp);
             $dayofweek = date('w', $timestamp);
             
-            $timeout = ($this->timeout <=2) ? $this->timeout*60*60 : 2*60*60;
-            $delivery_hour = strtotime(date('Y/m/d H:i',$timestamp+$timeout));
-            //wc_add_notice(date('Y/m/d H:i',$timestamp+$timeout), 'error' );
+            $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
+            $order_hour = date('H:i',$timestamp);
+            $delivery_hour = strtotime(date('H:i',$timestamp+$timeout));
+            $delivery_day_hour = strtotime(date('Y/m/d H:i',$timestamp+$timeout));
             
             //Closed day
             if($this->closed_day[$dayofweek] == 'yes'){
@@ -228,16 +229,17 @@ class Y2YWSM_CORE{
             }
             
             //Before opening hours
-            if($timestamp < strtotime($this->openning_hours_beginning[$dayofweek])){
-                wc_add_notice( __('The shop is closed at that hour1', 'y2ywsm'), 'error' );
+            if(strtotime($order_hour) < strtotime($this->openning_hours_beginning[$dayofweek])){
+                wc_add_notice( __('The shop is closed at that hour in the morning', 'y2ywsm'), 'error' );
                 return;
             }
             
             //After opening hours
             if( $delivery_hour > strtotime($this->openning_hours_endding[$dayofweek])){
-                wc_add_notice( __('The shop is closed at that hour2', 'y2ywsm'), 'error' );
+                wc_add_notice( __('The shop is closed at that hour in the afternoon', 'y2ywsm'), 'error' );
                 return;
             }
+            
             /*
             //Lunch Time
             $lunch_beg = strtotime($this->lunch_time_beginning[$dayofweek]);
@@ -246,7 +248,7 @@ class Y2YWSM_CORE{
                 wc_add_notice( __('The shop is closed for lunch', 'y2ywsm'), 'error' );
                 return;
             }
-             */
+            */
             wc_add_notice('Registed' , 'success' );
         }
         
