@@ -100,7 +100,12 @@ class Y2YWSM_CORE{
         
         $this->api_secret = $options['api_secret'];
         $this->api_key = $options['api_key'];
-        
+        $this->openning_hours_beginning = $options['openning_hours_beginning'];
+        $this->openning_hours_endding= $options['openning_hours_endding'];
+        $this->lunch_time_beginning = $options['lunch_time_beginning'];
+        $this->lunch_time_endding = $options['lunch_time_endding'];
+        $this->closed_day = $options['closed_day'];
+        $this->timeout = $options['timeout'];
         $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
         
         $this->available_languages = array(
@@ -203,6 +208,46 @@ class Y2YWSM_CORE{
                 wc_add_notice( __('The delivery date should be after today\'s date', 'y2ywsm'), 'error' );
                 return;
             }
+            
+            $timestamp = strtotime($delivery_date);
+            $year = date('Y', $timestamp);
+            $month = date('m', $timestamp);
+            $day = date('d', $timestamp);
+            $hour = date('H', $timestamp);
+            $minute = date('i', $timestamp);
+            $dayofweek = date('w', $timestamp);
+            
+            $timeout = ($this->timeout <=2) ? $this->timeout*60*60 : 2*60*60;
+            $delivery_hour = strtotime(date('Y/m/d H:i',$timestamp+$timeout));
+            //wc_add_notice(date('Y/m/d H:i',$timestamp+$timeout), 'error' );
+            
+            //Closed day
+            if($this->closed_day[$dayofweek] == 'yes'){
+                wc_add_notice( __('The shop is closed in this day', 'y2ywsm'), 'error' );
+                return;
+            }
+            
+            //Before opening hours
+            if($timestamp < strtotime($this->openning_hours_beginning[$dayofweek])){
+                wc_add_notice( __('The shop is closed at that hour1', 'y2ywsm'), 'error' );
+                return;
+            }
+            
+            //After opening hours
+            if( $delivery_hour > strtotime($this->openning_hours_endding[$dayofweek])){
+                wc_add_notice( __('The shop is closed at that hour2', 'y2ywsm'), 'error' );
+                return;
+            }
+            /*
+            //Lunch Time
+            $lunch_beg = strtotime($this->lunch_time_beginning[$dayofweek]);
+            $lunch_end = strtotime($this->lunch_time_ending[$dayofweek]);
+            if($delivery_hour > $lunch_beg && $delivery_hour < $lunch_end){
+                wc_add_notice( __('The shop is closed for lunch', 'y2ywsm'), 'error' );
+                return;
+            }
+             */
+            wc_add_notice('Registed' , 'success' );
         }
         
     }
