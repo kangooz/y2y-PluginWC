@@ -20,25 +20,25 @@
             defaultDate: options.dateTimePicker.defaultValue
         });
         
-        if($("input[name='shipping_method[0]'[value=You2You]").is(':checked')){
-            $('#delivery_date_field').show();
-            //$("#delivery_date").css("display","block");
-            //$("#delivery_date").parent().find('label[for=delivery_date]').css("display","block");
-        }
-        else
-        {
+        if($("input[name='shipping_method[0]'][value=You2You]").length > 0){
+            if($("input[name='shipping_method[0]'][value=You2You]").is(':checked')){
+                $('#delivery_date_field').show();
+            }
+            else
+            {
+                $('#delivery_date_field').hide();
+            };
+        }else{
             $('#delivery_date_field').hide();
-            //$("#delivery_date").css("display","none");
-            //$("#delivery_date").parent().find('label[for=delivery_date]').css("display","none");
-        };
+        }
+        
         
         
         $(document).on('click', "input[name='shipping_method[0]']", function(){
             if($(this).val() === 'You2You')
             {
                 $('#delivery_date_field').show();
-                //$("#delivery_date").parent().find('label[for=delivery_date]').css("display","block");
-                //$("#delivery_date").css("display","block");
+                
                 $('html, body').animate({
                     scrollTop: $("#delivery_date").offset().top-100
                 }, 1000);
@@ -46,8 +46,6 @@
             else
             {
                 $('#delivery_date_field').hide();
-                //$("#delivery_date").css("display","none");
-                //$("#delivery_date").parent().find('label[for=delivery_date]').css("display","none");
             }
         });
             
