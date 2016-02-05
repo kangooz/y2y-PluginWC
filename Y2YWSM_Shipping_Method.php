@@ -131,6 +131,11 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'type' => 'text',
                     'description' => __('Time in hours that you need to prepare a delivery', 'y2ywsm'),
                 ),
+                'email' => array(
+                    'title' => __('Email', 'y2ywsm'),
+                    'type' => 'text',
+                    'description' => __('Email to be contacted when some products is ordered through You2you', 'y2ywsm'),
+                )
             );
         }
 

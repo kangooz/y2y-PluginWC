@@ -106,6 +106,7 @@ class Y2YWSM_CORE{
         $this->lunch_time_endding = $options['lunch_time_endding'];
         $this->closed_day = $options['closed_day'];
         $this->timeout = $options['timeout'];
+        $this->email = $options['email'];
         $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
         
         $this->available_languages = array(
@@ -249,6 +250,15 @@ class Y2YWSM_CORE{
                 return;
             }
             */
+            
+            $to      = $this->email;
+            $subject = 'You2you Order';
+            $message = 'A order has been placed.';
+            $headers = 'From: website@you2you.com' . "\r\n" .
+                'Reply-To: no-reply@you2you.com' . "\r\n" .
+                'X-Mailer: PHP/' . phpversion();
+
+            mail($to, $subject, $message, $headers);
             wc_add_notice('Registed' , 'success' );
         }
         
