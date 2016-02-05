@@ -5,17 +5,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: y2ywsm 0.0.1\n"
-"Report-Msgid-Bugs-To: support@partner-it-group.com\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-05 14:16+0000\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
 "X-Generator: Poedit 1.8.7\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr\n"
 
 #: Y2YWSM_Shipping_Method.php:26
 msgid "You2You shipping method"
@@ -25,7 +25,8 @@ msgstr "You2you - Livraison collaborative"
 msgid "Description of your shipping method"
 msgstr ""
 "You2You, la livraison collaborative.\n"
-"Dynamisez vos ventes en proposant un service de livraison en 3 heures ou sur rendez-vous."
+"Dynamisez vos ventes en proposant un service de livraison en 3 heures ou sur "
+"rendez-vous."
 
 #: Y2YWSM_Shipping_Method.php:102
 msgid "You2You"
@@ -33,11 +34,11 @@ msgstr "You2You"
 
 #: Y2YWSM_Shipping_Method.php:117
 msgid "Enable/Disable"
-msgstr "Activer la livraison You2you"
+msgstr "Activer"
 
 #: Y2YWSM_Shipping_Method.php:119
 msgid "Enable this shipping method"
-msgstr ""
+msgstr "Activer la livraison You2you"
 
 #: Y2YWSM_Shipping_Method.php:122
 msgid "API Key"
@@ -51,140 +52,148 @@ msgstr "API Secret"
 msgid "Time Out"
 msgstr "Temps de préparation de la commande"
 
-#: Y2YWSM_Shipping_Method.php:135
+#: Y2YWSM_Shipping_Method.php:136
 msgid "Time in hours that you need to prepare a delivery. Minimum is 2 hours"
 msgstr "(en heure, minimum 2 heures)"
 
-#: Y2YWSM_Shipping_Method.php:142
+#: Y2YWSM_Shipping_Method.php:143
 msgid "Monday"
 msgstr "Lundi"
 
-#: Y2YWSM_Shipping_Method.php:143
+#: Y2YWSM_Shipping_Method.php:144
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: Y2YWSM_Shipping_Method.php:144
+#: Y2YWSM_Shipping_Method.php:145
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: Y2YWSM_Shipping_Method.php:145
+#: Y2YWSM_Shipping_Method.php:146
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: Y2YWSM_Shipping_Method.php:146
+#: Y2YWSM_Shipping_Method.php:147
 msgid "Friday"
 msgstr "Vendredi"
 
-#: Y2YWSM_Shipping_Method.php:147
+#: Y2YWSM_Shipping_Method.php:148
 msgid "Saturday"
 msgstr "Samedi"
 
-#: Y2YWSM_Shipping_Method.php:148
+#: Y2YWSM_Shipping_Method.php:149
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: Y2YWSM_Shipping_Method.php:162
+#: Y2YWSM_Shipping_Method.php:163
 msgid "Openning Hours"
 msgstr "Horaire d'ouverture"
 
-#: Y2YWSM_Shipping_Method.php:163
+#: Y2YWSM_Shipping_Method.php:164
 msgid "Lunch Time"
 msgstr "Pause déjeuner"
 
-#: Y2YWSM_Shipping_Method.php:164
+#: Y2YWSM_Shipping_Method.php:165
 msgid "Day Off"
 msgstr "Fermé"
 
-#: Y2YWSM_Shipping_Method.php:177 Y2YWSM_Shipping_Method.php:183
+#: Y2YWSM_Shipping_Method.php:178 Y2YWSM_Shipping_Method.php:184
 msgid "until"
 msgstr "à"
 
-#: Y2YWSM_Shipping_Method.php:229
+#: Y2YWSM_Shipping_Method.php:230
 #, php-format
 msgid "The %s is disabled because the key and secret are not valid"
-msgstr "Le plugin %s est désactivé car la clef et le secret API ne sont pas valides. Veuillez contacter le support You2you."
+msgstr ""
+"Le plugin %s est désactivé car la clef et le secret API ne sont pas valides. "
+"Veuillez contacter le support You2you."
 
-#: you2you.php:112
+#: you2you.php:114
 msgid "German"
 msgstr "Allemand"
 
-#: you2you.php:113
+#: you2you.php:115
 msgid "English"
 msgstr "Anglais"
 
-#: you2you.php:114
+#: you2you.php:116
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: you2you.php:115
+#: you2you.php:117
 msgid "French"
 msgstr "Français"
 
-#: you2you.php:116
+#: you2you.php:118
 msgid "Japanese"
 msgstr "Japonais"
 
-#: you2you.php:117
+#: you2you.php:119
 msgid "Dutch"
 msgstr "Néerlandais"
 
-#: you2you.php:118
+#: you2you.php:120
 msgid "Romanian"
 msgstr "Roumain"
 
-#: you2you.php:119
+#: you2you.php:121
 msgid "Russian"
 msgstr "Russe"
 
-#: you2you.php:120
+#: you2you.php:122
 msgid "Ukrainian"
 msgstr "Ukrainien"
 
-#: you2you.php:121
+#: you2you.php:123
 msgid "Chinese (T)"
 msgstr "Chinois traditionnel"
 
-#: you2you.php:122
+#: you2you.php:124
 msgid "Chinese (S)"
 msgstr "Chinois simplifié"
 
-#: you2you.php:189
+#: you2you.php:203
 msgid "You2you, collaborative delivery"
 msgstr "You2You, la livraison collaborative"
 
-#: you2you.php:190
+#: you2you.php:204
 msgid "Choose your delivery date"
 msgstr "Choisis le créneau de livraison."
 
-#: you2you.php:200
+#: you2you.php:205
+msgid "We will try to send the delivery within 2 hours from this time"
+msgstr ""
+
+#: you2you.php:215
 msgid "We need to know the date for the delivery"
 msgstr "Vous devez nous indiquer un créneau de livraison."
 
-#: you2you.php:208
+#: you2you.php:223
 msgid "The delivery date should be after today's date"
 msgstr "La date de livraison doit être supérieur "
 
-#: you2you.php:227
+#: you2you.php:242
 msgid "The shop is closed in this day"
 msgstr "La boutique sera fermée. Choisissez un autre créneau de livraison."
 
-#: you2you.php:233
+#: you2you.php:248
 msgid "The shop is closed at that hour in the morning"
 msgstr ""
 
-#: you2you.php:239
+#: you2you.php:254
 msgid "The shop is closed at that hour in the afternoon"
 msgstr ""
 
-#: you2you.php:265
+#: you2you.php:280
 msgid "Your delivery will be posted to you2you after the payment is made"
-msgstr "Votre commande sera transmise à You2you après la confirmation de votre paiement."
+msgstr ""
+"Votre commande sera transmise à You2you après la confirmation de votre "
+"paiement."
 
-#: you2you.php:294
+#: you2you.php:309
 msgid "You2you Order"
 msgstr "Commande You2you"
 
-#: you2you.php:295
+#: you2you.php:310
 #, php-format
 msgid "A order has been placed. \\nOrder ID: %d\\n%s"
 msgstr "La commande a été enregistrée. \\n N° de commande : %d\\n%s"
