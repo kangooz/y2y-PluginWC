@@ -189,7 +189,6 @@ class Y2YWSM_CORE{
                 . 'Livraison collaborative.';
 
         } 
-
         return $label;
     }
     
