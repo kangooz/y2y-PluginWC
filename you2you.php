@@ -57,6 +57,7 @@ class Y2YWSM_CORE{
     private $api;
     
     public $available_languages = array();
+    
     public function __construct() {
         
         if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -105,7 +106,7 @@ class Y2YWSM_CORE{
         $this->lunch_time_beginning = $options['lunch_time_beginning'];
         $this->lunch_time_endding = $options['lunch_time_endding'];
         $this->closed_day = $options['closed_day'];
-        $this->timeout = $options['timeout'];
+        $this->timeout = isset($options['timeout']) ? $options['timeout'] : 0;
         $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
         
         $this->available_languages = array(
@@ -142,7 +143,16 @@ class Y2YWSM_CORE{
         wp_enqueue_script( 'datetimepicker-i18n',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker/i18n/DateTimePicker-i18n-'.$lang_code.'.js', array('datetimepicker-js'), Y2YWSM_VERSION, true );
         
         wp_enqueue_script( 'y2ywsm-js', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
-        wp_localize_script('y2ywsm-js', 'options', array('lang' => $lang_code));
+        
+        $minDate = $this->getMinDate();
+        wp_localize_script('y2ywsm-js', 'options', array(
+            'lang' => $lang_code, 
+            'dateTimePicker' => array(
+                'defaultValue' => $this->getMinDateForJS($minDate), 
+                'minDateTime' => $minDate
+                )
+            )
+        );
         
         
         /** Styles **/
@@ -186,6 +196,9 @@ class Y2YWSM_CORE{
         $fields['billing']['delivery_date'] = array(
             'type' => 'text',
             'required' => false,
+            'custom_attributes' => array(
+                'autocomplete' => 'off'
+            ),
             'label' => '<br><strong>'.__('You2you, collaborative delivery','y2ywsm').'</strong>'
                 . '<br>'.__('Choose your delivery date','y2ywsm')
         );
@@ -313,7 +326,6 @@ class Y2YWSM_CORE{
         }
         return $field;
     }
-
     
     public function get_language_code(){
         $lang = $this->get_wp_language_code();
@@ -337,6 +349,45 @@ class Y2YWSM_CORE{
         }
         
         return get_locale();*/
+    }
+    
+    private function getMinDateForJS($date = ''){
+        if($date == ''){
+            return date('D M d Y H:i:s O', strtotime($this->getMinDate()));
+        }else{
+            return date('D M d Y H:i:s O', strtotime($date));
+        }
+        
+        //return date('d-m-Y H:i', strtotime($this->getMinDate()));
+    }
+    
+    private function getMinDate(){
+        $todayWithTimeout = date('d-m-Y H:i', strtotime('+'.$this->timeout.' hours'));
+        return $todayWithTimeout;
+        /*$weekDay = date('w');
+        
+        if($this->closed_day[$weekDay] == 'no'){
+            
+        }
+        $closingAt = isset($this->openning_hours_endding[$weekDay]);
+        if($todayWithTimeout < $closedAt){
+            $nextDay = $this->getNextAvailableDayOfWeek();
+        }*/
+    }
+    
+    private function getNextAvailableDayOfWeek($weekDay = ''){
+        if($weekDay == ''){
+            $weekDay = date('w');
+        }
+        
+        $availableWeekDay = ($weekDay + 1 < 7) ? $weekDay + 1 : 0;
+        
+        if( isset($this->closed_day[$availableWeekDay]) && $this->closed_day[$availableWeekDay] == 'yes'){
+            return $this->getNextAvailableDayOfWeek($availableWeekDay);
+        }else{
+            return $weekDay;
+        }
+        
     }
 }
 new Y2YWSM_CORE;

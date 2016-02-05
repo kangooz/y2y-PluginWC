@@ -132,6 +132,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'custom_attributes' => array(
                         'min' => '2',
                     ),
+                    'default' => 2,
                     'description' => __('Time in hours that you need to prepare a delivery. Minimum is 2 hours', 'y2ywsm'),
                 )
             );
