@@ -128,13 +128,11 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 ),
                 'timeout' => array(
                     'title' => __('Time Out', 'y2ywsm'),
-                    'type' => 'text',
-                    'description' => __('Time in hours that you need to prepare a delivery', 'y2ywsm'),
-                ),
-                'email' => array(
-                    'title' => __('Email', 'y2ywsm'),
-                    'type' => 'text',
-                    'description' => __('Email to be contacted when some products is ordered through You2you', 'y2ywsm'),
+                    'type' => 'number',
+                    'custom_attributes' => array(
+                        'min' => '2',
+                    ),
+                    'description' => __('Time in hours that you need to prepare a delivery. Minimum is 2 hours', 'y2ywsm'),
                 )
             );
         }

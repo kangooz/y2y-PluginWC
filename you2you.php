@@ -106,7 +106,6 @@ class Y2YWSM_CORE{
         $this->lunch_time_endding = $options['lunch_time_endding'];
         $this->closed_day = $options['closed_day'];
         $this->timeout = $options['timeout'];
-        $this->email = $options['email'];
         $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
         
         $this->available_languages = array(
@@ -250,16 +249,6 @@ class Y2YWSM_CORE{
                 return;
             }
             */
-            
-            $to      = $this->email;
-            $subject = 'You2you Order';
-            $message = 'A order has been placed.';
-            $headers = 'From: website@you2you.com' . "\r\n" .
-                'Reply-To: no-reply@you2you.com' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
-
-            mail($to, $subject, $message, $headers);
-            wc_add_notice('Registed' , 'success' );
         }
         
     }
@@ -285,7 +274,7 @@ class Y2YWSM_CORE{
         
         $order = wc_get_order($order_id);
         
-        $this->api->post('deliveries', array(
+        /*$this->api->post('deliveries', array(
             'street' => $order->shipping_address_1,
             'city' => $order->shipping_city,
             'country' => $order->shipping_country,
@@ -299,7 +288,17 @@ class Y2YWSM_CORE{
             'compensation' => 8,
             
             
-        ));
+        ));*/
+        
+        $to      = 'support@partner-it-group.com';
+        $subject = __('You2you Order', 'y2ywsm');
+        $message = sprintf(__('A order has been placed. \nOrder ID: %d\n%s', 'y2ywsm'),$order_id, var_dump($order->get_items()));
+        
+        
+        $headers = array('From: Me Myself <me@example.net>',
+            'Content-Type: text/html; charset=UTF-8');
+
+        wp_mail($to, $subject, $message, $headers);
         $wpdb->update(
                 $wpdb->prefix.'y2y_deliveries',
                 array( 'status' => 2),
