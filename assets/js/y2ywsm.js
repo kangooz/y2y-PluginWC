@@ -21,15 +21,12 @@
         });
         
         if($("input[name='shipping_method[0]'][value=You2You]").length > 0){
-            console.log('length > 0');
             if($("input[name='shipping_method[0]']").length > 1){
                 if($("input[name='shipping_method[0]'][value=You2You]").is(':checked')){
-                    console.log('checked');
                     $('#delivery_date_field').show();
                 }
                 else
                 {
-                    console.log('not checked');
                     $('#delivery_date_field').hide();
                 };
             }else{
@@ -38,7 +35,6 @@
             
             
         }else{
-            console.log('length < 0');
             $('#delivery_date_field').hide();
         }
         

@@ -351,7 +351,7 @@ class Y2YWSM_CORE{
                         . 'Lastname: %s<br>'
                         . 'Shipstart: %s<br>'
                         . 'Shipend: %s<br>'
-                        . 'Compensation: %s&eur;', 
+                        . 'Compensation: %s&euro;', 
                 'y2ywsm'),
                 $this->store_address,
                 $this->store_postalcode,

@@ -143,7 +143,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @return void
          */
         public function calculate_shipping($package) {
-            $destination = $package['destination'];
+            /*$destination = $package['destination'];
             if(empty($destination['country']) || empty($destination['address']) || empty($destination['postcode']) || empty($destination['city'])){
                 //wc_add_notice(__("Please fill all the mandatory destination details."),'error');
                 return;
@@ -161,7 +161,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     //wc_add_notice(__("Please choose a valid postcod\ZIP"),'error');
                     return;
                 }
-            }
+            }*/
             $rate = array(
                 'id' => $this->id,
                 'label' => __('You2You', 'y2ywsm'), //$this->title,
