@@ -2,12 +2,13 @@
 /**
  * Plugin Name: You2You WooCommerce Shipping Method
  * Plugin URI: http://www.you2you.fr
- * Description: 
+ * Description: This plugin allows user's to choose You2You as the shipping method in WooCommerce
  * Version: 0.0.1
  * Author: You2You
  * Author URI: http://www.you2you.fr
  *
  * Text Domain: y2ywsm
+ * Domain Path: /i18n/
  *
  * @author You2you
  */
@@ -200,7 +201,8 @@ class Y2YWSM_CORE{
                 'autocomplete' => 'off'
             ),
             'label' => '<br><strong>'.__('You2you, collaborative delivery','y2ywsm').'</strong>'
-                . '<br>'.__('Choose your delivery date','y2ywsm')
+                . '<br>'.__('Choose your delivery date','y2ywsm'),
+            'description' => __('We will try to send the delivery within 2 hours from this time', 'y2ywsm')
         );
         
         return $fields;
