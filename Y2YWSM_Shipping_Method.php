@@ -50,7 +50,16 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             foreach ($this->extra_field_names as $field_name) {
                 $this->{$field_name} = $this->get_option($field_name, array());
             }
-
+            
+            $this->days = array(
+                    1 => __("Monday", "y2ywsm"),
+                    2 => __("Tuesday", "y2ywsm"),
+                    3 => __("Wednesday", "y2ywsm"),
+                    4 => __("Thursday", "y2ywsm"),
+                    5 => __("Friday", "y2ywsm"),
+                    6 => __("Saturday", "y2ywsm"),
+                    0 => __("Sunday", "y2ywsm"),
+                );
             //Test connection
             $this->test_connection_with_api();
 
@@ -68,18 +77,41 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @return array The fields to save in the database
          */
         public function filter_update_fields($fields) {
-
+/*
+            //Validate timeout
+            if(!empty($fields['timeout'])){
+                $fields['timeout'] = str_replace(",",".",$fields['timeout']);
+                $fields['timeout'] = ($fields['timeout']>2) ? 2 : $fields['timeout'];
+            }else{ __('Timout is empty!','y2ywsm'); }
+            
+            */
             for ($i = 0; $i < 7; $i++) {
-
                 foreach ($this->extra_field_names as $field) {
-
                     $input_name = 'woocommerce_' . $this->id . '_' . $field;
                     if (!empty($_POST[$input_name])) {
                         $fields[$field] = $_POST[$input_name];
                     }
                 }
             }
-
+            /*
+            //validate hours of days
+            $error = 0;
+            $days = '';
+            for ($i = 0; $i < 7; $i++) {
+                if(strtotime($fields['openning_hours_beginning'][$i]) > strtotime($fields['openning_hours_endding'][$i])){
+                    $error = 1;
+                    $days .= $this->days[$i].', ';
+                }
+            }
+            $days = substr($days, 0, -1).'.';
+            
+            if($error == 1){
+                //wc_add_notice(__('Invalid hours in the following day(s):'). $days,'error');
+            }
+            
+            //wp_die(var_dump($error));
+            //wp_die(var_dump($fields));
+*/
             //Check the api
             $api = new Y2YWSM_API($fields['api_key'], $fields['api_secret']);
             if ($api->test_connection() === false) {
@@ -134,20 +166,31 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     ),
                     'default' => 2,
                     'description' => __('Time in hours that you need to prepare a delivery. Minimum is 2 hours', 'y2ywsm'),
-                )
+                ),
+                'country' => array(
+                    'title' => __('Country', 'y2ywsm'),
+                    'type' => 'text',
+                ),
+                'city' => array(
+                    'title' => __('City', 'y2ywsm'),
+                    'type' => 'text',
+                ),
+                'address' => array(
+                    'title' => __('Address', 'y2ywsm'),
+                    'type' => 'text',
+                ),
+                'postcode_zip' => array(
+                    'title' => __('Postcode/ZIP', 'y2ywsm'),
+                    'type' => 'text',
+                ),
+                'add_info' => array(
+                    'title' => __('Addicional Information', 'y2ywsm'),
+                    'type' => 'text',
+                ),
             );
         }
 
         public function admin_options() {
-            $days = array(
-                1 => __("Monday", "y2ywsm"),
-                2 => __("Tuesday", "y2ywsm"),
-                3 => __("Wednesday", "y2ywsm"),
-                4 => __("Thursday", "y2ywsm"),
-                5 => __("Friday", "y2ywsm"),
-                6 => __("Saturday", "y2ywsm"),
-                0 => __("Sunday", "y2ywsm"),
-            );
             ?>
             <h2><?php echo $this->title; ?></h2>
             <p><?php echo $this->method_description; ?></p>
