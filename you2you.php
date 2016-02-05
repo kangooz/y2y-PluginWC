@@ -341,7 +341,7 @@ class Y2YWSM_CORE{
         $subject = __('You2you Order', 'y2ywsm');
         $message = sprintf(
                 __('A order has been placed.<br>'
-                        . 'Store: %s, %s %s %s'
+                        . 'Store: %s, %s %s %s<br>'
                         . 'Store information: %s<br>'
                         . 'Order details: %s<br>'
                         . 'Destination: %s, %s %s %s <br>'
