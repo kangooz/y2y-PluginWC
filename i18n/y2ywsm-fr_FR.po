@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: y2ywsm 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-05 14:16+0000\n"
+"POT-Creation-Date: 2016-02-05 19:23+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -161,7 +161,7 @@ msgstr "Choisis le créneau de livraison."
 
 #: you2you.php:205
 msgid "We will try to send the delivery within 2 hours from this time"
-msgstr ""
+msgstr "Un créneau de 2 heures est à prévoir à partir de l'heure sélectionnée."
 
 #: you2you.php:215
 msgid "We need to know the date for the delivery"
@@ -178,10 +178,13 @@ msgstr "La boutique sera fermée. Choisissez un autre créneau de livraison."
 #: you2you.php:248
 msgid "The shop is closed at that hour in the morning"
 msgstr ""
+"Nous ne pouvons pas livrer si tôt. Choisissez un autre créneau de livraison."
 
 #: you2you.php:254
 msgid "The shop is closed at that hour in the afternoon"
 msgstr ""
+"Nous ne pouvons pas livrer à l'heure sélectionnée. Choisissez un autre "
+"créneau de livraison."
 
 #: you2you.php:280
 msgid "Your delivery will be posted to you2you after the payment is made"
