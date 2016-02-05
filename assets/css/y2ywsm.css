@@ -12,15 +12,14 @@
     border: 1px solid #ccc;
     text-align: center
 }
-
-.y2ywsm-datepicker-holder a{
+.y2ywsm-datepicker-holder .dtpicker-header a,
+.y2ywsm-datepicker-holder .dtpicker-components a, 
+.y2ywsm-datepicker-holder .dtpicker-buttonCont a {
     border: 0px;
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
     text-decoration: none !important;
-    background: none;
-    color: #fff !important;
     
     
     

@@ -14,6 +14,14 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             'lunch_time_endding',
             'closed_day',
         );
+        
+        public $days = array();
+        
+        public $enabled;
+        
+        public $api_secret;
+        public $api_key;
+        public $timeout;
 
         /**
          * Constructor for your shipping class
@@ -192,25 +200,25 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'default' => 2,
                     'description' => __('Time in hours that you need to prepare a delivery. Minimum is 2 hours', 'y2ywsm'),
                 ),
-                'country' => array(
-                    'title' => __('Country', 'y2ywsm'),
+                'store_country' => array(
+                    'title' => __('Store country', 'y2ywsm'),
                     'type' => 'text',
                 ),
-                'city' => array(
-                    'title' => __('City', 'y2ywsm'),
+                'store_city' => array(
+                    'title' => __('Store city', 'y2ywsm'),
                     'type' => 'text',
                 ),
-                'address' => array(
-                    'title' => __('Address', 'y2ywsm'),
+                'store_address' => array(
+                    'title' => __('Store address', 'y2ywsm'),
                     'type' => 'text',
                 ),
-                'postcode_zip' => array(
-                    'title' => __('Postcode/ZIP', 'y2ywsm'),
+                'store_postalcode' => array(
+                    'title' => __('Store postal code', 'y2ywsm'),
                     'type' => 'text',
                 ),
-                'add_info' => array(
-                    'title' => __('Addicional Information', 'y2ywsm'),
-                    'type' => 'text',
+                'store_information' => array(
+                    'title' => __('Store additional Information', 'y2ywsm'),
+                    'type' => 'textarea',
                 ),
             );
         }

@@ -86,7 +86,7 @@ class Y2YWSM_CORE{
             add_action( 'woocommerce_after_checkout_validation', array($this, 'validate_you2you_fields_before_checkout'));
             
             //Add delivery to database
-            add_action( 'woocommerce_checkout_order_processed', array($this, 'insert_delivery_in_db'));
+            add_action( 'woocommerce_checkout_order_processed', array($this, 'insert_delivery_in_db'), 10, 2);
             
             //Add delivery to the you2you using the you2you api
             add_action('woocommerce_order_status_processing', array($this, 'add_delivery_to_y2y'));
@@ -100,14 +100,18 @@ class Y2YWSM_CORE{
     public function load_options(){
         $options = get_option('woocommerce_'.Y2YWSM_ID.'_settings');
         
-        $this->api_secret = $options['api_secret'];
+        foreach($options as $key => $value){
+            $this->$key = $value;
+        }
+        /*$this->api_secret = $options['api_secret'];
         $this->api_key = $options['api_key'];
         $this->openning_hours_beginning = $options['openning_hours_beginning'];
         $this->openning_hours_endding= $options['openning_hours_endding'];
         $this->lunch_time_beginning = $options['lunch_time_beginning'];
         $this->lunch_time_endding = $options['lunch_time_endding'];
         $this->closed_day = $options['closed_day'];
-        $this->timeout = isset($options['timeout']) ? $options['timeout'] : 0;
+        $this->timeout = isset($options['timeout']) ? $options['timeout'] : 0;*/
+        
         $this->api = new Y2YWSM_API($this->api_key, $this->api_secret);
         
         $this->available_languages = array(
@@ -288,6 +292,35 @@ class Y2YWSM_CORE{
         
         $order = wc_get_order($order_id);
         
+        $order_details = '';
+        $items = $order->get_items();
+        foreach($items as $item){
+            $product_id = $item['product_id'];
+            $order_details .= sprintf(
+                    __(
+                      '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name: %s<br>'
+                    . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quantity: %s<br>',
+                    'y2ywsm'),
+                    $item['name'],
+                    $item['qty']);
+            
+            $product = wc_get_product($product_id);
+            if($product != false){
+                $order_details .= sprintf(
+                        __(
+                            '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width: %s<br>'
+                          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Length: %s<br>'
+                          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height: %s<br>'
+                          . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Weight: %s<br>', 
+                        'y2ywsm'),
+                        (empty($product->width) ? __("undefined", 'y2ywsm') : $product->width),
+                        (empty($product->length) ? __("undefined", 'y2ywsm') : $product->length),
+                        (empty($product->height) ? __("undefined", 'y2ywsm') : $product->height),
+                        (empty($product->weight) ? __("undefined", 'y2ywsm') : $product->weight)
+                        );
+            }
+        }
+        
         /*$this->api->post('deliveries', array(
             'street' => $order->shipping_address_1,
             'city' => $order->shipping_city,
@@ -304,13 +337,43 @@ class Y2YWSM_CORE{
             
         ));*/
         
-        $to      = 'support@partner-it-group.com';
+        $to      = 'contact@you2you.fr';
         $subject = __('You2you Order', 'y2ywsm');
-        $message = sprintf(__('A order has been placed. \nOrder ID: %d\n%s', 'y2ywsm'),$order_id, var_dump($order->get_items()));
+        $message = sprintf(
+                __('A order has been placed.<br>'
+                        . 'Store: %s, %s %s %s'
+                        . 'Store information: %s<br>'
+                        . 'Order details: %s<br>'
+                        . 'Destination: %s, %s %s %s <br>'
+                        . 'Destination information: %s<br>'
+                        . 'Company: %s<br>'
+                        . 'Firstname: %s<br>'
+                        . 'Lastname: %s<br>'
+                        . 'Shipstart: %s<br>'
+                        . 'Shipend: %s<br>'
+                        . 'Compensation: %s&eur;', 
+                'y2ywsm'),
+                $this->store_address,
+                $this->store_postalcode,
+                $this->store_city,
+                $this->store_country,
+                $this->store_information,
+                $order_details,
+                $order->shipping_address_1,
+                $order->shipping_postcode,
+                $order->shipping_city,   
+                $order->shipping_country,
+                $order->shipping_address_2,
+                $order->shipping_company,
+                $order->shipping_first_name,
+                $order->shipping_last_name,
+                $db_row->delivery_date,
+                date('Y-m-d H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
+                8
+        );
         
         
-        $headers = array('From: Me Myself <me@example.net>',
-            'Content-Type: text/html; charset=UTF-8');
+        $headers = array('Content-Type: text/html; charset=UTF-8');
 
         wp_mail($to, $subject, $message, $headers);
         $wpdb->update(
