@@ -77,14 +77,16 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @return array The fields to save in the database
          */
         public function filter_update_fields($fields) {
-/*
+
             //Validate timeout
             if(!empty($fields['timeout'])){
                 $fields['timeout'] = str_replace(",",".",$fields['timeout']);
                 $fields['timeout'] = ($fields['timeout']>2) ? 2 : $fields['timeout'];
-            }else{ __('Timout is empty!','y2ywsm'); }
+            }else{
+                __('Timout is empty!','y2ywsm');
+            }
             
-            */
+            
             for ($i = 0; $i < 7; $i++) {
                 foreach ($this->extra_field_names as $field) {
                     $input_name = 'woocommerce_' . $this->id . '_' . $field;
@@ -93,7 +95,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     }
                 }
             }
-            /*
+            
             //validate hours of days
             $error = 0;
             $days = '';
@@ -102,16 +104,20 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     $error = 1;
                     $days .= $this->days[$i].', ';
                 }
+                //Verify Closed days
+                if(empty($fields['openning_hours_beginning'][$i]) || empty($fields['openning_hours_endding'][$i])){
+                    $fields['closed_day'][$i] = 'yes';
+                }
             }
             $days = substr($days, 0, -1).'.';
-            
             if($error == 1){
-                //wc_add_notice(__('Invalid hours in the following day(s):'). $days,'error');
+                wc_add_notice(__('Invalid hours in the following day(s):'). $days,'error');
             }
+            
             
             //wp_die(var_dump($error));
             //wp_die(var_dump($fields));
-*/
+
             //Check the api
             $api = new Y2YWSM_API($fields['api_key'], $fields['api_secret']);
             if ($api->test_connection() === false) {
@@ -129,6 +135,25 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @return void
          */
         public function calculate_shipping($package) {
+            $destination = $package['destination'];
+            if(empty($destination['country']) || empty($destination['address']) || empty($destination['postcode']) || empty($destination['city'])){
+                //wc_add_notice(__("Please fill all the mandatory destination details."),'error');
+                return;
+            }
+            if(strtoupper($destination['country'])=='FR'){
+                $frpostcodes = array('75','92','93','94','95');
+                $exists = 0;
+                foreach($frpostcodes as $frpostcode){
+                    //wp_die($frpostcode.'----- '.substr($destination['postcode'],0,2));
+                    if(substr($destination['postcode'],0,2) == $frpostcode){
+                        $exists = 1;
+                    }
+                }
+                if($exists == 0){
+                    //wc_add_notice(__("Please choose a valid postcod\ZIP"),'error');
+                    return;
+                }
+            }
             $rate = array(
                 'id' => $this->id,
                 'label' => __('You2You', 'y2ywsm'), //$this->title,
@@ -214,7 +239,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                         ?>
                         <tr>
                             <td>
-                                <?php echo $days[$i] ?>
+                                <?php echo $this->days[$i] ?>
                             </td>
                             <td>
                                 <?php echo $this->generate_custom_input($this->extra_field_names[0], $i)
