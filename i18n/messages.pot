@@ -237,7 +237,7 @@ msgstr ""
 #, php-format
 msgid ""
 "A order has been placed.<br>Store: %s, %s %s %s<br>Store information: "
-"%s<br>Order details: %s<br>Destination: %s, %s %s %s <br>Destination "
+"%s<br>Order details: %s<br>Destination: %s, %s %s %s <br>%s<br>Destination "
 "information: %s<br>Company: %s<br>Firstname: %s<br>Lastname: "
 "%s<br>Shipstart: %s<br>Shipend: %s<br>Compensation: %s&euro;"
 msgstr ""

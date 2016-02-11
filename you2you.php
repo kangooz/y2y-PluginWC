@@ -345,6 +345,7 @@ class Y2YWSM_CORE{
                         . 'Store information: %s<br>'
                         . 'Order details: %s<br>'
                         . 'Destination: %s, %s %s %s <br>'
+                        . '%s<br>'
                         . 'Destination information: %s<br>'
                         . 'Company: %s<br>'
                         . 'Firstname: %s<br>'
@@ -364,16 +365,17 @@ class Y2YWSM_CORE{
                 $order->shipping_city,   
                 $order->shipping_country,
                 $order->shipping_address_2,
+                $order->customer_message,
                 $order->shipping_company,
                 $order->shipping_first_name,
                 $order->shipping_last_name,
-                $db_row->delivery_date,
-                date('Y-m-d H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
+                date('d/m/Y H:i:s',strtotime($db_row->delivery_date)),
+                date('d/m/Y H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
                 8
         );
         
         
-        $headers = array('Content-Type: text/html; charset=UTF-8');
+        $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: support@partner-it-group.com');
 
         wp_mail($to, $subject, $message, $headers);
         $wpdb->update(
