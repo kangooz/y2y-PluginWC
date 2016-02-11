@@ -54,7 +54,7 @@ msgid "Sunday"
 msgstr ""
 
 #: Y2YWSM_Shipping_Method.php:94
-msgid "Timout is empty!"
+msgid "Timeout is empty!"
 msgstr ""
 
 #: Y2YWSM_Shipping_Method.php:122

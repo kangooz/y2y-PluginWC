@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: y2ywsm 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-11 19:36+0100\n"
+"POT-Creation-Date: 2016-02-11 18:47+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -57,7 +57,7 @@ msgid "Sunday"
 msgstr "Dimanche"
 
 #: Y2YWSM_Shipping_Method.php:94
-msgid "Timout is empty!"
+msgid "Timeout is empty!"
 msgstr "Veuillez renseigner un temps de préparation."
 
 #: Y2YWSM_Shipping_Method.php:122
@@ -260,6 +260,9 @@ msgstr ""
 "magasin: %s<br>Détails de la commande : %s<br>Destination: %s, %s %s %s "
 "<br>Information destination : %s<br>Société : %s<br>Prénom : %s<br>Nom : "
 "%s<br>Début du créneau: %s<br>Fin du créneau : %s<br>Compensation : %s&euro;"
+
+#~ msgid "Timout is empty!"
+#~ msgstr "Veuillez renseigner un temps de préparation."
 
 #~ msgid "A order has been placed. \\nOrder ID: %d\\n%s"
 #~ msgstr "La commande a été enregistrée. \\n N° de commande : %d\\n%s"

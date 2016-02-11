@@ -91,7 +91,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 $fields['timeout'] = str_replace(",",".",$fields['timeout']);
                 $fields['timeout'] = ($fields['timeout']>2) ? 2 : $fields['timeout'];
             }else{
-                __('Timout is empty!','y2ywsm');
+                __('Timeout is empty!','y2ywsm');
             }
             
             
@@ -165,7 +165,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             $rate = array(
                 'id' => $this->id,
                 'label' => __('You2You', 'y2ywsm'), //$this->title,
-                'cost' => '8',
+                'cost' => '0',
             );
 
             // Register the rate
