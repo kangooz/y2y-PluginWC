@@ -98,7 +98,7 @@ class Y2YWSM_CORE{
     }
     
     public function load_options(){
-        $options = get_option('woocommerce_'.Y2YWSM_ID.'_settings');
+        $options = get_option('woocommerce_'.Y2YWSM_ID.'_settings', array());
         
         foreach($options as $key => $value){
             $this->$key = $value;
