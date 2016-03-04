@@ -234,7 +234,7 @@ class Y2YWSM_CORE{
             $postcode = (!empty($data['shipping_postcode']) ? $data['shipping_postcode'] : $data['billing_postcode']);
             
             if(!self::isValidPostCode($postcode)){
-                wc_add_notice(sprintf(__('We only ship to this post codes beggining with %s', 'y2ywsm'), implode(self::$validPostCodes)), 'error');
+                wc_add_notice(sprintf(__('You2You is only available for postcodes beggining with %s', 'y2ywsm'), implode(', ',self::$validPostCodes)), 'error');
                 return;
             }
             
