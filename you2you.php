@@ -52,6 +52,13 @@ function y2ywsm_install(){
 
 class Y2YWSM_CORE{
 
+    public static $validPostCodes = array(
+        '75',
+        '92',
+        '93',
+        '94'
+    );
+    
     private $api_key = '';
     private $api_secret = '';
     
@@ -129,6 +136,16 @@ class Y2YWSM_CORE{
             
         );
         
+    }
+    
+    public static function isValidPostCode($postcode){
+        foreach (self::$validPostCodes as $frpostcode) {
+            if (substr($postcode, 0, 2) == $frpostcode) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public function init_shipping(){
@@ -213,6 +230,14 @@ class Y2YWSM_CORE{
     
     public function validate_you2you_fields_before_checkout($data){
         if(in_array(Y2YWSM_ID, $data['shipping_method'])){
+            //Validate the postal code
+            $postcode = (!empty($data['shipping_postcode']) ? $data['shipping_postcode'] : $data['billing_postcode']);
+            
+            if(!self::isValidPostCode($postcode)){
+                wc_add_notice(sprintf(__('We only ship to this post codes beggining with %s', 'y2ywsm'), implode(self::$validPostCodes)), 'error');
+                return;
+            }
+            
             $delivery_date = $data['delivery_date'];
             if(empty($delivery_date)){
                 wc_add_notice( __('We need to know the date for the delivery', 'y2ywsm'), 'error' );
@@ -267,6 +292,8 @@ class Y2YWSM_CORE{
                 return;
             }
             */
+            
+            
         }
         
     }

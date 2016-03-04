@@ -143,33 +143,23 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          * @return void
          */
         public function calculate_shipping($package) {
-            /*$destination = $package['destination'];
-            if(empty($destination['country']) || empty($destination['address']) || empty($destination['postcode']) || empty($destination['city'])){
-                //wc_add_notice(__("Please fill all the mandatory destination details."),'error');
+            $destination = $package['destination'];
+            if (empty($destination['country']) || empty($destination['address']) || empty($destination['postcode']) || empty($destination['city'])) {
                 return;
             }
-            if(strtoupper($destination['country'])=='FR'){
-                $frpostcodes = array('75','92','93','94','95');
-                $exists = 0;
-                foreach($frpostcodes as $frpostcode){
-                    //wp_die($frpostcode.'----- '.substr($destination['postcode'],0,2));
-                    if(substr($destination['postcode'],0,2) == $frpostcode){
-                        $exists = 1;
-                    }
-                }
-                if($exists == 0){
-                    //wc_add_notice(__("Please choose a valid postcod\ZIP"),'error');
-                    return;
-                }
-            }*/
-            $rate = array(
-                'id' => $this->id,
-                'label' => __('You2You', 'y2ywsm'), //$this->title,
-                'cost' => '8',
-            );
+            if (strtoupper($destination['country']) == 'FR') {
+                
+                if (Y2YWSM_CORE::isValidPostCode($destination['postcode'])) {
+                    $rate = array(
+                        'id' => $this->id,
+                        'label' => __('You2You', 'y2ywsm'), //$this->title,
+                        'cost' => '8',
+                    );
 
-            // Register the rate
-            $this->add_rate($rate);
+                    // Register the rate
+                    $this->add_rate($rate);
+                }
+            }
         }
 
         /**

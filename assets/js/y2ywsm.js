@@ -20,25 +20,7 @@
             defaultDate: options.dateTimePicker.defaultValue
         });
         
-        if($("input[name='shipping_method[0]'][value=You2You]").length > 0){
-            if($("input[name='shipping_method[0]']").length > 1){
-                if($("input[name='shipping_method[0]'][value=You2You]").is(':checked')){
-                    $('#delivery_date_field').show();
-                }
-                else
-                {
-                    $('#delivery_date_field').hide();
-                };
-            }else{
-                $('#delivery_date_field').show();
-            }
-            
-            
-        }else{
-            $('#delivery_date_field').hide();
-        }
-        
-        
+        checkShippingMethod();
         
         $(document).on('click', "input[name='shipping_method[0]']", function(){
             if($(this).val() === 'You2You')
@@ -55,24 +37,26 @@
             }
         });
             
-        //$( "#delivery_date" ).DateTimePicker();
+        $(document.body).on('updated_checkout', checkShippingMethod);
         
-        /*if($('#shipping_method_0_you2you').is(':checked')){
-            $("#delivery_date").css("display","block");
-        };
-        
-        $(document).on('click', "input[name='shipping_method[0]']", function(){
-            if($(this).val() === 'You2You')
-            {
-                $("#delivery_date").css("display","block");
-                $('html, body').animate({
-                    scrollTop: $("#delivery_date").offset().top-70
-                }, 1000);
+        function checkShippingMethod(e){
+            if($("input[name='shipping_method[0]'][value=You2You]").length > 0){
+                if($("input[name='shipping_method[0]']").length > 1){
+                    if($("input[name='shipping_method[0]'][value=You2You]").is(':checked')){
+                        $('#delivery_date_field').show();
+                    }
+                    else
+                    {
+                        $('#delivery_date_field').hide();
+                    };
+                }else{
+                    $('#delivery_date_field').show();
+                }
+
+
+            }else{
+                $('#delivery_date_field').hide();
             }
-            else
-            {
-                $("#delivery_date").css("display","none");
-            }
-        });*/
+        }
     });
 })(jQuery);
