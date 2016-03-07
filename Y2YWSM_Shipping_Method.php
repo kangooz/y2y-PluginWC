@@ -144,7 +144,10 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          */
         public function calculate_shipping($package) {
             $destination = $package['destination'];
-            if (empty($destination['country']) || empty($destination['address']) || empty($destination['postcode']) || empty($destination['city'])) {
+            /*if (empty($destination['country']) || empty($destination['address']) || empty($destination['postcode']) || empty($destination['city'])) {
+                return;
+            }*/
+            if (empty($destination['country']) && empty($destination['postcode'])){
                 return;
             }
             if (strtoupper($destination['country']) == 'FR') {
