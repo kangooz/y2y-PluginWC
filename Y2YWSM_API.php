@@ -4,7 +4,7 @@ if (!class_exists('Y2YWSM_API')) {
 
     class Y2YWSM_API {
 
-        protected $host = 'localhost:9000/api';
+        protected $host = 'localhost:9050/api';
         protected $curl;
         protected $url = '';
         protected $method = '';
@@ -194,14 +194,13 @@ if (!class_exists('Y2YWSM_API')) {
         }
         
         public function test_connection(){
-            return true;
             if(empty($this->api_secret) || empty($this->api_key)){
                 return false;
             }
             
-            $result = $this->get('/deliveries');
+            $result = $this->get('auth/test');
             
-            if(in_array($result['response_code'], array(401, 403))){
+            if(in_array($result['reponse_code'], array(401, 403, 404, 500))){
                 return false;
             }
             
