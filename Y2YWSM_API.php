@@ -194,6 +194,7 @@ if (!class_exists('Y2YWSM_API')) {
         }
         
         public function test_connection(){
+            return true;
             if(empty($this->api_secret) || empty($this->api_key)){
                 return false;
             }
