@@ -181,7 +181,7 @@ if (!class_exists('Y2YWSM_API')) {
 
             return array(
                 'result' => json_decode(curl_exec($this->curl)),
-                'reponse_code' => curl_getinfo($this->curl, CURLINFO_HTTP_CODE),
+                'response_code' => curl_getinfo($this->curl, CURLINFO_HTTP_CODE),
                 'errno' => curl_errno($this->curl),
                 'error' => curl_error($this->curl)
             );
@@ -201,7 +201,7 @@ if (!class_exists('Y2YWSM_API')) {
             
             $result = $this->get('auth/test');
             
-            if(in_array($result['reponse_code'], array(401, 403, 404, 500))){
+            if(in_array($result['response_code'], array(401, 403, 404, 500))){
                 return false;
             }
             
