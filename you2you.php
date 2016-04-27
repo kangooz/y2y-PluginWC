@@ -96,7 +96,10 @@ class Y2YWSM_CORE{
             add_action( 'woocommerce_checkout_order_processed', array($this, 'insert_delivery_in_db'), 10, 2);
             
             //Add delivery to the you2you using the you2you api
-            add_action('woocommerce_order_status_processing', array($this, 'add_delivery_to_y2y'));
+            //add_action('woocommerce_order_status_processing', array($this, 'add_delivery_to_y2y'));
+            
+            //Trigger order status changed
+            add_action('woocommerce_order_status_changed', array($this, 'order_status_changed'),10, 3);
             
             //Customize appearence of the delivery_date in the checkout form
             add_filter('woocommerce_form_field_text', array($this, 'customize_delivery_date_field'), 10, 4);
@@ -310,13 +313,26 @@ class Y2YWSM_CORE{
         wc_add_notice(__("Your delivery will be posted to you2you after the payment is made", 'y2ywsm'), 'notice');
     }
     
-    public function add_delivery_to_y2y($order_id){
+    public function order_status_changed($order_id, $old_status, $new_status){
         global $wpdb;
-        $db_row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}y2y_deliveries WHERE wc_order_id = {$order_id} AND status = 1");
-        if(db_row === null){
+        $db_row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}y2y_deliveries WHERE wc_order_id = {$order_id}");
+        if($db_row === null){
             return;
         }
         
+        if($db_row->status == 1 && ($new_status == 'processing' 
+                || $new_status == 'completed' 
+                || $new_status == 'on-hold')){
+            $this->add_delivery_to_y2y($order_id, $db_row);
+        }else if($db_row->status == 2 && ($new_status == 'pending' 
+                || $new_status == 'failed' 
+                || $new_status == 'cancelled')){
+            $this->remove_delivery_from_y2y($order_id, $db_row);
+        }
+    }
+    
+    protected function add_delivery_to_y2y($order_id, $db_row = null){
+        global $wpdb;
         $order = wc_get_order($order_id);
         
         $order_details = '';
@@ -364,10 +380,10 @@ class Y2YWSM_CORE{
             
         ));*/
         
-        $to      = 'contact@you2you.fr';
-        $subject = __('You2you Order', 'y2ywsm');
+        $to      = 'support@partner-it-group.com';
+        $subject = __('Order added from woocommerce plugin', 'y2ywsm');
         $message = sprintf(
-                __('A order has been placed.<br>'
+                __('A order has been placed from woocommerce plugin.<br>'
                         . 'Store: %s, %s %s %s<br>'
                         . 'Store information: %s<br>'
                         . 'Order details: %s<br>'
@@ -413,6 +429,40 @@ class Y2YWSM_CORE{
         
     }
     
+    protected function remove_delivery_from_y2y($order_id, $db_row){
+        global $wpdb;
+        $order = wc_get_order($order_id);
+        
+        $to      = 'support@partner-it-group.com';
+        $subject = __('Order canceled from woocommerce plugin', 'y2ywsm');
+        $message = sprintf(
+                __('Order canceled from woocommerce plugin.<br>'
+                        . 'Store address: %s, %s %s %s<br>'
+                        . 'Shipping address: %s, %s %s %s<br>'
+                        . 'Shipstart: %s',
+                'y2ywsm'),
+                $this->store_address,
+                $this->store_postalcode,
+                $this->store_city,
+                $this->store_country,
+                $order->shipping_postcode,
+                $order->shipping_city,   
+                $order->shipping_country,
+                $order->shipping_address_2,
+                date('d/m/Y H:i:s',strtotime($db_row->delivery_date))
+                
+        );
+        
+        
+        $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: support@partner-it-group.com');
+
+        wp_mail($to, $subject, $message, $headers);
+        $wpdb->update(
+                $wpdb->prefix.'y2y_deliveries',
+                array( 'status' => 1),
+                array( 'wc_order_id' => $order_id)
+            );
+    }
     public function customize_delivery_date_field($field, $key = '', $args = '', $value = ''){
         if($key == 'delivery_date'){
             //do something

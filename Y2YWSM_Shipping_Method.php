@@ -145,7 +145,7 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     $rate = array(
                         'id' => $this->id,
                         'label' => __('You2You', 'y2ywsm'), //$this->title,
-                        'cost' => '8',
+                        'cost' => '5',
                     );
 
                     // Register the rate
