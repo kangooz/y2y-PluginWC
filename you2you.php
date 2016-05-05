@@ -59,6 +59,8 @@ class Y2YWSM_CORE{
         '94'
     );
     
+    public static $cost = 5;
+            
     private $api_key = '';
     private $api_secret = '';
     
@@ -166,22 +168,31 @@ class Y2YWSM_CORE{
         /** Scripts **/
         wp_enqueue_script( 'datetimepicker-js',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker/DateTimePicker.js', array('jquery'), Y2YWSM_VERSION, true );
         wp_enqueue_script( 'datetimepicker-i18n',  Y2YWSM_PLUGIN_URL . '/assets/js/DateTimePicker/i18n/DateTimePicker-i18n-'.$lang_code.'.js', array('datetimepicker-js'), Y2YWSM_VERSION, true );
+        wp_enqueue_script( 'calendar-js',  Y2YWSM_PLUGIN_URL . '/assets/js/jquery-calendar/jquery-ui.js', array('jquery'), Y2YWSM_VERSION, true );
+        wp_enqueue_script( 'moment-js',  Y2YWSM_PLUGIN_URL . '/assets/js/moment-with-locales/moment.js', array('jquery'), Y2YWSM_VERSION, true );
         
-        wp_enqueue_script( 'y2ywsm-js', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'datetimepicker-js'), Y2YWSM_VERSION, true );
+        wp_enqueue_script( 'y2ywsm-js', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'calendar-js'), Y2YWSM_VERSION, true );
         
         $minDate = $this->getMinDate();
+        $options = get_option('woocommerce_'.Y2YWSM_ID.'_settings', array());
+        foreach($options as $key => $value){
+            $this->$key = $value;
+        }
         wp_localize_script('y2ywsm-js', 'options', array(
-            'lang' => $lang_code, 
+            'lang' => $lang_code,
+            'hours' => $this,
             'dateTimePicker' => array(
                 'defaultValue' => $this->getMinDateForJS($minDate), 
                 'minDateTime' => $minDate
-                )
+                ),
+            'calendar_img' => Y2YWSM_PLUGIN_URL.'/assets/js/jquery-calendar/images/calendar.gif',
             )
         );
         
         
         /** Styles **/
         wp_enqueue_style( 'datetimepicker-css', Y2YWSM_PLUGIN_URL . '/assets/css/DateTimePicker.css', '', Y2YWSM_VERSION, 'all' );
+        wp_enqueue_style( 'calendar-css', Y2YWSM_PLUGIN_URL . '/assets/js/jquery-calendar/jquery-ui.css', '', Y2YWSM_VERSION, 'all' );
         wp_enqueue_style('y2ywsm-css', Y2YWSM_PLUGIN_URL . '/assets/css/y2ywsm.css', '', Y2YWSM_VERSION, 'all');
     }
     
@@ -217,7 +228,7 @@ class Y2YWSM_CORE{
     }
     
     public function add_delivery_date_to_checkout_fields($fields){
-        $fields['billing']['delivery_date'] = array(
+        $fields['billing']['sentence'] = array(
             'type' => 'text',
             'required' => false,
             'custom_attributes' => array(
@@ -225,8 +236,34 @@ class Y2YWSM_CORE{
             ),
             'label' => '<br><strong>'.__('You2you, collaborative delivery','y2ywsm').'</strong>'
                 . '<br>'.__('Choose your delivery date','y2ywsm'),
-            'description' => __('We will try to send the delivery within 2 hours from this time', 'y2ywsm')
+            'description' => __(' We will try to send the delivery within 2 hours from this time', 'y2ywsm')
         );
+        
+        $fields['billing']['hidden_date'] = array(
+            'type' => 'text',
+            'custom_attributes' => array(
+                'readonly' => 'true',
+                'class' => 'hidden',
+            ),
+            'id' => 'hidden_date',
+            'value' => 'Choose a date',
+            'label' => '<br><strong>'.__('Date','y2ywsm').'</strong>'
+                . '<br>'.__('Choose your delivery date','y2ywsm')
+        );
+        
+        $fields['billing']['hidden_time'] = array(
+            'type' => 'text',
+            'custom_attributes' => array(
+                'readonly' => 'true',
+                'class' => 'hidden',
+            ),
+            'id' => 'hidden_time',
+            'value' => 'Choose a time',
+            'label' => '<br><strong>'.__('Time','y2ywsm').'</strong>'
+                . '<br>'.__('Choose your delivery time','y2ywsm')
+        );
+        
+        
         
         return $fields;
     }
@@ -240,6 +277,7 @@ class Y2YWSM_CORE{
                 wc_add_notice(sprintf(__('You2You is only available for postcodes beggining with %s', 'y2ywsm'), implode(', ',self::$validPostCodes)), 'error');
                 return;
             }
+            $data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
             
             $delivery_date = $data['delivery_date'];
             if(empty($delivery_date)){
@@ -303,6 +341,8 @@ class Y2YWSM_CORE{
     
     public function insert_delivery_in_db($order_id, $data){
         global $wpdb;
+        $data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
+        
         $wpdb->insert($wpdb->prefix.'y2y_deliveries',
                 array(
                     'wc_order_id' => $order_id,
@@ -414,7 +454,7 @@ class Y2YWSM_CORE{
                 $order->shipping_last_name,
                 date('d/m/Y H:i:s',strtotime($db_row->delivery_date)),
                 date('d/m/Y H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
-                8
+                self::$cost
         );
         
         

@@ -29,3 +29,24 @@
     margin: 0 !important;
     padding: 0 !important;
 }
+
+.button-calendar{
+    background-color: red;
+    border: 1px solid #438008;
+    bottom: 3px;
+    box-sizing: border-box;
+    color: white;
+    content: "Choisir mon créneau de livraison";
+    cursor: pointer;
+    height: 30px;
+    left: 0;
+    line-height: 26px;
+    margin: 0;
+    padding-left: 10px;
+    position: absolute;
+    width: 55%;
+}
+
+.hidden{
+    display: none;
+}
