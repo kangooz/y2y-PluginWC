@@ -6,12 +6,12 @@
         $("#hidden_date_field").css('display','none');
         $("#hidden_time_field").css('display','none');
         $("#delivery_date_field").css('display','none');
-        $("#delivery_date").parent().parent().append('<button class="call-modal">Choose delivery date</button>');
+        $("#delivery_date").parent().parent().append('<button class="call-modal">Choisir la date de livraison</button>');
         $("#delivery_date").parent().parent().append('<div id="modal" style="display:none">'
                                                     +'<div id="calendar" style="display: inline; float: left; width:50%;"></div>'
                                                     +'<div class="time" style="display: inline; float: right; width:45%;"></div>'
                                                     +'<div style="width:100%;display:table; padding:4px; float: right;">'
-                                                        +'<input type="button" value="Choose" onclick="select_time()">'
+                                                        +'<input type="button" value="Choisir" onclick="select_time()">'
                                                     +'</div>'
                                                 +'</div>');
         $('.call-modal').parent().append('<div id="sentence"></div>');
@@ -129,7 +129,6 @@
                 time = 'Veuillez vous rendre disponible de '+time[0]+' à '+time[1]+'.';
             }
             $("#delivery_date").val(val+" "+time_sent);
-            console.log($("#delivery_date").val());
             var months = [
                 'Janvier',
                 'Février',
@@ -241,11 +240,12 @@
                     checked='';
                 }
                 
-                radiobtns += '<div name="radio-group-'+i+'">'
+                radiobtns += '<div id="radio-group-'+i+'" style="background-color:#F7F7F7; color:#686868; border: 1px solid #D1D1D1; border-radius:5px; margin:2px; padding:2px">'
                                     +'<input type="radio" id="time" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+'<label for="time">'+times[i]+'</label>'
                             +'</div>';
             }
             $(".radio-buttons").html(radiobtns);
+            console.debug($('#radio-group-0'));
         });
         
         checkShippingMethod();

@@ -288,7 +288,10 @@ class Y2YWSM_CORE{
                 return;
             }
             
-            
+            if (!preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $delivery_date)){
+                wc_add_notice( __('Invalid date', 'y2ywsm'), 'error' );
+                return;
+            }
             
             $delivery_date = date('Y-m-d H:i:s', strtotime($delivery_date));
             $today = date('Y-m-d H:i:s');

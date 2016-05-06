@@ -5,8 +5,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2016-04-27 17:09+0100\n"
-"PO-Revision-Date: 2016-04-27 17:18+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-06 15:57+0100\n"
+"PO-Revision-Date: 2016-05-06 16:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -29,8 +30,8 @@ msgstr "You2you - Livraison collaborative"
 msgid "Description of your shipping method"
 msgstr ""
 "You2You, la livraison collaborative.\n"
-"Dynamisez vos ventes en proposant un service de livraison en 3 heures ou "
-"sur rendez-vous."
+"Dynamisez vos ventes en proposant un service de livraison en 3 heures ou sur "
+"rendez-vous."
 
 #: Y2YWSM_Shipping_Method.php:60
 msgid "Monday"
@@ -116,102 +117,109 @@ msgstr "à "
 #, php-format
 msgid "The %s is disabled because the key and secret are not valid"
 msgstr ""
-"Le plugin %s est désactivé car la clef et le secret API ne sont pas "
-"valides. Veuillez contacter le support You2you."
+"Le plugin %s est désactivé car la clef et le secret API ne sont pas valides. "
+"Veuillez contacter le support You2you."
 
-#: you2you.php:128
+#: you2you.php:130
 msgid "German"
 msgstr "Allemand"
 
-#: you2you.php:129
+#: you2you.php:131
 msgid "English"
 msgstr "Anglais"
 
-#: you2you.php:130
+#: you2you.php:132
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: you2you.php:131
+#: you2you.php:133
 msgid "French"
 msgstr "Français"
 
-#: you2you.php:132
+#: you2you.php:134
 msgid "Japanese"
 msgstr "Japonais"
 
-#: you2you.php:133
+#: you2you.php:135
 msgid "Dutch"
 msgstr "Néerlandais"
 
-#: you2you.php:134
+#: you2you.php:136
 msgid "Romanian"
 msgstr "Roumain"
 
-#: you2you.php:135
+#: you2you.php:137
 msgid "Russian"
 msgstr "Russe"
 
-#: you2you.php:136
+#: you2you.php:138
 msgid "Ukrainian"
 msgstr "Ukrainien"
 
-#: you2you.php:137
+#: you2you.php:139
 msgid "Chinese (T)"
 msgstr "Chinois traditionnel"
 
-#: you2you.php:138
+#: you2you.php:140
 msgid "Chinese (S)"
 msgstr "Chinois simplifié"
 
-#: you2you.php:226
-msgid "You2you, collaborative delivery"
-msgstr "You2You, la livraison collaborative"
+#: you2you.php:253
+msgid "Date"
+msgstr "Date"
 
-#: you2you.php:227
+#: you2you.php:254
 msgid "Choose your delivery date"
 msgstr "Choisis le créneau de livraison."
 
-#: you2you.php:228
-msgid "We will try to send the delivery within 2 hours from this time"
-msgstr ""
-"Un créneau de 2 heures est à prévoir à partir de l'heure sélectionnée."
+#: you2you.php:265
+msgid "Time"
+msgstr "Horaire"
 
-#: you2you.php:240
+#: you2you.php:266
+msgid "Choose your delivery time"
+msgstr "Choisir l'heure de la livraison"
+
+#: you2you.php:280
 #, php-format
 msgid "You2You is only available for postcodes beggining with %s"
 msgstr ""
 "Le service You2You est pour le moment disponible dans les départements %s"
 
-#: you2you.php:246
+#: you2you.php:287
 msgid "We need to know the date for the delivery"
 msgstr "Vous devez nous indiquer un créneau de livraison."
 
-#: you2you.php:254
+#: you2you.php:293
+msgid "Invalid date"
+msgstr "La date est invalide"
+
+#: you2you.php:301
 msgid "The delivery date should be after today's date"
 msgstr "La date de livraison doit être supérieur"
 
-#: you2you.php:273
+#: you2you.php:320
 msgid "The shop is closed in this day"
 msgstr "La boutique sera fermée. Choisissez un autre créneau de livraison."
 
-#: you2you.php:279
+#: you2you.php:326
 msgid "The shop is closed at that hour in the morning"
 msgstr ""
 "Nous ne pouvons pas livrer si tôt. Choisissez un autre créneau de livraison."
 
-#: you2you.php:285
+#: you2you.php:332
 msgid "The shop is closed at that hour in the afternoon"
 msgstr ""
 "Nous ne pouvons pas livrer à l'heure sélectionnée. Choisissez un autre "
 "créneau de livraison."
 
-#: you2you.php:313
+#: you2you.php:362
 msgid "Your delivery will be posted to you2you after the payment is made"
 msgstr ""
 "Votre commande sera transmise à You2you après la confirmation de votre "
 "paiement."
 
-#: you2you.php:344
+#: you2you.php:393
 #, php-format
 msgid ""
 "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -220,26 +228,26 @@ msgstr ""
 "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Produit : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;"
 "&nbsp;Quantité : %s<br>"
 
-#: you2you.php:354
+#: you2you.php:403
 #, php-format
 msgid ""
 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 "Length: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Height: %s<br>&nbsp;&nbsp;&nbsp;"
 "&nbsp;&nbsp;Weight: %s<br>"
 msgstr ""
-"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longueur : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;"
-"&nbsp;Largeur : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hauteur : %s<br>&nbsp;"
-"&nbsp;&nbsp;&nbsp;&nbsp;Poids : %s<br>"
+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Longueur : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+"Largeur : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hauteur : %s<br>&nbsp;&nbsp;"
+"&nbsp;&nbsp;&nbsp;Poids : %s<br>"
 
-#: you2you.php:359 you2you.php:360 you2you.php:361 you2you.php:362
+#: you2you.php:408 you2you.php:409 you2you.php:410 you2you.php:411
 msgid "undefined"
 msgstr "Non définit"
 
-#: you2you.php:384
+#: you2you.php:433
 msgid "Order added from woocommerce plugin"
-msgstr ""
+msgstr "Commande créée avec le plugin WooCommerce"
 
-#: you2you.php:386
+#: you2you.php:435
 #, php-format
 msgid ""
 "A order has been placed from woocommerce plugin.<br>Store: %s, %s %s "
@@ -250,16 +258,25 @@ msgstr ""
 "Une commande a été enregistrée sur le woocommerce plugin.<br>Store: %s, %s "
 "%s %s<br>Information du magasin: %s<br>Détails de la commande : "
 "%s<br>Destination: %s, %s %s %s <br>%s<br>Information destination : "
-"%s<br>Société : %s<br>Prénom : %s<br>Nom : %s<br>Début du créneau: "
-"%s<br>Fin du créneau : %s<br>Compensation : %s&euro;"
+"%s<br>Société : %s<br>Prénom : %s<br>Nom : %s<br>Début du créneau: %s<br>Fin "
+"du créneau : %s<br>Compensation : %s&euro;"
 
-#: you2you.php:437
+#: you2you.php:486
 msgid "Order canceled from woocommerce plugin"
-msgstr ""
+msgstr "Commande annulée à partir du plugin WooCommerce"
 
-#: you2you.php:439
+#: you2you.php:488
 #, php-format
 msgid ""
 "Order canceled from woocommerce plugin.<br>Store address: %s, %s %s "
 "%s<br>Shipping address: %s, %s %s %s<br>Shipstart: %s"
 msgstr ""
+"Commande annulée à partir du plugin WooCommerce.<br>Adresse du magasin : %s, "
+"%s %s %s<br>Adresse de livraison : %s, %s %s %s<br>Horaire de livraison : %s"
+
+#~ msgid "You2you, collaborative delivery"
+#~ msgstr "You2You, la livraison collaborative"
+
+#~ msgid "We will try to send the delivery within 2 hours from this time"
+#~ msgstr ""
+#~ "Un créneau de 2 heures est à prévoir à partir de l'heure sélectionnée."
