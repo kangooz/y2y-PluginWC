@@ -59,7 +59,7 @@ class Y2YWSM_CORE{
         '94'
     );
     
-    public static $cost = 5;
+    public static $cost = 8;
             
     private $api_key = '';
     private $api_secret = '';
@@ -186,8 +186,15 @@ class Y2YWSM_CORE{
                 'defaultValue' => $this->getMinDateForJS($minDate), 
                 'minDateTime' => $minDate
                 ),
-            'calendar_img' => Y2YWSM_PLUGIN_URL.'/assets/js/jquery-calendar/images/calendar.gif',
+            'trans' => array(
+                'chose_delivery_date' => __('Chose delivery date','y2ywsm'),
+                'chose' => __('Chose','y2ywsm'),'Choisir',
+                'please_be_available_at' => __('Please be available at','y2ywsm'),
+                'until' => __('until','y2ywsm'),
+                'you_chose' => __('You chose','y2ywsm'),
+                ),
             )
+            
         );
         
         
@@ -349,8 +356,6 @@ class Y2YWSM_CORE{
     
     public function insert_delivery_in_db($order_id, $data){
         global $wpdb;
-        //$data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
-        
         $wpdb->insert($wpdb->prefix.'y2y_deliveries',
                 array(
                     'wc_order_id' => $order_id,

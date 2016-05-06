@@ -5,38 +5,46 @@
         //$('#delivery_date').attr('data-field', 'datetime');
         $("#hidden_date_field").css('display','none');
         $("#hidden_time_field").css('display','none');
-        $("#delivery_date_field").css('display','none');
-        $("#delivery_date").parent().parent().append('<button class="call-modal">Choisir la date de livraison</button>');
-        $("#delivery_date").parent().parent().append('<div id="modal" style="display:none">'
+        $("#delivery_date").css('display','none');
+        var div = $('<div/>', {id: "y2y_module"});
+        var hidden_date_field = $("#hidden_date_field");
+        var hidden_time_field = $("#hidden_time_field");
+        var delivery_date = $("#delivery_date");
+        $("#hidden_date_field").remove();
+        $("#hidden_time_field").remove();
+        $("#delivery_date").remove();
+        var button = $('<button class="call-modal">'+options.trans.chose_delivery_date+'</button>');
+        var modal = $('<div id="modal" style="display:none">'
                                                     +'<div id="calendar" style="display: inline; float: left; width:50%;"></div>'
                                                     +'<div class="time" style="display: inline; float: right; width:45%;"></div>'
                                                     +'<div style="width:100%;display:table; padding:4px; float: right;">'
-                                                        +'<input type="button" value="Choisir" onclick="select_time()">'
+                                                        +'<input type="button" value="'+options.trans.chose+'" onclick="select_time()">'
                                                     +'</div>'
                                                 +'</div>');
+        div.append(delivery_date);
+        div.append(hidden_date_field);
+        div.append(hidden_time_field);
+        div.append(button);
+        div.append(modal);
+        $('.woocommerce-billing-fields').append(div);
         $('.call-modal').parent().append('<div id="sentence"></div>');
         
         closed_days = '';
-        cd = $.map(options.hours.closed_day, function(value, index) {
-            return [Number(index)];
-        });
-        for(i=0;i<cd.length;i++)
+        cd = '';
+        if(options.hours.closed_day!==undefined)
         {
-            if(closed_days==='')
-            {
-                closed_days+='day != '+cd[i];
-            }
-            else{
-                closed_days+= ' && day != '+cd[i];
+            cd = $.map(options.hours.closed_day, function(value, index) {
+                return [Number(index)];
+            });
+            for(i=0;i<cd.length;i++){
+                if(closed_days===''){
+                    closed_days+='day != '+cd[i];
+                }else{
+                    closed_days+= ' && day != '+cd[i];
+                }
             }
         }
-        /*
-        console.debug(options.hours.closed_day);
-        for (i = 0; i < options.hours.closed_day.length; i++) {
-            closed_days += options.hours.closed_day[i];
-        }*/
-        //console.debug(cd);
-        //console.debug(options.hours.openning_hours_endding[day]);
+        
         
         today = moment();
         var today_week = moment(today).format('e');
@@ -46,8 +54,7 @@
         
         if(options.hours.openning_hours_endding[today_week]>nowtimeout){
             minDate = 0;
-        }
-        else{
+        }else{
             minDate = 1;
         }
         
@@ -55,6 +62,7 @@
             minDate: minDate,
             altField: "#hidden_date",
             altFormat: "yy-mm-dd",
+            setDate: minDate,
             buttonText: "Select date",
             beforeShowDay: function(date) {
                 var day = date.getDay();
@@ -126,7 +134,7 @@
             if(time!==''){
                 time = time.split('-');
                 time_sent = time[0].toString().replace('h',':')+":00";
-                time = 'Veuillez vous rendre disponible de '+time[0]+' à '+time[1]+'.';
+                time = options.trans.please_be_available_at+" "+time[0]+" "+options.trans.until+" "+time[1]+'.';
             }
             $("#delivery_date").val(val+" "+time_sent);
             var months = [
@@ -159,8 +167,7 @@
             var dayoftheweek = week[choosen_day];
             var month = months[monthpos-1];
             
-            //$("#delivery_date").val("Vous avez choisi de recevoir l'article "+choosen_day+" "+months[monthpos-1]+""+time);
-            $("#sentence").html("Vous avez choisit le "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
+            $("#sentence").html(options.trans.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
             
             var times = [];
             
@@ -174,55 +181,84 @@
             
             if(moment(today).format('YYYY-MM-DD') === val){
                 //today
-                
-                //morning
-                if(moment(now,'HH:mm') < moment(beg_hour,'HH:mm')){
-                    now = beg_hour;
-                }
-                
-                while(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
-                    if(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
-                        now = moment(now,'HH:mm').add(add,'hour');
-                        times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                        add = 1;
+                if(lunch_beg!=='' || lunch_end!=='')
+                {
+                    //morning
+                    if(moment(now,'HH:mm') < moment(beg_hour,'HH:mm')){
+                        now = beg_hour;
+                    }
+
+                    while(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
+                        if(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
+                            now = moment(now,'HH:mm').add(add,'hour');
+                            times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
+                            add = 1;
+                        }
+                    }
+
+                    //afternnoon
+                    add = timeout;
+                    if(moment(now,'HH:mm') < moment(lunch_end,'HH:mm')){
+                        now = lunch_end;
+                    }
+                    while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
+                        if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
+                            now = moment(now,'HH:mm').add(add,'hour');
+                            times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
+                            add = 1;
+                        }
                     }
                 }
-                
-                //afternnoon
-                add = timeout;
-                if(moment(now,'HH:mm') < moment(lunch_end,'HH:mm')){
-                    now = lunch_end;
-                }
-                while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
-                    if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
-                        now = moment(now,'HH:mm').add(add,'hour');
-                        times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                        add = 1;
+                else
+                {
+                    if(moment(now,'HH:mm') < moment(beg_hour,'HH:mm')){
+                        now = beg_hour;
+                    }
+                    while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
+                        if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
+                            now = moment(now,'HH:mm').add(add,'hour');
+                            times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
+                            add = 1;
+                        }
                     }
                 }
             }
             else
             {
-                var add = timeout;
-                //morning
-                while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
-                    if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
-                        beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
-                        times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                        add = 1;
+                if(lunch_beg!=='' || lunch_end!=='')
+                {
+                    var add = timeout;
+                    //morning
+                    while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
+                        if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
+                            beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
+                            times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
+                            add = 1;
+                        }
+                    }
+
+                    var add = timeout;
+                    //afeternoon
+                    while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
+                        if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
+                            lunch_end = moment(lunch_end,'HH:mm').add(add,'hour');
+                            times.push(moment(lunch_end,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(lunch_end,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
+                            add = 1;
+                        }
                     }
                 }
-                
-                var add = timeout;
-                //afeternoon
-                while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
-                    if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
-                        lunch_end = moment(lunch_end,'HH:mm').add(add,'hour');
-                        times.push(moment(lunch_end,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(lunch_end,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                        add = 1;
+                else
+                {
+                    var add = timeout;
+                    //morning
+                    while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
+                        if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
+                            beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
+                            times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
+                            add = 1;
+                        }
                     }
                 }
-                
             }
             
             if($( ".radio-buttons" ).length === 0){
@@ -242,6 +278,9 @@
                                     +'<input type="radio" id="time'+i+'" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+'\
                                     <label for="time'+i+'">'+times[i]+'</label>'
                             +'</div>';
+            }
+            if(radiobtns===''){
+                radiobtns = '<p style="algin-text:center">Il n\'y a plus de livraisons en ce jour. S\'il vous plaît choisir un autre jour.</p>';
             }
             $(".radio-buttons").html(radiobtns);
             $('.buttonsetv').buttonsetv();
