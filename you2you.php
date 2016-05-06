@@ -228,15 +228,17 @@ class Y2YWSM_CORE{
     }
     
     public function add_delivery_date_to_checkout_fields($fields){
-        $fields['billing']['sentence'] = array(
+        $fields['billing']['delivery_date'] = array(
             'type' => 'text',
             'required' => false,
+            'id'=> 'delivery_date',
             'custom_attributes' => array(
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
+                'class' => 'hidden',
             ),
-            'label' => '<br><strong>'.__('You2you, collaborative delivery','y2ywsm').'</strong>'
+            /*'label' => '<br><strong>'.__('You2you, collaborative delivery','y2ywsm').'</strong>'
                 . '<br>'.__('Choose your delivery date','y2ywsm'),
-            'description' => __(' We will try to send the delivery within 2 hours from this time', 'y2ywsm')
+            'description' => __(' We will try to send the delivery within 2 hours from this time', 'y2ywsm')*/
         );
         
         $fields['billing']['hidden_date'] = array(
@@ -277,11 +279,18 @@ class Y2YWSM_CORE{
                 wc_add_notice(sprintf(__('You2You is only available for postcodes beggining with %s', 'y2ywsm'), implode(', ',self::$validPostCodes)), 'error');
                 return;
             }
-            $data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
+            //$data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
             
             $delivery_date = $data['delivery_date'];
             if(empty($delivery_date)){
                 wc_add_notice( __('We need to know the date for the delivery', 'y2ywsm'), 'error' );
+                return;
+            }
+            
+            $time = date("H:i:s",strtotime($delivery_date));
+            if($time=='00:00:00')
+            {
+                wc_add_notice( __('Please select a delivery time', 'y2ywsm'), 'error' );
                 return;
             }
             
@@ -303,7 +312,7 @@ class Y2YWSM_CORE{
             
             $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
             $order_hour = date('H:i',$timestamp);
-            $delivery_hour = strtotime(date('H:i',$timestamp+$timeout));
+            $delivery_hour = strtotime(date('H:i',$timestamp));
             $delivery_day_hour = strtotime(date('Y/m/d H:i',$timestamp+$timeout));
             
             //Closed day
@@ -341,7 +350,7 @@ class Y2YWSM_CORE{
     
     public function insert_delivery_in_db($order_id, $data){
         global $wpdb;
-        $data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
+        //$data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
         
         $wpdb->insert($wpdb->prefix.'y2y_deliveries',
                 array(

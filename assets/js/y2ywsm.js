@@ -5,6 +5,16 @@
         //$('#delivery_date').attr('data-field', 'datetime');
         $("#hidden_date_field").css('display','none');
         $("#hidden_time_field").css('display','none');
+        $("#delivery_date_field").css('display','none');
+        $("#delivery_date").parent().parent().append('<button class="call-modal">Choose delivery date</button>');
+        $("#delivery_date").parent().parent().append('<div id="modal" style="display:none">'
+                                                    +'<div id="calendar" style="display: inline; float: left; width:50%;"></div>'
+                                                    +'<div class="time" style="display: inline; float: right; width:45%;"></div>'
+                                                    +'<div style="width:100%;display:table; padding:4px; float: right;">'
+                                                        +'<input type="button" value="Choose" onclick="select_time()">'
+                                                    +'</div>'
+                                                +'</div>');
+        $('.call-modal').parent().append('<div id="sentence"></div>');
         
         closed_days = '';
         cd = $.map(options.hours.closed_day, function(value, index) {
@@ -41,7 +51,33 @@
             minDate = 1;
         }
         
-        $('#sentence').datepicker({
+        var cal = $('#calendar').datepicker({
+            //showOn: "button",
+            minDate: minDate,
+            //buttonImage: options.calendar_img,
+            //buttonImageOnly: true,
+            altField: "#hidden_date",
+            altFormat: "yy-mm-dd",
+            buttonText: "Select date",
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+                if ($.inArray(day, cd) === -1) {
+                  return [true, "","Available"];
+                } else {
+                  return [false,"","unAvailable"];
+                }
+            },
+            onSelect: function(date) {
+                $("#hidden_date").trigger("change");
+            }
+        });
+        $('.call-modal').on('click', function(event) {
+            event.preventDefault();
+            $("#hidden_date").trigger("change");
+            $('#modal').dialog({ width: '45%' });
+        });
+        /*
+        $('#delivery_date').datepicker({
             showOn: "button",
             minDate: minDate,
             buttonImage: options.calendar_img,
@@ -57,7 +93,7 @@
                   return [false,"","unAvailable"];
                 }
             }
-        });
+        });*/
         /*
         $( "#delivery_date" ).focus(function() {
             //$('.ui-datepicker-trigger').click();
@@ -80,18 +116,21 @@
             defaultDate: options.dateTimePicker.defaultValue
         });
         
-        $("#sentence, #hidden_date").change(function() {
+        $("#hidden_date").change(function() {
             val = $("#hidden_date").val();
             choosen_date = val.split('-');
             monthpos = choosen_date[1].replace(/^0+/, '');
-            dayoftheweek = choosen_date[2].replace(/^0+/, '');
-            
-            time = $("#hidden_time").val();
-            console.debug(time);
-            if(time!=='')
-            {
-                time = ' à '+time;
+            choosen_day = choosen_date[2].replace(/^0+/, '');
+            time_sent = '';
+            rawtime = $("#hidden_time").val();
+            time = rawtime;
+            if(time!==''){
+                time = time.split('-');
+                time_sent = time[0].toString().replace('h',':')+":00";
+                time = 'Veuillez vous rendre disponible de '+time[0]+' à '+time[1]+'.';
             }
+            $("#delivery_date").val(val+" "+time_sent);
+            console.log($("#delivery_date").val());
             var months = [
                 'Janvier',
                 'Février',
@@ -106,18 +145,31 @@
                 'Novembre',
                 'Décembre'
             ];
-            //$("#sentence").val("Vous avez choisi de recevoir l'article "+dayoftheweek+" "+months[monthpos-1]+""+time);
-            $("#sentence").val("Vous avez choisi de recevoir l'article "+dayoftheweek+" "+months[monthpos-1]+""+time);
+            var week = [
+                'lundi',
+                'mardi',
+                'mercredi',
+                'jeudi',
+                'vendredi',
+                'samedi',
+                'dimanche'
+            ];
+            
+            var year = choosen_date[0];
+            var dayofthemonth = choosen_day;
+            choosen_day = moment(val).day();
+            var dayoftheweek = week[choosen_day];
+            var month = months[monthpos-1];
+            
+            //$("#delivery_date").val("Vous avez choisi de recevoir l'article "+choosen_day+" "+months[monthpos-1]+""+time);
+            $("#sentence").html("Vous avez choisit le "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
+            
             var times = [];
             
-            dayoftheweek = moment(val).day();
-            console.log('dia da semana: '+dayoftheweek);
-            
-            //minDate = 1;
-            beg_hour = options.hours.openning_hours_beginning[dayoftheweek];
-            end_hour = options.hours.openning_hours_endding[dayoftheweek];
-            lunch_beg = options.hours.lunch_time_beginning[dayoftheweek];
-            lunch_end = options.hours.lunch_time_endding[dayoftheweek];
+            beg_hour = options.hours.openning_hours_beginning[choosen_day];
+            end_hour = options.hours.openning_hours_endding[choosen_day];
+            lunch_beg = options.hours.lunch_time_beginning[choosen_day];
+            lunch_end = options.hours.lunch_time_endding[choosen_day];
             
             var add = timeout;
             var now = moment(today).format('HH:mm');
@@ -133,7 +185,7 @@
                 while(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
                     if(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
                         now = moment(now,'HH:mm').add(add,'hour');
-                        times.push(moment(now,'HH:mm').format('HH:mm'));
+                        times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         add = 1;
                     }
                 }
@@ -146,7 +198,7 @@
                 while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
                     if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
                         now = moment(now,'HH:mm').add(add,'hour');
-                        times.push(moment(now,'HH:mm').format('HH:mm'));
+                        times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         add = 1;
                     }
                 }
@@ -155,11 +207,10 @@
             {
                 var add = timeout;
                 //morning
-                console.debug('1');
                 while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
                     if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
                         beg_hour = moment(beg_hour,'HH:mm').add(1,'hour');
-                        times.push(moment(beg_hour,'HH:mm').format('HH:mm'));
+                        times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         add = 1;
                     }
                 }
@@ -169,7 +220,7 @@
                 while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                     if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                         lunch_end = moment(lunch_end,'HH:mm').add(1,'hour');
-                        times.push(moment(lunch_end,'HH:mm').format('HH:mm'));
+                        times.push(moment(lunch_end,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(lunch_end,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         add = 1;
                     }
                 }
@@ -177,15 +228,25 @@
             }
             
             if($( ".radio-buttons" ).length === 0){
-                $("#sentence").parent().append('<div class="radio-buttons" style="display:none" title="Time"></div>');
+                $("#modal .time").append('<div class="radio-buttons"></div>');
             }
             
             var radiobtns = '';
             for (i = 0; i < times.length; i++) {
-                radiobtns += '<input type="radio" id="time" name="time" value="'+times[i]+'">'+times[i]+'<br>';
+                span = times[i].split(' - ');
+                if(rawtime === (span[0]+'-'+span[1]))
+                {
+                    checked='checked="checked"';
+                }else
+                {
+                    checked='';
+                }
+                
+                radiobtns += '<div style="background-color:#F7F7F7; color:#686868; border: 1px solid #D1D1D1; border-radius:5px; margin:2px; padding:2px">'
+                                +'<input type="radio" id="time" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+times[i]
+                            +'</div>';
             }
-            radiobtns += '<input type="button" value="Choose" onclick="select_time()">';
-            $(".radio-buttons").html(radiobtns).dialog();
+            $(".radio-buttons").html(radiobtns);
         });
         
         checkShippingMethod();
@@ -193,18 +254,18 @@
 
         $(document).on('click', "input[name='shipping_method[0]']", function(){
             
-            if($(this).val() === 'You2You')
+            /*if($(this).val() === 'You2You')
             {
-                $('#sentence_field').show();
+                $('#delivery_date_field').show();
                 
                 $('html, body').animate({
-                    scrollTop: $("#sentence").offset().top-100
+                    scrollTop: $("#delivery_date").offset().top-100
                 }, 1000);
             }
             else
             {
-                $('#sentence_field').hide();
-            }
+                $('#delivery_date_field').hide();
+            }*/
         });
             
         $(document.body).on('updated_checkout', checkShippingMethod);
@@ -213,19 +274,19 @@
             if($("input[name='shipping_method[0]'][value=You2You]").length > 0){
                 if($("input[name='shipping_method[0]']").length > 1){
                     if($("input[name='shipping_method[0]'][value=You2You]").is(':checked')){
-                        $('#sentence_field').show();
+                        //$('#delivery_date_field').show();
                     }
                     else
                     {
-                        $('#sentence_field').hide();
+                        //$('#delivery_date_field').hide();
                     };
                 }else{
-                    $('#sentence_field').show();
+                    //$('#delivery_date_field').show();
                 }
 
 
             }else{
-                $('#sentence_field').hide();
+                $('#delivery_date_field').hide();
             }
         }
     });
@@ -236,5 +297,5 @@ function select_time()
     time_sel = jQuery('.radio-buttons input[name=time]:checked').val();
     jQuery('#hidden_time').val(time_sel);
     jQuery("#hidden_date").trigger("change");
-    jQuery(".radio-buttons").dialog('close');
+    jQuery("#modal").dialog('close');
 }
