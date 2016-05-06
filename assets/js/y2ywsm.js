@@ -52,10 +52,7 @@
         }
         
         var cal = $('#calendar').datepicker({
-            //showOn: "button",
             minDate: minDate,
-            //buttonImage: options.calendar_img,
-            //buttonImageOnly: true,
             altField: "#hidden_date",
             altFormat: "yy-mm-dd",
             buttonText: "Select date",
@@ -74,7 +71,9 @@
         $('.call-modal').on('click', function(event) {
             event.preventDefault();
             $("#hidden_date").trigger("change");
+            $("#modal .ui-dialog-titlebar").css('display','none');
             $('#modal').dialog({ width: '45%' });
+            $(".ui-dialog-titlebar").css('display','none');
         });
         /*
         $('#delivery_date').datepicker({
@@ -146,13 +145,13 @@
                 'Décembre'
             ];
             var week = [
+                'dimanche',
                 'lundi',
                 'mardi',
                 'mercredi',
                 'jeudi',
                 'vendredi',
-                'samedi',
-                'dimanche'
+                'samedi'
             ];
             
             var year = choosen_date[0];
@@ -242,8 +241,8 @@
                     checked='';
                 }
                 
-                radiobtns += '<div style="background-color:#F7F7F7; color:#686868; border: 1px solid #D1D1D1; border-radius:5px; margin:2px; padding:2px">'
-                                +'<input type="radio" id="time" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+times[i]
+                radiobtns += '<div name="radio-group-'+i+'">'
+                                    +'<input type="radio" id="time" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+'<label for="time">'+times[i]+'</label>'
                             +'</div>';
             }
             $(".radio-buttons").html(radiobtns);
