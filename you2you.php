@@ -288,10 +288,8 @@ class Y2YWSM_CORE{
                 return;
             }
             
-            $time = date("H:i:s",strtotime($delivery_date));
-            if($time=='00:00:00')
-            {
-                wc_add_notice( __('Please select a delivery time', 'y2ywsm'), 'error' );
+            if (!preg_match("(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})", $delivery_date)){
+                wc_add_notice( __('Invalid date', 'y2ywsm'), 'error' );
                 return;
             }
             
@@ -304,11 +302,11 @@ class Y2YWSM_CORE{
             }
             
             $timestamp = strtotime($delivery_date);
-            $year = date('Y', $timestamp);
-            $month = date('m', $timestamp);
-            $day = date('d', $timestamp);
-            $hour = date('H', $timestamp);
-            $minute = date('i', $timestamp);
+//            $year = date('Y', $timestamp);
+//            $month = date('m', $timestamp);
+//            $day = date('d', $timestamp);
+//            $hour = date('H', $timestamp);
+//            $minute = date('i', $timestamp);
             $dayofweek = date('w', $timestamp);
             
             $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
