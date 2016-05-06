@@ -171,7 +171,7 @@ class Y2YWSM_CORE{
         wp_enqueue_script( 'calendar-js',  Y2YWSM_PLUGIN_URL . '/assets/js/jquery-calendar/jquery-ui.js', array('jquery'), Y2YWSM_VERSION, true );
         wp_enqueue_script( 'calendar-i18n',  Y2YWSM_PLUGIN_URL . '/assets/js/jquery-calendar/i18n/datepicker-'.$lang_code.'.js', array('calendar-js'), Y2YWSM_VERSION, true );
         wp_enqueue_script( 'moment-js',  Y2YWSM_PLUGIN_URL . '/assets/js/moment-with-locales/moment.js', array('jquery'), Y2YWSM_VERSION, true );
-        
+        wp_enqueue_script( 'verticalradio-js',  Y2YWSM_PLUGIN_URL . '/assets/js/jquery.verticalradio/jquery.verticalradio.js', array('jquery'), Y2YWSM_VERSION, true );
         wp_enqueue_script( 'y2ywsm-js', Y2YWSM_PLUGIN_URL . '/assets/js/y2ywsm.js', array('jquery', 'calendar-js'), Y2YWSM_VERSION, true );
         
         $minDate = $this->getMinDate();

@@ -189,7 +189,7 @@
                 }
                 
                 //afternnoon
-                addt = timeout;
+                add = timeout;
                 if(moment(now,'HH:mm') < moment(lunch_end,'HH:mm')){
                     now = lunch_end;
                 }
@@ -207,7 +207,7 @@
                 //morning
                 while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
                     if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
-                        beg_hour = moment(beg_hour,'HH:mm').add(1,'hour');
+                        beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
                         times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         add = 1;
                     }
@@ -217,7 +217,7 @@
                 //afeternoon
                 while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                     if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
-                        lunch_end = moment(lunch_end,'HH:mm').add(1,'hour');
+                        lunch_end = moment(lunch_end,'HH:mm').add(add,'hour');
                         times.push(moment(lunch_end,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(lunch_end,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         add = 1;
                     }
@@ -230,22 +230,21 @@
             }
             
             var radiobtns = '';
-            for (i = 0; i < times.length; i++) {
+            for (i = 0; i < times.length; i++){
                 span = times[i].split(' - ');
-                if(rawtime === (span[0]+'-'+span[1]))
-                {
+                if(rawtime === (span[0]+'-'+span[1]) || i===0){
                     checked='checked="checked"';
-                }else
-                {
+                }else{
                     checked='';
                 }
                 
-                radiobtns += '<div id="radio-group-'+i+'" style="background-color:#F7F7F7; color:#686868; border: 1px solid #D1D1D1; border-radius:5px; margin:2px; padding:2px">'
-                                    +'<input type="radio" id="time" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+'<label for="time">'+times[i]+'</label>'
+                radiobtns += '<div class="buttonsetv" name="radio-group-'+i+'">'
+                                    +'<input type="radio" id="time'+i+'" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+'\
+                                    <label for="time'+i+'">'+times[i]+'</label>'
                             +'</div>';
             }
             $(".radio-buttons").html(radiobtns);
-            console.debug($('#radio-group-0'));
+            $('.buttonsetv').buttonsetv();
         });
         
         checkShippingMethod();
