@@ -59,7 +59,7 @@ class Y2YWSM_CORE{
         '94'
     );
     
-    public static $cost = 8;
+    public static $cost = 5;
             
     private $api_key = '';
     private $api_secret = '';
