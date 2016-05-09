@@ -302,8 +302,9 @@ class Y2YWSM_CORE{
             
             $delivery_date = date('Y-m-d H:i:s', strtotime($delivery_date));
             $today = date('Y-m-d H:i:s');
-
-            if($today > $delivery_date){
+            $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
+            
+            if($today > $delivery_date+$timeout){
                 wc_add_notice( __('The delivery date should be after today\'s date', 'y2ywsm'), 'error' );
                 return;
             }
@@ -316,7 +317,6 @@ class Y2YWSM_CORE{
             $minute = date('i', $timestamp);
             $dayofweek = date('w', $timestamp);
             
-            $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
             $order_hour = date('H:i',$timestamp);
             $delivery_hour = strtotime(date('H:i',$timestamp));
             $delivery_day_hour = strtotime(date('Y/m/d H:i',$timestamp+$timeout));

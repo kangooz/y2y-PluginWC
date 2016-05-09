@@ -178,7 +178,13 @@
             
             var add = timeout;
             var now = moment(today).format('HH:mm');
-            
+            console.debug(val);
+            console.debug(now);
+            now_m = moment(now,'HH:mm').format('mm');
+            while(now_m!=='00' && now_m!=='15' && now_m!=='30' && now_m!=='45'){
+                now = moment(now,'HH:mm').add(1,'minute');
+                now_m = moment(now,'HH:mm').format('mm');
+            }
             if(moment(today).format('YYYY-MM-DD') === val){
                 //today
                 if(lunch_beg!=='' || lunch_end!=='')
