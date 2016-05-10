@@ -229,8 +229,13 @@ class Y2YWSM_CORE{
         }
 
         if ( $method->id == Y2YWSM_ID ) {
-            $label = '<img src="' . Y2YWSM_PLUGIN_URL.'/assets/img/logo.png' . '" width="30px">&nbsp;&nbsp;'.$label.'<br>'
-                . 'Livraison collaborative.';
+            
+            $label = '<span class="amount">'.wc_price($method->cost).'</span>'
+                    . '<br><div style="text-align:center">'
+                    . '<img width="45px" src="' . Y2YWSM_PLUGIN_URL.'/assets/img/logo.png">'
+                    . '<br>'.__('Livraison collaborative', 'y2ywsm').'<br></div><div style="font-size:12px;line-height:16px;text-align:justify">'
+                    . __('Pour vous assurez un service à la fois pratique et écologique, votre commande vous sera livrée par notre partenaire You2You. '
+                    . 'Pour en savoir plus, cliquez ici.', 'y2ywsm').'</div><br>';
 
         } 
         return $label;
