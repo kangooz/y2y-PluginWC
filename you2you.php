@@ -492,7 +492,7 @@ class Y2YWSM_CORE{
         global $wpdb;
         $order = wc_get_order($order_id);
         
-        $to      = 'support@partner-it-group.com';
+        $to      = 'contact@you2you.fr';
         $subject = __('Order canceled from woocommerce plugin', 'y2ywsm');
         $message = sprintf(
                 __('Order canceled from woocommerce plugin.<br>'
