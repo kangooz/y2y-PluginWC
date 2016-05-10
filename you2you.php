@@ -439,7 +439,7 @@ class Y2YWSM_CORE{
             
         ));*/
         
-        $to      = 'support@partner-it-group.com';
+        $to      = 'contact@you2you.fr';
         $subject = __('Order added from woocommerce plugin', 'y2ywsm');
         $message = sprintf(
                 __('A order has been placed from woocommerce plugin.<br>'
