@@ -193,6 +193,7 @@ class Y2YWSM_CORE{
                 'until' => __('until','y2ywsm'),
                 'you_chose' => __('You chose','y2ywsm'),
                 ),
+            'now' => current_time( 'Y-m-d H:i:s', false ),
             )
             
         );
@@ -300,11 +301,16 @@ class Y2YWSM_CORE{
                 return;
             }
             
+            
             $delivery_date = date('Y-m-d H:i:s', strtotime($delivery_date));
             $today = date('Y-m-d H:i:s');
-            $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
+            $timeout = 1;
+            if(date('Y-m-d') == date('Y-m-d',strtotime($delivery_date)))
+            {
+                $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
+            }
             
-            if($today > $delivery_date+$timeout){
+            if($today > date('Y-m-d H:i:s',strtotime($delivery_date)-$timeout)){
                 wc_add_notice( __('The delivery date should be after today\'s date', 'y2ywsm'), 'error' );
                 return;
             }

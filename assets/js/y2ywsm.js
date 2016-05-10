@@ -45,12 +45,11 @@
             }
         }
         
-        
-        today = moment();
+        today = moment(options.now);
         var today_week = moment(today).format('e');
+        var now = moment(today).format('HH:mm');
         var timeout = Number(options.hours.timeout);
         var nowtimeout = moment(today,'HH:mm').add(timeout,'hour').format('HH:mm');
-        var now = moment(today).format('HH:mm');
         
         if(options.hours.openning_hours_endding[today_week]>nowtimeout){
             minDate = 0;
@@ -231,37 +230,34 @@
             }
             else
             {
+                //not today
                 if(lunch_beg!=='' || lunch_end!=='')
                 {
-                    var add = timeout;
+                    var add = 1;
                     //morning
                     while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
                         if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
                             beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
                             times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                            add = 1;
                         }
                     }
 
-                    var add = timeout;
                     //afeternoon
                     while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                         if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                             lunch_end = moment(lunch_end,'HH:mm').add(add,'hour');
                             times.push(moment(lunch_end,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(lunch_end,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                            add = 1;
                         }
                     }
                 }
                 else
                 {
-                    var add = timeout;
+                    var add = 1;
                     //morning
                     while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                         if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
                             beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
                             times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
-                            add = 1;
                         }
                     }
                 }
