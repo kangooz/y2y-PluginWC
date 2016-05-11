@@ -140,27 +140,27 @@
             }
             $("#delivery_date").val(val+" "+time_sent);
             var months = [
-                'Janvier',
-                'Février',
-                'Mars',
-                'Avril',
-                'Mai',
-                'Juin',
-                'Juillet',
-                'Août',
-                'Septembre',
-                'Octobre',
-                'Novembre',
-                'Décembre'
+                options.month.january,
+                options.month.february,
+                options.month.march,
+                options.month.april,
+                options.month.may,
+                options.month.june,
+                options.month.july,
+                options.month.august,
+                options.month.september,
+                options.month.october,
+                options.month.november,
+                options.month.december
             ];
             var week = [
-                'dimanche',
-                'lundi',
-                'mardi',
-                'mercredi',
-                'jeudi',
-                'vendredi',
-                'samedi'
+                options.week.monday,
+                options.week.tuesday,
+                options.week.wednesday,
+                options.week.thursday,
+                options.week.friday,
+                options.week.saturday,
+                options.week.sunday
             ];
             
             var year = choosen_date[0];
@@ -196,8 +196,8 @@
                         now = beg_hour;
                     }
 
-                    while(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
-                        if(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm')){
+                    while(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm').add(1,'hour')){
+                        if(moment(now,'HH:mm').add(add,'hour') < moment(lunch_beg,'HH:mm').add(1,'hour')){
                             now = moment(now,'HH:mm').add(add,'hour');
                             times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                             add = 1;
@@ -209,8 +209,8 @@
                     if(moment(now,'HH:mm') < moment(lunch_end,'HH:mm')){
                         now = lunch_end;
                     }
-                    while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
-                        if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
+                    while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
+                        if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
                             now = moment(now,'HH:mm').add(add,'hour');
                             times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                             add = 1;
@@ -222,8 +222,8 @@
                     if(moment(now,'HH:mm') < moment(beg_hour,'HH:mm')){
                         now = beg_hour;
                     }
-                    while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
-                        if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm')){
+                    while(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
+                        if(moment(now,'HH:mm').add(add,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
                             now = moment(now,'HH:mm').add(add,'hour');
                             times.push(moment(now,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(now,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                             add = 1;
@@ -238,16 +238,16 @@
                 {
                     var add = 1;
                     //morning
-                    while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
-                        if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm')){
+                    while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm').add(1,'hour')){
+                        if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(lunch_beg,'HH:mm').add(1,'hour')){
                             beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
                             times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         }
                     }
 
                     //afeternoon
-                    while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
-                        if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
+                    while(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
+                        if(moment(lunch_end,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
                             lunch_end = moment(lunch_end,'HH:mm').add(add,'hour');
                             times.push(moment(lunch_end,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(lunch_end,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         }
@@ -257,8 +257,8 @@
                 {
                     var add = 1;
                     //morning
-                    while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
-                        if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm')){
+                    while(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
+                        if(moment(beg_hour,'HH:mm').add(1,'hour') < moment(end_hour,'HH:mm').add(1,'hour')){
                             beg_hour = moment(beg_hour,'HH:mm').add(add,'hour');
                             times.push(moment(beg_hour,'HH:mm').format('HH:mm').replace(':','h')+" - "+moment(beg_hour,'HH:mm').add(1,'hour').format('HH:mm').replace(':','h'));
                         }

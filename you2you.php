@@ -193,6 +193,29 @@ class Y2YWSM_CORE{
                 'until' => __('until','y2ywsm'),
                 'you_chose' => __('You chose','y2ywsm'),
                 ),
+            'week' => array(
+               'monday' => __('Monday','y2ywsm'),
+               'tuesday' => __('Tuesday','y2ywsm'),
+               'wednesday' => __('Wednesday','y2ywsm'),
+               'thursday' => __('Thursday','y2ywsm'),
+               'friday' => __('Friday','y2ywsm'),
+               'saturday' => __('Saturday','y2ywsm'),
+               'sunday' => __('Sunday','y2ywsm'),
+            ),
+            'month' => array(
+                'january' => __('January','y2ywsm'),
+                'february' => __('February','y2ywsm'),
+                'march' => __('March','y2ywsm'),
+                'april' => __('April','y2ywsm'),
+                'may' => __('May','y2ywsm'),
+                'june' => __('June','y2ywsm'),
+                'july' => __('July','y2ywsm'),
+                'august' => __('August','y2ywsm'),
+                'september' => __('September','y2ywsm'),
+                'october ' => __('October','y2ywsm'),
+                'november'  => __('November','y2ywsm'),
+                'december ' => __('December','y2ywsm'),
+            ),
             'now' => current_time( 'Y-m-d H:i:s', false ),
             )
             
@@ -311,6 +334,7 @@ class Y2YWSM_CORE{
             
             $delivery_date = date('Y-m-d H:i:s', strtotime($delivery_date));
             $today = date('Y-m-d H:i:s');
+            $dayoftheweek = date('w', strtotime($delivery_date));
             $timeout = 1;
             if(date('Y-m-d') == date('Y-m-d',strtotime($delivery_date)))
             {
@@ -319,6 +343,18 @@ class Y2YWSM_CORE{
             
             if($today > date('Y-m-d H:i:s',strtotime($delivery_date)-$timeout)){
                 wc_add_notice( __('The delivery date should be after today\'s date', 'y2ywsm'), 'error' );
+                return;
+            }
+            
+            if(date('H:i:s',strtotime($this->openning_hours_beginning[$dayoftheweek])) > date('H:i:s',strtotime($delivery_date)))
+            {
+                wc_add_notice( __('Choose an hour after openning time', 'y2ywsm'), 'error' );
+                return;
+            }
+            
+            if(date('H:i:s',strtotime($this->openning_hours_endding[$dayoftheweek])+ 60*60) < date('H:i:s',strtotime($delivery_date)))
+            {
+                wc_add_notice( __('Choose an hour before closing time', 'y2ywsm'), 'error' );
                 return;
             }
             
