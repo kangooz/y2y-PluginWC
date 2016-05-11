@@ -182,6 +182,15 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'default' => 2,
                     'description' => __('Time in hours that you need to prepare a delivery. Minimum is 2 hours', 'y2ywsm'),
                 ),
+                'email_notification' => array(
+                    'title' => __('Enable Notifications', 'y2ywsm'),
+                    'type' => 'checkbox',
+                    'label' => __('Enable email notifications', 'y2ywsm'),
+                ),
+                'email' => array(
+                    'title' => __('Email', 'y2ywsm'),
+                    'type' => 'email',
+                ),
                 'store_country' => array(
                     'title' => __('Store country', 'y2ywsm'),
                     'type' => 'text',

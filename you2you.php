@@ -480,9 +480,12 @@ class Y2YWSM_CORE{
                 date('d/m/Y H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
                 self::$cost
         );
-        
-        
         $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: support@partner-it-group.com');
+        if($this->email_notification=='yes' && !empty($this->email))
+        {
+            $headers[] = 'cc: '.$this->email;
+        }
+        
 
         wp_mail($to, $subject, $message, $headers);
         $wpdb->update(
