@@ -233,9 +233,9 @@ class Y2YWSM_CORE{
             $label = '<span class="amount">'.wc_price($method->cost).'</span>'
                     . '<br><div style="text-align:center">'
                     . '<img width="45px" src="' . Y2YWSM_PLUGIN_URL.'/assets/img/logo.png">'
-                    . '<br>'.__('Livraison collaborative', 'y2ywsm').'<br></div><div style="font-size:12px;line-height:16px;text-align:justify">'
-                    . __('Pour vous assurez un service à la fois pratique et écologique, votre commande vous sera livrée par notre partenaire You2You. '
-                    . 'Pour en savoir plus, cliquez ici.', 'y2ywsm').'</div><br>';
+                    . '<br>'.__('Collaborative delivery', 'y2ywsm').'<br></div><div style="font-size:12px;line-height:16px;text-align:justify">'
+                    . __('To ensure a service that is both practical and environmentally friendly, your order will be delivered by our partner You2You. '
+                    . 'For more information, click here.', 'y2ywsm').'</div><br>';
 
         } 
         return $label;

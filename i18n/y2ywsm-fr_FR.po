@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-06 23:43+0100\n"
-"PO-Revision-Date: 2016-05-06 23:43+0100\n"
+"POT-Creation-Date: 2016-05-11 09:54+0100\n"
+"PO-Revision-Date: 2016-05-11 09:54+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -181,62 +181,76 @@ msgstr "Veuillez vous rendre disponible de"
 msgid "You chose"
 msgstr "Vous avez choisi le"
 
-#: you2you.php:260
+#: you2you.php:236
+msgid "Collaborative delivery"
+msgstr "Livraison collaborative"
+
+#: you2you.php:237
+msgid ""
+"To ensure a service that is both practical and environmentally friendly, "
+"your order will be delivered by our partner You2You. For more information, "
+"click here."
+msgstr ""
+"Pour vous assurez un service à la fois pratique et écologique, votre "
+"commande vous sera livrée par notre partenaire You2You. Pour en savoir plus, "
+"cliquez ici."
+
+#: you2you.php:266
 msgid "Date"
 msgstr "Date"
 
-#: you2you.php:261
+#: you2you.php:267
 msgid "Choose your delivery date"
 msgstr "Choisis le créneau de livraison."
 
-#: you2you.php:272
+#: you2you.php:278
 msgid "Time"
 msgstr "Horaire"
 
-#: you2you.php:273
+#: you2you.php:279
 msgid "Choose your delivery time"
 msgstr "Choisir l'heure de la livraison"
 
-#: you2you.php:287
+#: you2you.php:293
 #, php-format
 msgid "You2You is only available for postcodes beggining with %s"
 msgstr ""
 "Le service You2You est pour le moment disponible dans les départements %s"
 
-#: you2you.php:294
+#: you2you.php:300
 msgid "We need to know the date for the delivery"
 msgstr "Vous devez nous indiquer un créneau de livraison."
 
-#: you2you.php:299
+#: you2you.php:305
 msgid "Invalid date"
 msgstr "La date est invalide"
 
-#: you2you.php:307
+#: you2you.php:319
 msgid "The delivery date should be after today's date"
 msgstr "La date de livraison doit être supérieur"
 
-#: you2you.php:326
+#: you2you.php:337
 msgid "The shop is closed in this day"
 msgstr "La boutique sera fermée. Choisissez un autre créneau de livraison."
 
-#: you2you.php:332
+#: you2you.php:343
 msgid "The shop is closed at that hour in the morning"
 msgstr ""
 "Nous ne pouvons pas livrer si tôt. Choisissez un autre créneau de livraison."
 
-#: you2you.php:338
+#: you2you.php:349
 msgid "The shop is closed at that hour in the afternoon"
 msgstr ""
 "Nous ne pouvons pas livrer à l'heure sélectionnée. Choisissez un autre "
 "créneau de livraison."
 
-#: you2you.php:368
+#: you2you.php:377
 msgid "Your delivery will be posted to you2you after the payment is made"
 msgstr ""
 "Votre commande sera transmise à You2you après la confirmation de votre "
 "paiement."
 
-#: you2you.php:399
+#: you2you.php:408
 #, php-format
 msgid ""
 "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -245,7 +259,7 @@ msgstr ""
 "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Produit : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;"
 "&nbsp;Quantité : %s<br>"
 
-#: you2you.php:409
+#: you2you.php:418
 #, php-format
 msgid ""
 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -256,15 +270,15 @@ msgstr ""
 "Largeur : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hauteur : %s<br>&nbsp;&nbsp;"
 "&nbsp;&nbsp;&nbsp;Poids : %s<br>"
 
-#: you2you.php:414 you2you.php:415 you2you.php:416 you2you.php:417
+#: you2you.php:423 you2you.php:424 you2you.php:425 you2you.php:426
 msgid "undefined"
 msgstr "Non définit"
 
-#: you2you.php:439
+#: you2you.php:448
 msgid "Order added from woocommerce plugin"
 msgstr "Commande créée avec le plugin WooCommerce"
 
-#: you2you.php:441
+#: you2you.php:450
 #, php-format
 msgid ""
 "A order has been placed from woocommerce plugin.<br>Store: %s, %s %s "
@@ -278,11 +292,11 @@ msgstr ""
 "%s<br>Société : %s<br>Prénom : %s<br>Nom : %s<br>Début du créneau: %s<br>Fin "
 "du créneau : %s<br>Compensation : %s&euro;"
 
-#: you2you.php:492
+#: you2you.php:501
 msgid "Order canceled from woocommerce plugin"
 msgstr "Commande annulée à partir du plugin WooCommerce"
 
-#: you2you.php:494
+#: you2you.php:503
 #, php-format
 msgid ""
 "Order canceled from woocommerce plugin.<br>Store address: %s, %s %s "
