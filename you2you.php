@@ -235,7 +235,9 @@ class Y2YWSM_CORE{
                     . '<img width="45px" src="' . Y2YWSM_PLUGIN_URL.'/assets/img/logo.png">'
                     . '<br>'.__('Collaborative delivery', 'y2ywsm').'<br></div><div style="font-size:12px;line-height:16px;text-align:justify">'
                     . __('To ensure a service that is both practical and environmentally friendly, your order will be delivered by our partner You2You. '
-                    . 'For more information, click here.', 'y2ywsm').'</div><br>';
+                    . 'For more information,', 'y2ywsm') . ' '
+                    .__('click here.', 'y2ywsm')
+                    . '</div><br>';
 
         } 
         return $label;
