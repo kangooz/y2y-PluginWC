@@ -78,9 +78,12 @@
         $('.call-modal').on('click', function(event) {
             event.preventDefault();
             $("#hidden_date").trigger("change");
-            $("#modal .ui-dialog-titlebar").css('display','none');
-            $('#modal').dialog({ width: '45%' });
-            $(".ui-dialog-titlebar").css('display','none');
+            $('#modal').dialog({
+                width: '45%',
+                close: function(event, ui){
+                    select_time();
+                }
+            });
         });
         /*
         $('#delivery_date').datepicker({
@@ -325,7 +328,7 @@
 
 
             }else{
-                $('#delivery_date_field').hide();
+                //$('#delivery_date_field').hide();
             }
         }
     });
