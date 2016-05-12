@@ -186,9 +186,9 @@ class Y2YWSM_CORE{
                 'defaultValue' => $this->getMinDateForJS($minDate), 
                 'minDateTime' => $minDate
                 ),
-            'trans' => array(
-                'chose_delivery_date' => __('Chose delivery date','y2ywsm'),
-                'chose' => __('Chose','y2ywsm'),'Choisir',
+            'messages' => array(
+                'choose_delivery_date' => __('Choose delivery date','y2ywsm'),
+                'choose' => __('Choose','y2ywsm'),
                 'please_be_available_at' => __('Please be available at','y2ywsm'),
                 'until' => __('until','y2ywsm'),
                 'you_chose' => __('You chose','y2ywsm'),
@@ -202,7 +202,7 @@ class Y2YWSM_CORE{
                'saturday' => __('Saturday','y2ywsm'),
                'sunday' => __('Sunday','y2ywsm'),
             ),
-            'month' => array(
+            'months' => array(
                 'january' => __('January','y2ywsm'),
                 'february' => __('February','y2ywsm'),
                 'march' => __('March','y2ywsm'),
@@ -259,7 +259,7 @@ class Y2YWSM_CORE{
                     . '<br>'.__('Collaborative delivery', 'y2ywsm').'<br></div><div style="font-size:12px;line-height:16px;text-align:justify">'
                     . __('To ensure a service that is both practical and environmentally friendly, your order will be delivered by our partner You2You. '
                     . 'For more information,', 'y2ywsm') . ' '
-                    .__('click here.', 'y2ywsm')
+                    .__('<a href="http://www.you2you.fr/commercant/" target="blank">click here.</a>.', 'y2ywsm')
                     . '</div><br>';
 
         } 
@@ -267,10 +267,10 @@ class Y2YWSM_CORE{
     }
     
     public function add_delivery_date_to_checkout_fields($fields){
-        $fields['billing']['delivery_date'] = array(
+        $fields['billing']['y2y_delivery_date'] = array(
             'type' => 'text',
             'required' => false,
-            'id'=> 'delivery_date',
+            'id'=> 'y2y_delivery_date',
             'custom_attributes' => array(
                 'autocomplete' => 'off',
                 'class' => 'hidden',
@@ -280,25 +280,25 @@ class Y2YWSM_CORE{
             'description' => __(' We will try to send the delivery within 2 hours from this time', 'y2ywsm')*/
         );
         
-        $fields['billing']['hidden_date'] = array(
+        $fields['billing']['y2y_hidden_date'] = array(
             'type' => 'text',
             'custom_attributes' => array(
                 'readonly' => 'true',
                 'class' => 'hidden',
             ),
-            'id' => 'hidden_date',
+            'id' => 'y2y_hidden_date',
             'value' => 'Choose a date',
             'label' => '<br><strong>'.__('Date','y2ywsm').'</strong>'
                 . '<br>'.__('Choose your delivery date','y2ywsm')
         );
         
-        $fields['billing']['hidden_time'] = array(
+        $fields['billing']['y2y_hidden_time'] = array(
             'type' => 'text',
             'custom_attributes' => array(
                 'readonly' => 'true',
                 'class' => 'hidden',
             ),
-            'id' => 'hidden_time',
+            'id' => 'y2y_hidden_time',
             'value' => 'Choose a time',
             'label' => '<br><strong>'.__('Time','y2ywsm').'</strong>'
                 . '<br>'.__('Choose your delivery time','y2ywsm')
@@ -318,47 +318,47 @@ class Y2YWSM_CORE{
                 wc_add_notice(sprintf(__('You2You is only available for postcodes beggining with %s', 'y2ywsm'), implode(', ',self::$validPostCodes)), 'error');
                 return;
             }
-            //$data['delivery_date'] = $data['hidden_date']." ".$data['hidden_time'];
+            //$data['y2y_delivery_date'] = $data['y2y_hidden_date']." ".$data['y2y_hidden_time'];
             
-            $delivery_date = $data['delivery_date'];
-            if(empty($delivery_date)){
+            $y2y_delivery_date = $data['y2y_delivery_date'];
+            if(empty($y2y_delivery_date)){
                 wc_add_notice( __('We need to know the date for the delivery', 'y2ywsm'), 'error' );
                 return;
             }
             
-            if (!preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $delivery_date)){
+            if (!preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $y2y_delivery_date)){
                 wc_add_notice( __('Invalid date', 'y2ywsm'), 'error' );
                 return;
             }
             
             
-            $delivery_date = date('Y-m-d H:i:s', strtotime($delivery_date));
+            $y2y_delivery_date = date('Y-m-d H:i:s', strtotime($y2y_delivery_date));
             $today = date('Y-m-d H:i:s');
-            $dayoftheweek = date('w', strtotime($delivery_date));
+            $dayoftheweek = date('w', strtotime($y2y_delivery_date));
             $timeout = 1;
-            if(date('Y-m-d') == date('Y-m-d',strtotime($delivery_date)))
+            if(date('Y-m-d') == date('Y-m-d',strtotime($y2y_delivery_date)))
             {
                 $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
             }
             
-            if($today > date('Y-m-d H:i:s',strtotime($delivery_date)-$timeout)){
+            if($today > date('Y-m-d H:i:s',strtotime($y2y_delivery_date)-$timeout)){
                 wc_add_notice( __('The delivery date should be after today\'s date', 'y2ywsm'), 'error' );
                 return;
             }
             
-            if(date('H:i:s',strtotime($this->openning_hours_beginning[$dayoftheweek])) > date('H:i:s',strtotime($delivery_date)))
+            if(date('H:i:s',strtotime($this->openning_hours_beginning[$dayoftheweek])) > date('H:i:s',strtotime($y2y_delivery_date)))
             {
                 wc_add_notice( __('Choose an hour after openning time', 'y2ywsm'), 'error' );
                 return;
             }
             
-            if(date('H:i:s',strtotime($this->openning_hours_endding[$dayoftheweek])+ 60*60) < date('H:i:s',strtotime($delivery_date)))
+            if(date('H:i:s',strtotime($this->openning_hours_endding[$dayoftheweek])+ 60*60) < date('H:i:s',strtotime($y2y_delivery_date)))
             {
                 wc_add_notice( __('Choose an hour before closing time', 'y2ywsm'), 'error' );
                 return;
             }
             
-            $timestamp = strtotime($delivery_date);
+            $timestamp = strtotime($y2y_delivery_date);
             $year = date('Y', $timestamp);
             $month = date('m', $timestamp);
             $day = date('d', $timestamp);
@@ -408,7 +408,7 @@ class Y2YWSM_CORE{
         $wpdb->insert($wpdb->prefix.'y2y_deliveries',
                 array(
                     'wc_order_id' => $order_id,
-                    'delivery_date' => date('Y-m-d H:i:s', strtotime($data['delivery_date'])),
+                    'delivery_date' => date('Y-m-d H:i:s', strtotime($data['y2y_delivery_date'])),
                      'status' => 1
                     )
             );

@@ -3,27 +3,27 @@
         //$("#delivery_date").parent().append('<div style="display:none;" class="y2ywsm-datepicker-holder"></div>');
 
         //$('#delivery_date').attr('data-field', 'datetime');
-        $("#hidden_date_field").css('display','none');
-        $("#hidden_time_field").css('display','none');
-        $("#delivery_date").css('display','none');
+        $("#y2y_hidden_date_field").css('display','none');
+        $("#y2y_hidden_time_field").css('display','none');
+        $("#y2y_delivery_date").css('display','none');
         var div = $('<div/>', {id: "y2y_module"});
-        var hidden_date_field = $("#hidden_date_field");
-        var hidden_time_field = $("#hidden_time_field");
-        var delivery_date = $("#delivery_date");
-        $("#hidden_date_field").remove();
-        $("#hidden_time_field").remove();
-        $("#delivery_date").remove();
-        var button = $('<button class="call-modal">'+options.trans.chose_delivery_date+'</button>');
+        var y2y_hidden_date_field = $("#y2y_hidden_date_field");
+        var y2y_hidden_time_field = $("#y2y_hidden_time_field");
+        var y2y_delivery_date = $("#y2y_delivery_date");
+        $("#y2y_hidden_date_field").remove();
+        $("#y2y_hidden_time_field").remove();
+        $("#y2y_delivery_date").remove();
+        var button = $('<button class="call-modal">'+options.messages.choose_delivery_date+'</button>');
         var modal = $('<div id="modal-y2y" style="display:none">'
                                                     +'<div id="calendar" style="display: inline; float: left; width:50%;"></div>'
                                                     +'<div class="time" style="display: inline; float: right; width:45%;"></div>'
                                                     +'<div style="width:100%;display:table; padding:4px; float: right;">'
-                                                        +'<input type="button" value="'+options.trans.chose+'" onclick="select_time()">'
+                                                        +'<input type="button" value="'+options.messages.choose+'" onclick="select_time()">'
                                                     +'</div>'
                                                 +'</div>');
-        div.append(delivery_date);
-        div.append(hidden_date_field);
-        div.append(hidden_time_field);
+        div.append(y2y_delivery_date);
+        div.append(y2y_hidden_date_field);
+        div.append(y2y_hidden_time_field);
         div.append(button);
         div.append(modal);
         $('.woocommerce-billing-fields').append(div);
@@ -59,7 +59,7 @@
         
         var cal = $('#y2y_module #calendar').datepicker({
             minDate: minDate,
-            altField: "#hidden_date",
+            altField: "#y2y_hidden_date",
             altFormat: "yy-mm-dd",
             setDate: minDate,
             buttonText: "Select date",
@@ -72,12 +72,12 @@
                 }
             },
             onSelect: function(date) {
-                $("#y2y_module #hidden_date").trigger("change");
+                $("#y2y_module #y2y_hidden_date").trigger("change");
             }
         });
         $('#y2y_module .call-modal').on('click', function(event) {
             event.preventDefault();
-            $("#y2y_module #hidden_date").trigger("change");
+            $("#y2y_module #y2y_hidden_date").trigger("change");
             $('#modal-y2y').dialog({
                 width: '45%',
                 close: function(event, ui){
@@ -86,12 +86,12 @@
             });
         });
         /*
-        $('#delivery_date').datepicker({
+        $('#y2y_delivery_date').datepicker({
             showOn: "button",
             minDate: minDate,
             buttonImage: options.calendar_img,
             buttonImageOnly: true,
-            altField: "#hidden_date",
+            altField: "#y2y_hidden_date",
             altFormat: "yy-mm-dd",
             buttonText: "Select date",
             beforeShowDay: function(date) {
@@ -104,7 +104,7 @@
             }
         });*/
         /*
-        $( "#delivery_date" ).focus(function() {
+        $( "#y2y_delivery_date" ).focus(function() {
             //$('.ui-datepicker-trigger').click();
         });*/
         
@@ -125,33 +125,33 @@
             defaultDate: options.dateTimePicker.defaultValue
         });
         
-        $("#y2y_module #hidden_date").change(function() {
-            val = $("#hidden_date").val();
+        $("#y2y_module #y2y_hidden_date").change(function() {
+            val = $("#y2y_hidden_date").val();
             choosen_date = val.split('-');
             monthpos = choosen_date[1].replace(/^0+/, '');
             choosen_day = choosen_date[2].replace(/^0+/, '');
             time_sent = '';
-            rawtime = $("#hidden_time").val();
+            rawtime = $("#y2y_hidden_time").val();
             time = rawtime;
             if(time!==''){
                 time = time.split('-');
                 time_sent = time[0].toString().replace('h',':')+":00";
-                time = options.trans.please_be_available_at+" "+time[0]+" "+options.trans.until+" "+time[1]+'.';
+                time = options.messages.please_be_available_at+" "+time[0]+" "+options.messages.until+" "+time[1]+'.';
             }
-            $("#y2y_module #delivery_date").val(val+" "+time_sent);
+            $("#y2y_module #y2y_delivery_date").val(val+" "+time_sent);
             var months = [
-                options.month.january,
-                options.month.february,
-                options.month.march,
-                options.month.april,
-                options.month.may,
-                options.month.june,
-                options.month.july,
-                options.month.august,
-                options.month.september,
-                options.month.october,
-                options.month.november,
-                options.month.december
+                options.months.january,
+                options.months.february,
+                options.months.march,
+                options.months.april,
+                options.months.may,
+                options.months.june,
+                options.months.july,
+                options.months.august,
+                options.months.september,
+                options.months.october,
+                options.months.november,
+                options.months.december
             ];
             var week = [
                 options.week.sunday,
@@ -169,7 +169,7 @@
             var dayoftheweek = week[choosen_day];
             var month = months[monthpos-1];
             
-            $("#y2y_module #sentence").html(options.trans.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
+            $("#y2y_module #sentence").html(options.messages.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
             
             var times = [];
             
@@ -294,18 +294,18 @@
 
         $(document).on('click', "input[name='shipping_method[0]']", function(){
             
-            /*if($(this).val() === 'You2You')
+            if($(this).val() === 'You2You')
             {
-                $('#delivery_date_field').show();
+                $('#y2y_delivery_date_field').show();
                 
                 $('html, body').animate({
-                    scrollTop: $("#delivery_date").offset().top-100
+                    scrollTop: $("#y2y_delivery_date").offset().top-100
                 }, 1000);
             }
             else
             {
-                $('#delivery_date_field').hide();
-            }*/
+                //$('#y2y_delivery_date_field').hide();
+            }
         });
             
         $(document.body).on('updated_checkout', checkShippingMethod);
@@ -314,19 +314,19 @@
             if($("input[name='shipping_method[0]'][value=You2You]").length > 0){
                 if($("input[name='shipping_method[0]']").length > 1){
                     if($("input[name='shipping_method[0]'][value=You2You]").is(':checked')){
-                        //$('#delivery_date_field').show();
+                        //$('#y2y_delivery_date_field').show();
                     }
                     else
                     {
-                        //$('#delivery_date_field').hide();
+                        //$('#y2y_delivery_date_field').hide();
                     };
                 }else{
-                    //$('#delivery_date_field').show();
+                    //$('#y2y_delivery_date_field').show();
                 }
 
 
             }else{
-                //$('#delivery_date_field').hide();
+                //$('#y2y_delivery_date_field').hide();
             }
         }
     });
@@ -335,7 +335,7 @@
 function select_time()
 {
     time_sel = jQuery('#modal-y2y .radio-buttons input[name=time]:checked').val();
-    jQuery('#y2y_module #hidden_time').val(time_sel);
-    jQuery("#y2y_module #hidden_date").trigger("change");
+    jQuery('#y2y_module #y2y_hidden_time').val(time_sel);
+    jQuery("#y2y_module #y2y_hidden_date").trigger("change");
     jQuery("#modal-y2y").dialog('close');
 }
