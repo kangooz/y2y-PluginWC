@@ -26,8 +26,8 @@
         div.append(y2y_hidden_time_field);
         div.append(button);
         div.append(modal);
+        div.append('<div id="y2y-sentence"></div>');
         $('.woocommerce-billing-fields').append(div);
-        $('.call-modal').parent().append('<div id="sentence"></div>');
         
         closed_days = '';
         cd = '';
@@ -169,7 +169,7 @@
             var dayoftheweek = week[choosen_day];
             var month = months[monthpos-1];
             
-            $("#y2y_module #sentence").html(options.messages.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
+            $("#y2y_module #y2y-sentence").html(options.messages.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
             
             var times = [];
             
