@@ -14,7 +14,7 @@
         $("#hidden_time_field").remove();
         $("#delivery_date").remove();
         var button = $('<button class="call-modal">'+options.trans.chose_delivery_date+'</button>');
-        var modal = $('<div id="modal" style="display:none">'
+        var modal = $('<div id="modal-y2y" style="display:none">'
                                                     +'<div id="calendar" style="display: inline; float: left; width:50%;"></div>'
                                                     +'<div class="time" style="display: inline; float: right; width:45%;"></div>'
                                                     +'<div style="width:100%;display:table; padding:4px; float: right;">'
@@ -57,7 +57,7 @@
             minDate = 1;
         }
         
-        var cal = $('#calendar').datepicker({
+        var cal = $('#y2y_module #calendar').datepicker({
             minDate: minDate,
             altField: "#hidden_date",
             altFormat: "yy-mm-dd",
@@ -72,13 +72,13 @@
                 }
             },
             onSelect: function(date) {
-                $("#hidden_date").trigger("change");
+                $("#y2y_module #hidden_date").trigger("change");
             }
         });
-        $('.call-modal').on('click', function(event) {
+        $('#y2y_module .call-modal').on('click', function(event) {
             event.preventDefault();
-            $("#hidden_date").trigger("change");
-            $('#modal').dialog({
+            $("#y2y_module #hidden_date").trigger("change");
+            $('#modal-y2y').dialog({
                 width: '45%',
                 close: function(event, ui){
                     select_time();
@@ -125,7 +125,7 @@
             defaultDate: options.dateTimePicker.defaultValue
         });
         
-        $("#hidden_date").change(function() {
+        $("#y2y_module #hidden_date").change(function() {
             val = $("#hidden_date").val();
             choosen_date = val.split('-');
             monthpos = choosen_date[1].replace(/^0+/, '');
@@ -138,7 +138,7 @@
                 time_sent = time[0].toString().replace('h',':')+":00";
                 time = options.trans.please_be_available_at+" "+time[0]+" "+options.trans.until+" "+time[1]+'.';
             }
-            $("#delivery_date").val(val+" "+time_sent);
+            $("#y2y_module #delivery_date").val(val+" "+time_sent);
             var months = [
                 options.month.january,
                 options.month.february,
@@ -154,13 +154,13 @@
                 options.month.december
             ];
             var week = [
+                options.week.sunday,
                 options.week.monday,
                 options.week.tuesday,
                 options.week.wednesday,
                 options.week.thursday,
                 options.week.friday,
-                options.week.saturday,
-                options.week.sunday
+                options.week.saturday
             ];
             
             var year = choosen_date[0];
@@ -169,7 +169,7 @@
             var dayoftheweek = week[choosen_day];
             var month = months[monthpos-1];
             
-            $("#sentence").html(options.trans.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
+            $("#y2y_module #sentence").html(options.trans.you_chose+" "+dayoftheweek+" "+dayofthemonth+" "+month+" "+year+". "+time);
             
             var times = [];
             
@@ -180,8 +180,6 @@
             
             var add = timeout;
             var now = moment(today).format('HH:mm');
-            console.debug(val);
-            console.debug(now);
             now_m = moment(now,'HH:mm').format('mm');
             while(now_m!=='00' && now_m!=='15' && now_m!=='30' && now_m!=='45'){
                 now = moment(now,'HH:mm').add(1,'minute');
@@ -266,8 +264,8 @@
                 }
             }
             
-            if($( ".radio-buttons" ).length === 0){
-                $("#modal .time").append('<div class="radio-buttons"></div>');
+            if($( "#y2y_module .radio-buttons" ).length === 0){
+                $("#y2y_module #modal-y2y .time").append('<div class="radio-buttons"></div>');
             }
             
             var radiobtns = '';
@@ -287,8 +285,8 @@
             if(radiobtns===''){
                 radiobtns = '<p style="algin-text:center">Il n\'y a plus de livraisons en ce jour. S\'il vous plaît choisir un autre jour.</p>';
             }
-            $(".radio-buttons").html(radiobtns);
-            $('.buttonsetv').buttonsetv();
+            $("#modal-y2y .radio-buttons").html(radiobtns);
+            $('#modal-y2y .buttonsetv').buttonsetv();
         });
         
         checkShippingMethod();
@@ -336,8 +334,8 @@
 
 function select_time()
 {
-    time_sel = jQuery('.radio-buttons input[name=time]:checked').val();
-    jQuery('#hidden_time').val(time_sel);
-    jQuery("#hidden_date").trigger("change");
-    jQuery("#modal").dialog('close');
+    time_sel = jQuery('#modal-y2y .radio-buttons input[name=time]:checked').val();
+    jQuery('#y2y_module #hidden_time').val(time_sel);
+    jQuery("#y2y_module #hidden_date").trigger("change");
+    jQuery("#modal-y2y").dialog('close');
 }
