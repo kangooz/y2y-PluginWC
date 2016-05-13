@@ -486,6 +486,8 @@ class Y2YWSM_CORE{
         $subject = __('Order added from woocommerce plugin', 'y2ywsm');
         $message = sprintf(
                 __('A order has been placed from woocommerce plugin.<br>'
+                        . 'Order ID: %s<br>'
+                        . 'Site URL: %s<br>'
                         . 'Store: %s, %s %s %s<br>'
                         . 'Store information: %s<br>'
                         . 'Order details: %s<br>'
@@ -499,6 +501,8 @@ class Y2YWSM_CORE{
                         . 'Shipend: %s<br>'
                         . 'Compensation: %s&euro;', 
                 'y2ywsm'),
+                $order_id,
+                site_url(),
                 $this->store_address,
                 $this->store_postalcode,
                 $this->store_city,
