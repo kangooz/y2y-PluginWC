@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-13 17:09+0100\n"
-"PO-Revision-Date: 2016-05-13 17:09+0100\n"
+"PO-Revision-Date: 2016-05-16 16:51+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -24,12 +24,12 @@ msgstr ""
 
 #: Y2YWSM_Shipping_Method.php:31
 msgid "You2You shipping method"
-msgstr "You2you - Livraison collaborative"
+msgstr "you2you - Livraison collaborative"
 
 #: Y2YWSM_Shipping_Method.php:32
 msgid "Description of your shipping method"
 msgstr ""
-"You2You, la livraison collaborative.\n"
+"you2you, la livraison collaborative.\n"
 "Dynamisez vos ventes en proposant un service de livraison en 3 heures ou sur "
 "rendez-vous."
 
@@ -63,7 +63,7 @@ msgstr "Dimanche"
 
 #: Y2YWSM_Shipping_Method.php:147
 msgid "You2You"
-msgstr "You2You"
+msgstr "you2you"
 
 #: Y2YWSM_Shipping_Method.php:164
 msgid "Enable/Disable"
@@ -71,7 +71,7 @@ msgstr "Activer"
 
 #: Y2YWSM_Shipping_Method.php:166
 msgid "Enable this shipping method"
-msgstr "Activer la livraison You2you"
+msgstr "Activer la livraison you2you"
 
 #: Y2YWSM_Shipping_Method.php:169
 msgid "API Key"
@@ -131,7 +131,7 @@ msgstr "à "
 msgid "The %s is disabled because the key and secret are not valid"
 msgstr ""
 "Le plugin %s est désactivé car la clef et le secret API ne sont pas valides. "
-"Veuillez contacter le support You2you."
+"Veuillez contacter le support you2you."
 
 #: you2you.php:130
 msgid "German"
@@ -250,8 +250,8 @@ msgid ""
 "To ensure a service that is both practical and environmentally friendly, "
 "your order will be delivered by our partner You2You. For more information,"
 msgstr ""
-"Pour vous assurez un service à la fois pratique et écologique, votre "
-"commande vous sera livrée par notre partenaire You2You. Pour en savoir plus,"
+"Pour vous assurer un service à la fois pratique et écologique, votre "
+"commande vous sera livrée par notre partenaire you2you. Pour en savoir plus,"
 
 #: you2you.php:262
 msgid ""
@@ -281,7 +281,7 @@ msgstr "Choisir l'heure de la livraison"
 #, php-format
 msgid "You2You is only available for postcodes beggining with %s"
 msgstr ""
-"Le service You2You est pour le moment disponible dans les départements %s"
+"Le service you2you est pour le moment disponible dans les départements %s"
 
 #: you2you.php:325
 msgid "We need to know the date for the delivery"
@@ -321,7 +321,7 @@ msgstr ""
 #: you2you.php:415
 msgid "Your delivery will be posted to you2you after the payment is made"
 msgstr ""
-"Votre commande sera transmise à You2you après la confirmation de votre "
+"Votre commande sera transmise à you2you après la confirmation de votre "
 "paiement."
 
 #: you2you.php:446
