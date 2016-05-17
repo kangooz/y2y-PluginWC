@@ -108,6 +108,9 @@ class Y2YWSM_CORE{
             
             //Show the date in the backoffice when viewing the order details
             add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'show_delivery_date_in_backoffice'), 10, 1);
+            
+            //Show the date in the email sent to the customer
+            add_filter('woocommerce_email_customer_details_fields', array($this, 'show_delivery_date_in_email'), 15, 3);
         }
         
     }
@@ -665,6 +668,22 @@ class Y2YWSM_CORE{
             ?>
         </div>
         <?php
+    }
+    
+    public function show_delivery_date_in_email($fields, $sent_to_admin, $order){
+        global $wpdb;
+        $db_row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}y2y_deliveries WHERE wc_order_id = {$order->id}");
+        if($db_row !== null){
+            $fields['y2y_delivery_date'] = array(
+				'label' => __( 'Delivery date', 'y2ywsm' ),
+				'value' => wptexturize( date(
+                                            wc_date_format().' '.wc_time_format(), 
+                                            strtotime($db_row->delivery_date)
+                                        ) 
+                                )
+                );
+        }
+        return $fields;
     }
     
 }
