@@ -405,14 +405,16 @@ class Y2YWSM_CORE{
     
     public function insert_delivery_in_db($order_id, $data){
         global $wpdb;
-        $wpdb->insert($wpdb->prefix.'y2y_deliveries',
-                array(
-                    'wc_order_id' => $order_id,
-                    'delivery_date' => date('Y-m-d H:i:s', strtotime($data['y2y_delivery_date'])),
-                     'status' => 1
-                    )
-            );
-        wc_add_notice(__("Your delivery will be posted to you2you after the payment is made", 'y2ywsm'), 'notice');
+        if(in_array(Y2YWSM_ID, $data['shipping_method'])){
+            $wpdb->insert($wpdb->prefix.'y2y_deliveries',
+                    array(
+                        'wc_order_id' => $order_id,
+                        'delivery_date' => date('Y-m-d H:i:s', strtotime($data['y2y_delivery_date'])),
+                         'status' => 1
+                        )
+                );
+            wc_add_notice(__("Your delivery will be posted to you2you after the payment is made", 'y2ywsm'), 'notice');
+        }
     }
     
     public function order_status_changed($order_id, $old_status, $new_status){
