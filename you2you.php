@@ -105,6 +105,9 @@ class Y2YWSM_CORE{
             
             //Customize appearence of the delivery_date in the checkout form
             add_filter('woocommerce_form_field_text', array($this, 'customize_delivery_date_field'), 10, 4);
+            
+            //Show the date in the backoffice when viewing the order details
+            add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'show_delivery_date_in_backoffice'), 10, 1);
         }
         
     }
@@ -643,5 +646,26 @@ class Y2YWSM_CORE{
         }
         
     }
+    
+    public function show_delivery_date_in_backoffice($order){
+        global $wpdb;
+        $db_row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}y2y_deliveries WHERE wc_order_id = {$order->id}");
+        if($db_row === null){
+            return;
+        }
+        ?>
+        <div class="y2y-shipping-details">
+            <?php echo sprintf("%s: %s",
+                    __("Delivery date", 'y2ywsm'),
+                    date(
+                        wc_date_format().' '.wc_time_format(), 
+                        strtotime($db_row->delivery_date)
+                    )
+                );
+            ?>
+        </div>
+        <?php
+    }
+    
 }
 new Y2YWSM_CORE;
