@@ -104,7 +104,7 @@ class Y2YWSM_CORE{
             add_action('woocommerce_order_status_changed', array($this, 'order_status_changed'),10, 3);
             
             //Customize appearence of the delivery_date in the checkout form
-            add_filter('woocommerce_form_field_text', array($this, 'customize_delivery_date_field'), 10, 4);
+            //add_filter('woocommerce_form_field_text', array($this, 'customize_delivery_date_field'), 10, 4);
             
             //Show the date in the backoffice when viewing the order details
             add_action('woocommerce_admin_order_data_after_shipping_address', array($this, 'show_delivery_date_in_backoffice'), 10, 1);
@@ -596,7 +596,7 @@ class Y2YWSM_CORE{
         }
         
         if(!in_array($lang, array_keys($this->available_languages))){
-            $lang = 'es';
+            $lang = 'fr';
         }
         
         return $lang;
@@ -660,31 +660,45 @@ class Y2YWSM_CORE{
         <div class="y2y-shipping-details">
             <?php echo sprintf("%s: %s",
                     __("Delivery date", 'y2ywsm'),
-                    date(
-                        wc_date_format().' '.wc_time_format(), 
-                        strtotime($db_row->delivery_date)
+                    sprintf(__("%s between %s and %s", "y2ywssm"),
+                        $this->format_the_date($db_row->delivery_date),
+                        $this->format_the_time($db_row->delivery_date),
+                        $this->format_the_time($db_row->delivery_date . "+ 1 hour")
                     )
+                    
                 );
             ?>
         </div>
         <?php
     }
     
-    public function show_delivery_date_in_email($fields, $sent_to_admin, $order){
+    public function show_delivery_date_in_email($fields, $sent_to_admin, $order) {
         global $wpdb;
         $db_row = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}y2y_deliveries WHERE wc_order_id = {$order->id}");
-        if($db_row !== null){
+        if ($db_row !== null) {
             $fields['y2y_delivery_date'] = array(
-				'label' => __( 'Delivery date', 'y2ywsm' ),
-				'value' => wptexturize( date(
-                                            wc_date_format().' '.wc_time_format(), 
-                                            strtotime($db_row->delivery_date)
-                                        ) 
-                                )
-                );
+                'label' => __('Delivery date', 'y2ywsm'),
+                'value' => sprintf(__("%s between %s and %s", "y2ywssm"), 
+                        wptexturize($this->format_the_date($db_row->delivery_date)), 
+                        wptexturize($this->format_the_time($db_row->delivery_date)),
+                        wptexturize($this->format_the_time($db_row->delivery_date . "+ 1 hour"))
+                )
+            );
         }
         return $fields;
     }
+
+    private function format_full_date($sql_date){
+        return $this->format_the_date($sql_date).' '.$this->format_the_time($sql_date);
+    }
     
+    private function format_the_date($sql_date){
+        return date(wc_date_format(), strtotime($sql_date));
+    }
+    
+    private function format_the_time($sql_date){
+        return date(wc_time_format(), strtotime($sql_date));
+    }
+
 }
 new Y2YWSM_CORE;
