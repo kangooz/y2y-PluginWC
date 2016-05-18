@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-13 17:09+0100\n"
-"PO-Revision-Date: 2016-05-16 16:51+0200\n"
+"POT-Creation-Date: 2016-05-18 16:57+0100\n"
+"PO-Revision-Date: 2016-05-18 16:58+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-KeywordsList: __\n"
@@ -33,31 +33,31 @@ msgstr ""
 "Dynamisez vos ventes en proposant un service de livraison en 3 heures ou sur "
 "rendez-vous."
 
-#: Y2YWSM_Shipping_Method.php:60 you2you.php:197
+#: Y2YWSM_Shipping_Method.php:60 you2you.php:203
 msgid "Monday"
 msgstr "Lundi"
 
-#: Y2YWSM_Shipping_Method.php:61 you2you.php:198
+#: Y2YWSM_Shipping_Method.php:61 you2you.php:204
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: Y2YWSM_Shipping_Method.php:62 you2you.php:199
+#: Y2YWSM_Shipping_Method.php:62 you2you.php:205
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: Y2YWSM_Shipping_Method.php:63 you2you.php:200
+#: Y2YWSM_Shipping_Method.php:63 you2you.php:206
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: Y2YWSM_Shipping_Method.php:64 you2you.php:201
+#: Y2YWSM_Shipping_Method.php:64 you2you.php:207
 msgid "Friday"
 msgstr "Vendredi"
 
-#: Y2YWSM_Shipping_Method.php:65 you2you.php:202
+#: Y2YWSM_Shipping_Method.php:65 you2you.php:208
 msgid "Saturday"
 msgstr "Samedi"
 
-#: Y2YWSM_Shipping_Method.php:66 you2you.php:203
+#: Y2YWSM_Shipping_Method.php:66 you2you.php:209
 msgid "Sunday"
 msgstr "Dimanche"
 
@@ -122,7 +122,7 @@ msgid "Store additional Information"
 msgstr "Informations complémentaires"
 
 #: Y2YWSM_Shipping_Method.php:246 Y2YWSM_Shipping_Method.php:253
-#: you2you.php:193
+#: you2you.php:199
 msgid "until"
 msgstr "à "
 
@@ -133,119 +133,119 @@ msgstr ""
 "Le plugin %s est désactivé car la clef et le secret API ne sont pas valides. "
 "Veuillez contacter le support you2you."
 
-#: you2you.php:130
+#: you2you.php:136
 msgid "German"
 msgstr "Allemand"
 
-#: you2you.php:131
+#: you2you.php:137
 msgid "English"
 msgstr "Anglais"
 
-#: you2you.php:132
+#: you2you.php:138
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: you2you.php:133
+#: you2you.php:139
 msgid "French"
 msgstr "Français"
 
-#: you2you.php:134
+#: you2you.php:140
 msgid "Japanese"
 msgstr "Japonais"
 
-#: you2you.php:135
+#: you2you.php:141
 msgid "Dutch"
 msgstr "Néerlandais"
 
-#: you2you.php:136
+#: you2you.php:142
 msgid "Romanian"
 msgstr "Roumain"
 
-#: you2you.php:137
+#: you2you.php:143
 msgid "Russian"
 msgstr "Russe"
 
-#: you2you.php:138
+#: you2you.php:144
 msgid "Ukrainian"
 msgstr "Ukrainien"
 
-#: you2you.php:139
+#: you2you.php:145
 msgid "Chinese (T)"
 msgstr "Chinois traditionnel"
 
-#: you2you.php:140
+#: you2you.php:146
 msgid "Chinese (S)"
 msgstr "Chinois simplifié"
 
-#: you2you.php:190
+#: you2you.php:196
 msgid "Choose delivery date"
 msgstr "Choisir la date de livraison"
 
-#: you2you.php:191
+#: you2you.php:197
 msgid "Choose"
 msgstr "Choisir"
 
-#: you2you.php:192
+#: you2you.php:198
 msgid "Please be available at"
 msgstr "Veuillez vous rendre disponible de"
 
-#: you2you.php:194
+#: you2you.php:200
 msgid "You chose"
 msgstr "Vous avez choisi le"
 
-#: you2you.php:206
+#: you2you.php:212
 msgid "January"
 msgstr "Janvier"
 
-#: you2you.php:207
+#: you2you.php:213
 msgid "February"
 msgstr "Février"
 
-#: you2you.php:208
+#: you2you.php:214
 msgid "March"
 msgstr "Mars"
 
-#: you2you.php:209
+#: you2you.php:215
 msgid "April"
 msgstr "Avril"
 
-#: you2you.php:210
+#: you2you.php:216
 msgid "May"
 msgstr "Mai"
 
-#: you2you.php:211
+#: you2you.php:217
 msgid "June"
 msgstr "Juin"
 
-#: you2you.php:212
+#: you2you.php:218
 msgid "July"
 msgstr "Juillet"
 
-#: you2you.php:213
+#: you2you.php:219
 msgid "August"
 msgstr "Août"
 
-#: you2you.php:214
+#: you2you.php:220
 msgid "September"
 msgstr "Septembre"
 
-#: you2you.php:215
+#: you2you.php:221
 msgid "October"
 msgstr "Octobre"
 
-#: you2you.php:216
+#: you2you.php:222
 msgid "November"
 msgstr "Novembre"
 
-#: you2you.php:217
+#: you2you.php:223
 msgid "December"
 msgstr "Décembre"
 
-#: you2you.php:259
+#: you2you.php:265
 msgid "Collaborative delivery"
 msgstr "Livraison collaborative"
 
-#: you2you.php:260
+#: you2you.php:266
 msgid ""
 "To ensure a service that is both practical and environmentally friendly, "
 "your order will be delivered by our partner You2You. For more information,"
@@ -253,7 +253,7 @@ msgstr ""
 "Pour vous assurer un service à la fois pratique et écologique, votre "
 "commande vous sera livrée par notre partenaire you2you. Pour en savoir plus,"
 
-#: you2you.php:262
+#: you2you.php:268
 msgid ""
 "<a href=\"http://www.you2you.fr/commercant/\" target=\"blank\">click here.</"
 "a>."
@@ -261,70 +261,70 @@ msgstr ""
 "<a href=\"http://www.you2you.fr/commercant/\" target=\"blank\">cliquez ici</"
 "a>."
 
-#: you2you.php:291
+#: you2you.php:297
 msgid "Date"
 msgstr "Date"
 
-#: you2you.php:292
+#: you2you.php:298
 msgid "Choose your delivery date"
 msgstr "Choisis le créneau de livraison."
 
-#: you2you.php:303
+#: you2you.php:309
 msgid "Time"
 msgstr "Horaire"
 
-#: you2you.php:304
+#: you2you.php:310
 msgid "Choose your delivery time"
 msgstr "Choisir l'heure de la livraison"
 
-#: you2you.php:318
+#: you2you.php:324
 #, php-format
 msgid "You2You is only available for postcodes beggining with %s"
 msgstr ""
 "Le service you2you est pour le moment disponible dans les départements %s"
 
-#: you2you.php:325
+#: you2you.php:331
 msgid "We need to know the date for the delivery"
 msgstr "Vous devez nous indiquer un créneau de livraison."
 
-#: you2you.php:330
+#: you2you.php:336
 msgid "Invalid date"
 msgstr "La date est invalide"
 
-#: you2you.php:345
+#: you2you.php:351
 msgid "The delivery date should be after today's date"
 msgstr "La date de livraison doit être supérieur"
 
-#: you2you.php:351
+#: you2you.php:357
 msgid "Choose an hour after openning time"
 msgstr "Choisir une heure après l'heure d'ouverture"
 
-#: you2you.php:357
+#: you2you.php:363
 msgid "Choose an hour before closing time"
 msgstr "Choisir une heure avant la fermeture"
 
-#: you2you.php:375
+#: you2you.php:381
 msgid "The shop is closed in this day"
 msgstr "La boutique sera fermée. Choisissez un autre créneau de livraison."
 
-#: you2you.php:381
+#: you2you.php:387
 msgid "The shop is closed at that hour in the morning"
 msgstr ""
 "Nous ne pouvons pas livrer si tôt. Choisissez un autre créneau de livraison."
 
-#: you2you.php:387
+#: you2you.php:393
 msgid "The shop is closed at that hour in the afternoon"
 msgstr ""
 "Nous ne pouvons pas livrer à l'heure sélectionnée. Choisissez un autre "
 "créneau de livraison."
 
-#: you2you.php:415
+#: you2you.php:422
 msgid "Your delivery will be posted to you2you after the payment is made"
 msgstr ""
 "Votre commande sera transmise à you2you après la confirmation de votre "
 "paiement."
 
-#: you2you.php:446
+#: you2you.php:454
 #, php-format
 msgid ""
 "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -333,7 +333,7 @@ msgstr ""
 "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Produit : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;"
 "&nbsp;Quantité : %s<br>"
 
-#: you2you.php:456
+#: you2you.php:464
 #, php-format
 msgid ""
 "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Width: %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -344,15 +344,15 @@ msgstr ""
 "Largeur : %s<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hauteur : %s<br>&nbsp;&nbsp;"
 "&nbsp;&nbsp;&nbsp;Poids : %s<br>"
 
-#: you2you.php:461 you2you.php:462 you2you.php:463 you2you.php:464
+#: you2you.php:469 you2you.php:470 you2you.php:471 you2you.php:472
 msgid "undefined"
 msgstr "Non définit"
 
-#: you2you.php:486
+#: you2you.php:494
 msgid "Order added from woocommerce plugin"
 msgstr "Commande créée avec le plugin WooCommerce"
 
-#: you2you.php:488
+#: you2you.php:496
 #, php-format
 msgid ""
 "A order has been placed from woocommerce plugin.<br>Order ID: %s<br>Site "
@@ -367,11 +367,11 @@ msgstr ""
 "%s<br>Information destination : %s<br>Société : %s<br>Prénom : %s<br>Nom : "
 "%s<br>Début du créneau: %s<br>Fin du créneau : %s<br>Compensation : %s&euro;"
 
-#: you2you.php:546
+#: you2you.php:554
 msgid "Order canceled from woocommerce plugin"
 msgstr "Commande annulée à partir du plugin WooCommerce"
 
-#: you2you.php:548
+#: you2you.php:556
 #, php-format
 msgid ""
 "Order canceled from woocommerce plugin.<br>Store address: %s, %s %s "
@@ -379,6 +379,15 @@ msgid ""
 msgstr ""
 "Commande annulée à partir du plugin WooCommerce.<br>Adresse du magasin : %s, "
 "%s %s %s<br>Adresse de livraison : %s, %s %s %s<br>Horaire de livraison : %s"
+
+#: you2you.php:662 you2you.php:680
+msgid "Delivery date"
+msgstr "Date de livraison"
+
+#: you2you.php:663 you2you.php:681
+#, php-format
+msgid "%s between %s and %s"
+msgstr "%s entre %s et %s"
 
 #~ msgid ""
 #~ "A order has been placed from woocommerce plugin.<br>Store: %s, %s %s "
