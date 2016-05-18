@@ -570,9 +570,12 @@ class Y2YWSM_CORE{
                 
         );
         
-        
         $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: support@partner-it-group.com');
-
+        if($this->email_notification=='yes' && !empty($this->email))
+        {
+            $headers[] = 'cc: '.$this->email;
+        }
+        
         wp_mail($to, $subject, $message, $headers);
         $wpdb->update(
                 $wpdb->prefix.'y2y_deliveries',
