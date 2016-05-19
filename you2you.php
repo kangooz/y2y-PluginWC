@@ -198,6 +198,8 @@ class Y2YWSM_CORE{
                 'please_be_available_at' => __('Please be available at','y2ywsm'),
                 'until' => __('until','y2ywsm'),
                 'you_chose' => __('You chose','y2ywsm'),
+                'final' => __('to receive your package from the shipper. He will ask you a code that you will receive by SMS in a few minutes','y2ywsm'),
+                'no_deliveries' => __('There are more deliveries that day. Please choose another day.','y2ywsm')
                 ),
             'week' => array(
                'monday' => __('Monday','y2ywsm'),
@@ -344,7 +346,7 @@ class Y2YWSM_CORE{
             $timeout = 1;
             if(date('Y-m-d') == date('Y-m-d',strtotime($y2y_delivery_date)))
             {
-                $timeout = ($this->timeout > 2) ? $this->timeout*60*60 : 2*60*60;
+                $timeout = ($this->timeout >= 1) ? $this->timeout*60*60 : 1*60*60;
             }
             
             if($today > date('Y-m-d H:i:s',strtotime($y2y_delivery_date)-$timeout)){

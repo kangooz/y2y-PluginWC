@@ -86,7 +86,11 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             //Validate timeout
             if (!empty($fields['timeout'])) {
                 $fields['timeout'] = str_replace(",", ".", $fields['timeout']);
-                $fields['timeout'] = ($fields['timeout'] > 2) ? 2 : $fields['timeout'];
+                $fields['timeout'] = ($fields['timeout'] <= 1) ? 1 : $fields['timeout'];
+                var_dump($fields['timeout']);
+            }
+            else{
+                $fields['timeout'] = 1;
             }
 
 
@@ -177,10 +181,10 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'title' => __('Time Out', 'y2ywsm'),
                     'type' => 'number',
                     'custom_attributes' => array(
-                        'min' => '2',
+                        'min' => '1',
                     ),
-                    'default' => 2,
-                    'description' => __('Time in hours that you need to prepare a delivery. Minimum is 2 hours', 'y2ywsm'),
+                    'default' => 1,
+                    'description' => __('Time in hours that you need to prepare a delivery. Minimum is 1 hour', 'y2ywsm'),
                 ),
                 'email_notification' => array(
                     'title' => __('Email Notifications', 'y2ywsm'),
