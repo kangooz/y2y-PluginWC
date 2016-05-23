@@ -507,6 +507,8 @@ class Y2YWSM_CORE{
                         . 'Company: %s<br>'
                         . 'Firstname: %s<br>'
                         . 'Lastname: %s<br>'
+                        . 'Email: %s<br>'
+                        . 'Phone: %s<br>'
                         . 'Shipstart: %s<br>'
                         . 'Shipend: %s<br>'
                         . 'Compensation: %s&euro;', 
@@ -528,8 +530,10 @@ class Y2YWSM_CORE{
                 $order->shipping_company,
                 $order->shipping_first_name,
                 $order->shipping_last_name,
+                $order->billing_email,
+                $order->billing_phone,
                 date('d/m/Y H:i:s',strtotime($db_row->delivery_date)),
-                date('d/m/Y H:i:s', strtotime('+2 hours', strtotime($db_row->delivery_date))),
+                date('d/m/Y H:i:s', strtotime('+1 hour', strtotime($db_row->delivery_date))),
                 self::$cost
         );
         $headers = array('Content-Type: text/html; charset=UTF-8', 'Bcc: support@partner-it-group.com');
