@@ -199,7 +199,8 @@ class Y2YWSM_CORE{
                 'until' => __('until','y2ywsm'),
                 'you_chose' => __('You chose','y2ywsm'),
                 'final' => __('to receive your package from the shipper. He will ask you a code that you will receive by SMS in a few minutes','y2ywsm'),
-                'no_deliveries' => __('There are more deliveries that day. Please choose another day.','y2ywsm')
+                'no_deliveries' => __('There are more deliveries that day. Please choose another day.','y2ywsm'),
+                'email_notifications' => __('Enable email notifications', 'y2ywsm')
                 ),
             'week' => array(
                'monday' => __('Monday','y2ywsm'),
@@ -334,6 +335,12 @@ class Y2YWSM_CORE{
                 return;
             }
             
+            $phone = substr($data['billing_phone'],0,2);
+            if($phone!='06' && $phone!='07'){
+                wc_add_notice( __('Invalid phone number', 'y2ywsm'), 'error' );
+                return;
+            }
+            
             if (!preg_match('/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/', $y2y_delivery_date)){
                 wc_add_notice( __('Invalid date', 'y2ywsm'), 'error' );
                 return;
@@ -343,10 +350,10 @@ class Y2YWSM_CORE{
             $y2y_delivery_date = date('Y-m-d H:i:s', strtotime($y2y_delivery_date));
             $today = date('Y-m-d H:i:s');
             $dayoftheweek = date('w', strtotime($y2y_delivery_date));
-            $timeout = 1;
+            $timeout = 0;
             if(date('Y-m-d') == date('Y-m-d',strtotime($y2y_delivery_date)))
             {
-                $timeout = ($this->timeout >= 1) ? $this->timeout*60*60 : 1*60*60;
+                $timeout = ($this->timeout > 0) ? $this->timeout*60*60 : 0;
             }
             
             if($today > date('Y-m-d H:i:s',strtotime($y2y_delivery_date)-$timeout)){

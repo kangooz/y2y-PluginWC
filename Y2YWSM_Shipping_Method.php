@@ -86,11 +86,10 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             //Validate timeout
             if (!empty($fields['timeout'])) {
                 $fields['timeout'] = str_replace(",", ".", $fields['timeout']);
-                $fields['timeout'] = ($fields['timeout'] <= 1) ? 1 : $fields['timeout'];
-                var_dump($fields['timeout']);
+                $fields['timeout'] = ($fields['timeout'] <= 0) ? 0 : $fields['timeout'];
             }
             else{
-                $fields['timeout'] = 1;
+                $fields['timeout'] = 0;
             }
 
 
@@ -181,10 +180,27 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'title' => __('Time Out', 'y2ywsm'),
                     'type' => 'number',
                     'custom_attributes' => array(
-                        'min' => '1',
+                        'min' => '0',
+                        'step' => '0.5'
                     ),
-                    'default' => 1,
-                    'description' => __('Time in hours that you need to prepare a delivery. Minimum is 1 hour', 'y2ywsm'),
+                    'default' => 0,
+                        'description' => __('Time in hours that you need to prepare a delivery.', 'y2ywsm'),
+                ),
+                'inline_calendar' => array(
+                    'title'             => __( 'Inline Calendar?', 'woocommerce' ),
+                    'type'              => 'select',
+                    'class'             => 'wc-enhanced-select',
+                    'css'               => 'width: 450px;',
+                    'default'           => '0',
+                    'options'           => array(
+                        '0' => __( 'No', 'y2ywsm' ),
+                        '1' => __( 'Yes', 'y2ywsm' ),
+                    ),
+                  ),
+                //email notifications
+                'email_notification_title' => array(
+                    'title' => __( 'Email Notification', 'y2ywsm' ),
+                    'type'  => 'title',
                 ),
                 'email_notification' => array(
                     'title' => __('Email Notifications', 'y2ywsm'),
@@ -194,6 +210,11 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                 'email' => array(
                     'title' => __('Email', 'y2ywsm'),
                     'type' => 'email',
+                ),
+                //store info
+                'pickup_point_title' => array(
+                    'title' => __( 'Address of the pickup point', 'y2ywsm' ),
+                    'type'  => 'title',
                 ),
                 'store_country' => array(
                     'title' => __('Store country', 'y2ywsm'),
