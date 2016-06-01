@@ -192,12 +192,12 @@
                     while(moment(lunch_end,'HH[h]mm').add(1,'hour') < moment(end_hour,'HH[h]mm').add(1,'hour')){
                         lunch_end = moment(lunch_end,'HH[h]mm').add(add,'hour');
                         times.push(moment(lunch_end,'HH[h]mm').format('HH[h]mm')+" - "+moment(lunch_end,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
-                        add = 1;
                     }
                 }
                 else
                 {
                     //morning
+                    add = 1;
                     while(moment(beg_hour,'HH[h]mm').add(1,'hour') < moment(end_hour,'HH[h]mm').add(1,'hour')){
                         beg_hour = moment(beg_hour,'HH[h]mm').add(add,'hour');
                         times.push(moment(beg_hour,'HH[h]mm').format('HH[h]mm')+" - "+moment(beg_hour,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
