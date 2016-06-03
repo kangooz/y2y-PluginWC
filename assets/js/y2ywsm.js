@@ -134,20 +134,20 @@
 
             var now = moment(today).format('HH[h]mm');
             now_m = moment(now,'HH[h]mm').format('mm');
-            while(now_m!=='00' && now_m!=='15' && now_m!=='30' && now_m!=='45'){
+            while(now_m!=='00' && now_m!=='30'){
                 now = moment(now,'HH[h]mm').add(1,'minute');
                 now_m = moment(now,'HH[h]mm').format('mm');
             }
             if(moment(today).format('YYYY-MM-DD') === val){
                 //today
-                add = timeout+1;
                 if(lunch_beg!=='' || lunch_end!=='')
                 {
                     //morning
+                    add = timeout+1;
                     if(moment(now,'HH[h]mm') < moment(beg_hour,'HH[h]mm')){
                         now = beg_hour;
                     }
-                    while(moment(now,'HH[h]mm').add(add,'hour') < moment(lunch_beg,'HH[h]mm').add(1,'hour')){
+                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') < moment(lunch_beg,'HH[h]mm').add(add,'hour')){
                         now = moment(now,'HH[h]mm').add(add,'hour');
                         times.push(moment(now,'HH[h]mm').format('HH[h]mm')+" - "+moment(now,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                         add = 1;
@@ -158,7 +158,7 @@
                     if(moment(now,'HH[h]mm') < moment(lunch_end,'HH[h]mm')){
                         now = lunch_end;
                     }
-                    while(moment(now,'HH[h]mm').add(add,'hour') < moment(end_hour,'HH[h]mm').add(1,'hour')){
+                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') < moment(end_hour,'HH[h]mm').add(add,'hour')){
                         now = moment(now,'HH[h]mm').add(add,'hour');
                         times.push(moment(now,'HH[h]mm').format('HH[h]mm')+" - "+moment(now,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                         add = 1;
@@ -166,10 +166,11 @@
                 }
                 else
                 {
+                    add = timeout+1;
                     if(moment(now,'HH[h]mm') < moment(beg_hour,'HH[h]mm')){
                         now = beg_hour;
                     }
-                    while(moment(now,'HH[h]mm').add(add,'hour') < moment(end_hour,'HH[h]mm').add(1,'hour')){
+                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') < moment(end_hour,'HH[h]mm').add(add,'hour')){
                         now = moment(now,'HH[h]mm').add(add,'hour');
                         times.push(moment(now,'HH[h]mm').format('HH[h]mm')+" - "+moment(now,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                         add = 1;
@@ -183,25 +184,22 @@
                 {
                     //morning
                     while(moment(beg_hour,'HH[h]mm').add(1,'hour') < moment(lunch_beg,'HH[h]mm').add(1,'hour')){
-                        beg_hour = moment(beg_hour,'HH[h]mm').add(add,'hour');
+                        beg_hour = moment(beg_hour,'HH[h]mm').add(1,'hour');
                         times.push(moment(beg_hour,'HH[h]mm').format('HH[h]mm')+" - "+moment(beg_hour,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                     }
 
                     //afeternoon
-                    add = 1;
                     while(moment(lunch_end,'HH[h]mm').add(1,'hour') < moment(end_hour,'HH[h]mm').add(1,'hour')){
-                        lunch_end = moment(lunch_end,'HH[h]mm').add(add,'hour');
+                        lunch_end = moment(lunch_end,'HH[h]mm').add(1,'hour');
                         times.push(moment(lunch_end,'HH[h]mm').format('HH[h]mm')+" - "+moment(lunch_end,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                     }
                 }
                 else
                 {
                     //morning
-                    add = 1;
                     while(moment(beg_hour,'HH[h]mm').add(1,'hour') < moment(end_hour,'HH[h]mm').add(1,'hour')){
-                        beg_hour = moment(beg_hour,'HH[h]mm').add(add,'hour');
+                        beg_hour = moment(beg_hour,'HH[h]mm').add(1,'hour');
                         times.push(moment(beg_hour,'HH[h]mm').format('HH[h]mm')+" - "+moment(beg_hour,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
-                        add = 1;
                     }
                 }
             }
@@ -267,6 +265,10 @@
             }else{
                 $('#y2y_module').hide();
             }
+        }
+        if(options.hours.inline_calendar=='1')
+        {
+            $("#y2y_module #y2y_hidden_date").trigger("change");
         }
     });
 })(jQuery);
