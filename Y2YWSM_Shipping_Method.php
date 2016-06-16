@@ -91,6 +91,13 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
             else{
                 $fields['timeout'] = 0;
             }
+            //validate timepicker rows
+            if (!empty($fields['rows'])) {
+                $fields['rows'] = ($fields['rows'] <= 0) ? 5 : $fields['rows'];
+            }
+            else{
+                $fields['timeout'] = 5;
+            }
 
 
             for ($i = 0; $i < 7; $i++) {
@@ -191,12 +198,33 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
                     'type'              => 'select',
                     'class'             => 'wc-enhanced-select',
                     'css'               => 'width: 450px;',
-                    'default'           => '0',
+                    'default'           => '1',
                     'options'           => array(
-                        '0' => __( 'No', 'y2ywsm' ),
-                        '1' => __( 'Yes', 'y2ywsm' ),
+                        '0' => __( 'Yes', 'y2ywsm' ),
+                        '1' => __( 'No', 'y2ywsm' ),
                     ),
                   ),
+                'animation' => array(
+                    'title'             => __( 'Enable animation to calendar?', 'woocommerce' ),
+                    'type'              => 'select',
+                    'class'             => 'wc-enhanced-select',
+                    'css'               => 'width: 450px;',
+                    'default'           => '0',
+                    'options'           => array(
+                        '0' => __( 'Yes', 'y2ywsm' ),
+                        '1' => __( 'No', 'y2ywsm' ),
+                    ),
+                  ),
+                'rows' => array(
+                    'title' => __('Timepicker rows', 'y2ywsm'),
+                    'type' => 'number',
+                    'custom_attributes' => array(
+                        'min' => '1',
+                        'step' => '1'
+                    ),
+                    'default' => 7,
+                        'description' => __('Number of timepicker rows.', 'y2ywsm'),
+                ),
                 //email notifications
                 'email_notification_title' => array(
                     'title' => __( 'Email Notification', 'y2ywsm' ),

@@ -200,7 +200,8 @@ class Y2YWSM_CORE{
                 'you_chose' => __('You chose','y2ywsm'),
                 'final' => __('to receive your package from the shipper. He will ask you a code that you will receive by SMS in a few minutes','y2ywsm'),
                 'no_deliveries' => __('There are more deliveries that day. Please choose another day.','y2ywsm'),
-                'email_notifications' => __('Enable email notifications', 'y2ywsm')
+                'email_notifications' => __('Enable email notifications', 'y2ywsm'),
+                'select_time' => __('Please select a time interval', 'y2ywsm')
                 ),
             'week' => array(
                'monday' => __('Monday','y2ywsm'),
@@ -268,7 +269,8 @@ class Y2YWSM_CORE{
                     . '<br>'.__('Collaborative delivery', 'y2ywsm').'<br></div><div style="font-size:12px;line-height:16px;text-align:justify">'
                     . __('To ensure a service that is both practical and environmentally friendly, your order will be delivered by our partner You2You. '
                     . 'For more information,', 'y2ywsm') . ' '
-                    .__('<a href="http://www.you2you.fr/commercant/" target="blank">click here.</a>.', 'y2ywsm')
+                    .__('<a href="http://www.you2you.fr/commercant/" target="blank">click here</a>', 'y2ywsm').'.'
+                    .'<br><b>'.__('Valid for departments: 75 - 92 - 93 - 94', 'y2ywsm').'</b>'
                     . '</div><br>';
 
         } 

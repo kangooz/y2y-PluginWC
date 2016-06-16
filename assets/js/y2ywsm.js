@@ -15,12 +15,14 @@
         $("#y2y_hidden_time_field").remove();
         $("#y2y_delivery_date").remove();
         var button = $('<button class="call-modal">'+options.messages.choose_delivery_date+'</button>');
-        
-        if(options.hours.inline_calendar=='0' || options.hours.inline_calendar=='undefined')
+        var time_title = '<div style="margin:10px;"><b>'+options.messages.select_time+'</b></div>';
+        div.append(time_title);
+        console.debug(options.hours.inline_calendar);
+        if(options.hours.inline_calendar==='1' || typeof options.hours.inline_calendar==='undefined')
         {
             var modal = $('<div id="modal-y2y" class="col-1" style="display:none">'
                                                     +'<div id="calendar" class="col-1" style="float: left;"></div>'
-                                                    +'<div class="y2y_time" style=" float: right;">'
+                                                    +'<div class="y2y_time" style=" float: left">'
                                                         +'<div class="radio-buttons"></div>'
                                                     +'</div>'
                                                     +'<div style="width:100%;display:table; padding:4px;">'
@@ -34,20 +36,19 @@
             button = '<div class="y2y_time">'
                         +'<div class="radio-buttons"></div>'
                     +'</div>';
-            div.append('<div id="calendar" class="inline-calendar"></div><br>');
+            div.append('<div id="calendar" class="inline-calendar" style="float:left"></div>');
             div.append(button);
             
         }
-        
         div.append(y2y_delivery_date);
         div.append(y2y_hidden_date_field);
         div.append(y2y_hidden_time_field);
-        div.append('<div id="y2y-sentence"></div>');
-        $('.woocommerce-billing-fields').append(div);
+        div.append('<div id="y2y-sentence" style="clear:both"></div>');
+        $('#customer_details').after(div);
         closed_days = '';
         cd = '';
         
-        if(options.hours.closed_day!==undefined)
+        if(typeof options.hours.closed_day!=='undefined')
         {
             cd = $.map(options.hours.closed_day, function(value, index) {
                 return [Number(index)];
@@ -94,7 +95,7 @@
             event.preventDefault();
             $("#y2y_module #y2y_hidden_date").trigger("change");
             $('#modal-y2y').dialog({
-                width: '45%',
+                width: '50%',
                 close: function(event, ui){
                     select_time();
                 }
@@ -215,10 +216,32 @@
                     checked='';
                 }
 
+
+                if(options.hours.rows==='0' || typeof options.hours.rows==='undefined'){
+                    rows = 7;
+                }else{
+                    rows = options.hours.rows;
+                }
+                
+                if(i === 0){
+                    radiobtns = '<div style="float:left;margin-left:10px;">'+radiobtns;
+                }
+                if(i % rows === 0 && i!==0){
+                    radiobtns = radiobtns+'<div style="float:left;">';
+                }
                 radiobtns += '<div class="buttonsetv" onchange="javascript:generate_sentence();" name="radio-group-'+i+'">'
                                     +'<input type="radio" id="time'+i+'" name="time" '+checked+' value="'+span[0]+'-'+span[1]+'">'+'\
                                     <label for="time'+i+'">'+times[i]+'</label>'
                             +'</div>';
+                if(i!==0){
+                    if( (i === times.length-1)){
+                        radiobtns+='</div>';
+                    }
+                    
+                    if((i+1)%rows===0){
+                        radiobtns+='</div>';
+                    }
+                }
             }
             if(radiobtns===''){
                 radiobtns = '<p style="algin-text:center">'+options.messages.no_deliveries+'</p>';
@@ -236,10 +259,11 @@
             if($(this).val() === 'You2You')
             {
                 $('#y2y_module').show();
-                
-                $('html, body').animate({
-                    scrollTop: $("#y2y_module").offset().top-100
-                }, 1000);
+                if(options.hours.animation==='0' || typeof options.hours.animation==='undefined'){
+                    $('html, body').animate({
+                        scrollTop: $("#y2y_module").offset().top-100
+                    }, 1000);
+                }
             }
             else
             {
