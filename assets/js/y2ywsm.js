@@ -160,7 +160,7 @@
                 {
                     //morning
                     add = timeout+1;
-                    if(moment(now,'HH[h]mm') <= moment(beg_hour,'HH[h]mm')){
+                    if(moment(now,'HH[h]mm') < moment(beg_hour,'HH[h]mm')){
                         now = beg_hour;
                     }
                     while(moment(now,'HH[h]mm').add(timeout+1,'hour') <= moment(lunch_beg,'HH[h]mm').add(add,'hour')){
@@ -171,7 +171,7 @@
 
                     //afternnoon
                     add = timeout+1;
-                    if(moment(now,'HH[h]mm') <= moment(lunch_end,'HH[h]mm')){
+                    if(moment(now,'HH[h]mm') < moment(lunch_end,'HH[h]mm')){
                         now = lunch_end;
                     }
                     while(moment(now,'HH[h]mm').add(timeout+1,'hour') <= moment(end_hour,'HH[h]mm').add(add,'hour')){
