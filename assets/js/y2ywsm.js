@@ -17,7 +17,6 @@
         var button = $('<button class="call-modal">'+options.messages.choose_delivery_date+'</button>');
         var time_title = '<div style="margin:10px;"><b>'+options.messages.select_time+'</b></div>';
         div.append(time_title);
-        console.debug(options.hours.inline_calendar);
         if(options.hours.inline_calendar==='1' || typeof options.hours.inline_calendar==='undefined')
         {
             var modal = $('<div id="modal-y2y" class="col-1" style="display:none">'
@@ -64,13 +63,29 @@
         
         today = moment(options.now);
         var today_week = moment(today).format('e');
-        var now = moment(today).format('HH[h]mm');
+        var now = moment(today);
         var timeout = Number(options.hours.timeout);
-        var nowtimeout = moment(today,'HH[h]mm').add(timeout+1,'hour').format('H[h]mm');
-        if(moment(options.hours.openning_hours_endding[today_week],'HH[h]mm')>moment(nowtimeout,'HH[h]mm')){
+        var nowtimeout = moment(today).add(timeout+1,'hour');
+        if(moment(options.hours.openning_hours_endding[today_week])>moment(nowtimeout)){
             minDate = 0;
         }else{
             minDate = 1;
+            var week = [];
+            for(i=0;i<7;i++){
+                if(options.hours.closed_day[i]=='yes'){
+                    week.push(options.hours.closed_day[i]);
+                }else{
+                    week.push('');
+                }
+            }
+            tommorrow = moment(today).add(1,'day').format('e');
+            nch = $.merge(week.slice(tommorrow), week.slice(0,tommorrow));
+            $.each(nch , function(i, val) {
+                if(val!=='yes'){
+                    minDate = i+1;
+                    return false;
+                }
+            });
         }
         var cal = $('#y2y_module #calendar').datepicker({
             minDate: minDate,
@@ -145,10 +160,10 @@
                 {
                     //morning
                     add = timeout+1;
-                    if(moment(now,'HH[h]mm') < moment(beg_hour,'HH[h]mm')){
+                    if(moment(now,'HH[h]mm') <= moment(beg_hour,'HH[h]mm')){
                         now = beg_hour;
                     }
-                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') < moment(lunch_beg,'HH[h]mm').add(add,'hour')){
+                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') <= moment(lunch_beg,'HH[h]mm').add(add,'hour')){
                         now = moment(now,'HH[h]mm').add(add,'hour');
                         times.push(moment(now,'HH[h]mm').format('HH[h]mm')+" - "+moment(now,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                         add = 1;
@@ -156,10 +171,10 @@
 
                     //afternnoon
                     add = timeout+1;
-                    if(moment(now,'HH[h]mm') < moment(lunch_end,'HH[h]mm')){
+                    if(moment(now,'HH[h]mm') <= moment(lunch_end,'HH[h]mm')){
                         now = lunch_end;
                     }
-                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') < moment(end_hour,'HH[h]mm').add(add,'hour')){
+                    while(moment(now,'HH[h]mm').add(timeout+1,'hour') <= moment(end_hour,'HH[h]mm').add(add,'hour')){
                         now = moment(now,'HH[h]mm').add(add,'hour');
                         times.push(moment(now,'HH[h]mm').format('HH[h]mm')+" - "+moment(now,'HH[h]mm').add(1,'hour').format('HH[h]mm'));
                         add = 1;
@@ -290,10 +305,7 @@
                 $('#y2y_module').hide();
             }
         }
-        if(options.hours.inline_calendar=='1')
-        {
-            $("#y2y_module #y2y_hidden_date").trigger("change");
-        }
+        $("#y2y_module #y2y_hidden_date").trigger("change");
     });
 })(jQuery);
 

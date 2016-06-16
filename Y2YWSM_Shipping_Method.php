@@ -146,12 +146,12 @@ if (!class_exists('Y2YWSM_Shipping_Method')) {
          */
         public function calculate_shipping($package) {
             $destination = $package['destination'];
-            if (empty($destination['country']) || empty($destination['postcode'])) {
+            /*if (empty($destination['country']) || empty($destination['postcode'])) {
                 return;
-            }
+            }*/
             if (strtoupper($destination['country']) == 'FR') {
 
-                if (Y2YWSM_CORE::isValidPostCode($destination['postcode'])) {
+                if (Y2YWSM_CORE::isValidPostCode($destination['postcode']) || empty($destination['postcode'])) {
                     $rate = array(
                         'id' => $this->id,
                         'label' => __('You2You', 'y2ywsm'), //$this->title,
